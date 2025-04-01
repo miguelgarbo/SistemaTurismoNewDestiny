@@ -1,4 +1,4 @@
-package Entidades;
+package Entity;
 
 public class Roteiros_Personalizados {
 

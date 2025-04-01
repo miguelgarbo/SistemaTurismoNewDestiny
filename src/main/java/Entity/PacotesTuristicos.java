@@ -1,6 +1,4 @@
-package Entidades;
-
-import java.util.List;
+package Entity;
 
 public class PacotesTuristicos {
 
