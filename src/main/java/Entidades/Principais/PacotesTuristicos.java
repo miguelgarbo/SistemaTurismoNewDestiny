@@ -1,4 +1,4 @@
-package Entity;
+package Entidades.Principais;
 
 public class PacotesTuristicos {
 

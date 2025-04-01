@@ -1,4 +1,6 @@
-package Entity;
+package Entidades.Principais;
+
+import Entidades.StatusPagamento;
 
 public class Pagamentos {
 
