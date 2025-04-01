@@ -1,7 +1,7 @@
 package sistema;
 
-import model.Passeio;
-import dao.PasseioDAO;
+import Passeio.java;
+import Passeios_Pacotes.java;
 import java.util.List;
 
 public class Main {
