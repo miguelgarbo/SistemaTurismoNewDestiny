@@ -1,14 +1,20 @@
-package Entidades.Principais;
+package Entidades;
 
-public class Usuario {
+import javax.persistence.*;
 
+@Entity
+@Table (name = "Usuario")
+
+public class UsuarioEntity {
+@Id
+@GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
     private String senha;
     private String email;
     private String numeroTelefone;
 
-    public Usuario(int id, String nome, String senha, String email, String numeroTelefone) {
+    public UsuarioEntity(int id, String nome, String senha, String email, String numeroTelefone) {
         this.id = id;
         this.nome = nome;
         this.senha = senha;
