@@ -8,7 +8,37 @@ import javax.persistence.Id;
 public class Pacote_PasseiosEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPacote;
-    private Long idPasseio;
+    private int idPacote;
+    private int idPasseio;
 
+    public Pacote_PasseiosEntity(int idPacote, int idPasseio) {
+        this.idPacote = idPacote;
+        this.idPasseio = idPasseio;
+    }
+
+    public Pacote_PasseiosEntity(){}
+
+    @Override
+    public String toString() {
+        return "Pacote_PasseiosEntity{" +
+                "idPacote=" + idPacote +
+                ", idPasseio=" + idPasseio +
+                '}';
+    }
+
+    public int getIdPacote() {
+        return idPacote;
+    }
+
+    public void setIdPacote(int idPacote) {
+        this.idPacote = idPacote;
+    }
+
+    public int getIdPasseio() {
+        return idPasseio;
+    }
+
+    public void setIdPasseio(int idPasseio) {
+        this.idPasseio = idPasseio;
+    }
 }

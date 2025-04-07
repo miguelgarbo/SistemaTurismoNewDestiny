@@ -2,21 +2,29 @@ package Repositorio;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
+
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 
 public class CustomizerFactory {
 
     private static final EntityManagerFactory emf;
 
-    static {
-        emf = Persistence.createEntityManagerFactory("nome-da-unidade-de-persistencia");
-    }
+    static{
 
-    public static EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
+        SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+        emf = sessionFactory.unwrap(EntityManagerFactory.class);
 
-    public static void fechar() {
+    }
+    public static EntityManager getEntityManager(){
+            return emf.createEntityManager();
+
+    }
+    public static void fechar(){
         emf.close();
     }
+
+
 }

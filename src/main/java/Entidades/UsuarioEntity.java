@@ -1,14 +1,13 @@
-package Entidades;
+package Entidades;;
 
 import javax.persistence.*;
 
-@Entity
-@Table (name = "Usuario")
+@Entity(name = "Usuario")
 
 public class UsuarioEntity {
 @Id
 @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String nome;
     private String senha;
     private String email;
@@ -21,6 +20,19 @@ public class UsuarioEntity {
         this.email = email;
         this.numeroTelefone = numeroTelefone;
     }
+
+    @Override
+    public String toString() {
+        return "UsuarioEntity{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", senha='" + senha + '\'' +
+                ", email='" + email + '\'' +
+                ", numeroTelefone='" + numeroTelefone + '\'' +
+                '}';
+    }
+
+    public UsuarioEntity(){}
 
     public int getid() {
         return id;
