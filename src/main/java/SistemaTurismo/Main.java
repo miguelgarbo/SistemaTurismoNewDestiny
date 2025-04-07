@@ -10,13 +10,19 @@ public class Main {
     public static void main(String[] args) {
 
         EntityManager em = CustomizerFactory.getEntityManager();
+
         UsuarioRepository usuarioRepository = new UsuarioRepository(em);
 
-        UsuarioEntity usuario = usuarioRepository.findById(4);
+        UsuarioEntity usuario = usuarioRepository.findById(6); //usuario: miguel
 
-        usuarioRepository.remover(usuario);
-
-
+//        UsuarioEntity usuarioCadastradoAoBanco = new UsuarioEntity();
+//
+//        usuarioCadastradoAoBanco.setnome("Joana");
+//        usuarioCadastradoAoBanco.setemail("joana@gmail.com");
+//        usuarioCadastradoAoBanco.setsenha("Joana123#");
+//        usuarioCadastradoAoBanco.setnumeroTelefone("45 98284841439");
+//
+//        usuarioRepository.cadastrar(usuarioCadastradoAoBanco);
 
         System.out.println(usuario.getnome());
         System.out.println(usuario.getnumeroTelefone());
@@ -25,8 +31,20 @@ public class Main {
         for(UsuarioEntity u : usuarios){
 
             System.out.println(u.getnome());
-            System.out.println(usuarioRepository.buscarPorNomeInicial("Miguel"));
         }
+
+        System.out.println("Achei  eu:  " + usuarioRepository.buscarPorNomeInicial("Miguel"));
+//
+//        UsuarioEntity usuario3 = usuarioRepository.findById(3);
+//
+//        usuario3.setnome("Luciana");
+//        usuario3.setsenha("Luci123@");
+//        usuarioRepository.atualizar(usuario3);
+
+//        UsuarioEntity usuario5 = usuarioRepository.findById(5);
+//
+//        usuarioRepository.remover(usuario5);
+
 
 
 

@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class UsuarioEntity {
 @Id
 @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private String nome;
     private String senha;
     private String email;
@@ -21,6 +21,8 @@ public class UsuarioEntity {
         this.numeroTelefone = numeroTelefone;
     }
 
+    public UsuarioEntity(){}
+
     @Override
     public String toString() {
         return "UsuarioEntity{" +
@@ -31,8 +33,6 @@ public class UsuarioEntity {
                 ", numeroTelefone='" + numeroTelefone + '\'' +
                 '}';
     }
-
-    public UsuarioEntity(){}
 
     public int getid() {
         return id;

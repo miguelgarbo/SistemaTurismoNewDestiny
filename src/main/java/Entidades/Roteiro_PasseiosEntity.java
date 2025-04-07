@@ -8,7 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name = "Passeios_Roteiros")
+@Entity(name = "roteiro_passeios")
+
 public class Roteiro_PasseiosEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,8 +1,6 @@
 package Repositorio;
 
 import Entidades.UsuarioEntity;
-import org.hibernate.sql.Select;
-
 import javax.persistence.EntityManager;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class UsuarioRepository {
         return em.find(UsuarioEntity.class,id);
     }
 
-    public void salvar (UsuarioEntity usuario){
+    public void cadastrar(UsuarioEntity usuario){
 
         em.getTransaction().begin();
         em.persist(usuario);
@@ -52,6 +50,8 @@ public class UsuarioRepository {
         em.remove(em.contains(usuario)? usuario : em.merge(usuario));
         em.getTransaction().commit();
    }
+
+
 
 
 
