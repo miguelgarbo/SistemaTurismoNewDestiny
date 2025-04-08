@@ -2,16 +2,21 @@ package Servicos;
 
 import Entidades.UsuarioEntity;
 import Repositorio.UsuarioRepository;
-import org.hibernate.service.spi.InjectService;
-
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Scanner;
 
 public class UsuarioService {
 
     @Inject
     private UsuarioRepository usuarioRepository;
+    private Scanner sc = new Scanner(System.in);
+
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.sc = new Scanner(System.in);
+    }
 
     @Transactional
     public void cadastrarUsuario(UsuarioEntity usuario){
@@ -56,6 +61,31 @@ public class UsuarioService {
     @Transactional
     public List<UsuarioEntity> listarUsuario(){
         return usuarioRepository.buscarTodos();
+    }
+
+
+    public void menuLogin(){
+
+        System.out.println("==LOGIN==");
+        System.out.println("Digite seu email: ");
+        String emailInformado = sc.nextLine();
+        System.out.println("Digite sua senha:");
+        String senhaInformada = sc.nextLine();
+
+        List<UsuarioEntity> listaUsuarios =  usuarioRepository.buscarTodos();
+        boolean loginCorreto = false;
+
+        for(UsuarioEntity usuario: listaUsuarios){
+            if(usuario.getemail().equals(emailInformado) || usuario.getsenha().equals(senhaInformada)){
+                System.out.println("Login Realizado Com Sucesso, Seja Bem Vindo "+ usuario.getnome());
+                loginCorreto = true;
+            }
+        }
+
+        if(!loginCorreto){
+            System.out.println("Email ou senha incorretos.");
+        }
+
     }
 
 

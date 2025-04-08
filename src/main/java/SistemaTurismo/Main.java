@@ -6,18 +6,17 @@ import Repositorio.CustomizerFactory;
 import Repositorio.PasseioRepository;
 import Repositorio.Roteiro_PasseiosRepository;
 import Repositorio.UsuarioRepository;
+import Servicos.UsuarioService;
+
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        EntityManager em = CustomizerFactory.getEntityManager();
-//      repositorios:
-        UsuarioRepository usuarioRepository = new UsuarioRepository(em);
-        Roteiro_PasseiosRepository roteiroPasseiosRepository = new Roteiro_PasseiosRepository(em);
-        PasseioRepository passeioRepository = new PasseioRepository(em);
+
 
 //
 //        PasseioEntity passeio = passeioRepository.findById(1);
@@ -62,6 +61,37 @@ public class Main {
 //
 //            System.out.println(listaPasseiosPorIdRoteiro.get(i).toString());
 //        }
+
+        EntityManager em = CustomizerFactory.getEntityManager();
+
+        UsuarioRepository usuarioRepository = new UsuarioRepository(em);
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("==SISTEMA DE TURISMO (NEW DESTINY)==");
+        System.out.println("===MENU PRINCIPAL===");
+        System.out.println("1 - Login Como Usuário");
+        System.out.println("2 - Entrar Como Administrador");
+        System.out.println("3 - Entrar Sem Cadastro ");
+        System.out.println("Informe A opção: ");
+        int opcao = sc.nextInt();
+        switch (opcao){
+
+            case 1:
+
+                usuarioService.menuLogin();
+                break;
+
+            case 2:
+
+                break;
+
+            case 3:
+
+                break;
+
+
+        }
 
 
 

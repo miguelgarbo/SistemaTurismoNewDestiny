@@ -2,8 +2,7 @@ package Entidades;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "foto")
+@Entity (name = "foto")
 public class FotoEntity {
 
     @Id

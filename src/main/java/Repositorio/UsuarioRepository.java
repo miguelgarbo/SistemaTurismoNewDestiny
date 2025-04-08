@@ -17,6 +17,7 @@ public class UsuarioRepository {
         return em.find(UsuarioEntity.class,id);
     }
 
+
     public void cadastrar(UsuarioEntity usuario){
 
         em.getTransaction().begin();

@@ -2,8 +2,7 @@ package Entidades;
 import javax.persistence.*;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "horario")
+@Entity(name = "horario")
 public class HorarioEntity {
 
     @Id
