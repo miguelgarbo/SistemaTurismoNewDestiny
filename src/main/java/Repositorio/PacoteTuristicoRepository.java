@@ -13,7 +13,7 @@ public class PacoteTuristicoRepository {
         this.em = em;
     }
 
-    public PacoteTuristicoEntity findById(int id){
+    public PacoteTuristicoEntity findById(Long id){
 
         return em.find(PacoteTuristicoEntity.class,id);
     }

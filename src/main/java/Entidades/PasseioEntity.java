@@ -1,9 +1,7 @@
 package Entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,17 +10,20 @@ import java.util.List;
 public class PasseioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String titulo;
     private String descricao;
     private String duracao;
-    private double preco;
-    private List<String> listaHorarios = new ArrayList<>();;
+    private BigDecimal preco;
     private String localizacao;
-    private List<String> fotos;
 
-    public PasseioEntity(int id, String titulo, String descricao, String duracao, double preco, List<String> listaHorarios, String localizacao, List<String> fotos) {
-        this.id = id;
+    @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FotoEntity> fotos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HorarioEntity> listaHorarios = new ArrayList<>();
+
+    public PasseioEntity(String titulo, String descricao, String duracao, BigDecimal preco, List<HorarioEntity> listaHorarios, String localizacao, List<FotoEntity> fotos) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
@@ -32,7 +33,8 @@ public class PasseioEntity {
         this.fotos = fotos;
     }
 
-    public PasseioEntity(){}
+    public PasseioEntity() {
+    }
 
     @Override
     public String toString() {
@@ -48,11 +50,12 @@ public class PasseioEntity {
                 '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -80,19 +83,19 @@ public class PasseioEntity {
         this.duracao = duracao;
     }
 
-    public double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 
-    public List<String> getListaHorarios() {
+    public List<HorarioEntity> getListaHorarios() {
         return listaHorarios;
     }
 
-    public void setListaHorarios(List<String> listaHorarios) {
+    public void setListaHorarios(List<HorarioEntity> listaHorarios) {
         this.listaHorarios = listaHorarios;
     }
 
@@ -104,11 +107,31 @@ public class PasseioEntity {
         this.localizacao = localizacao;
     }
 
-    public List<String> getFotos() {
+    public List<FotoEntity> getFotos() {
         return fotos;
     }
 
-    public void setFotos(List<String> fotos) {
+    public void setFotos(List<FotoEntity> fotos) {
         this.fotos = fotos;
+    }
+
+    public void addFoto(FotoEntity foto) {
+        fotos.add(foto);
+        foto.setPasseio(this);
+    }
+
+    public void addHorario(HorarioEntity horario) {
+        listaHorarios.add(horario);
+        horario.setPasseio(this);
+    }
+
+    public void removeFoto(FotoEntity foto) {
+        fotos.remove(foto);
+        foto.setPasseio(null); // Remove the relationship
+    }
+
+    public void removeHorario(HorarioEntity horario) {
+        listaHorarios.remove(horario);
+        horario.setPasseio(null); // Remove the relationship
     }
 }

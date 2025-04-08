@@ -9,14 +9,13 @@ public class PagamentoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int idPedido;
+    private Long id;
+    private Long idPedido;
     private String metodoPagamento;
     private StatusPagamento statusPagamento;
     private LocalDate data;
 
-    public PagamentoEntity(int id, int idPedido, String metodoPagamento, StatusPagamento statusPagamento, LocalDate data) {
-        this.id = id;
+    public PagamentoEntity(Long idPedido, String metodoPagamento, StatusPagamento statusPagamento, LocalDate data) {
         this.idPedido = idPedido;
         this.metodoPagamento = metodoPagamento;
         this.statusPagamento = statusPagamento;
@@ -36,19 +35,19 @@ public class PagamentoEntity {
                 '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getIdPedido() {
+    public Long getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(int idPedido) {
+    public void setIdPedido(Long idPedido) {
         this.idPedido = idPedido;
     }
 

@@ -12,7 +12,7 @@ public class PedidoRepository {
         this.em = em;
     }
 
-    public PedidoEntity findById(int id){
+    public PedidoEntity findById(Long id){
 
         return em.find(PedidoEntity.class,id);
     }

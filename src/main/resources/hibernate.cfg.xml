@@ -14,6 +14,27 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
+        <!-- ENTIDADES DO PROEJTO -->
         <mapping class="Entidades.UsuarioEntity"/>
+        <mapping class="Entidades.PagamentoEntity"/>
+        <mapping class="Entidades.PedidoEntity"/>
+        <mapping class="Entidades.PasseioEntity"/>
+        <mapping class="Entidades.PacoteTuristicoEntity"/>
+        <mapping class="Entidades.RoteiroPersonalizadoEntity"/>
+
+
+        <mapping class="Entidades.PacotePasseiosID"/>
+        <mapping class="Entidades.RoteiroPasseiosID"/>
+
+        <mapping class="Entidades.Pacote_PasseiosEntity"/>
+        <mapping class="Entidades.Roteiro_PasseiosEntity"/>
+
+
+
+
+
+
+
+
     </session-factory>
 </hibernate-configuration>

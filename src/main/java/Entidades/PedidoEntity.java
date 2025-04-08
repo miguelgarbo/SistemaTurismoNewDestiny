@@ -4,22 +4,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity(name = "Pedido")
 public class PedidoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int idUsuario;
-    private int idPacote;
-    private int quantidadeIngressos;
-    private double valorTotal;
+    private Long id;
+    private Long idUsuario;
+    private Long idPacote;
+    private Long quantidadeIngressos;
+    private BigDecimal valorTotal;
     private StatusPagamento statusPagamento;
     private LocalDate dataCompra;
 
-    public PedidoEntity(int id, int idUsuario, int idPacote, int quantidadeIngressos, double valorTotal, StatusPagamento statusPagamento, LocalDate dataCompra) {
-        this.id = id;
+    public PedidoEntity(Long idUsuario, Long idPacote, Long quantidadeIngressos, BigDecimal valorTotal, StatusPagamento statusPagamento, LocalDate dataCompra) {
         this.idUsuario = idUsuario;
         this.idPacote = idPacote;
         this.quantidadeIngressos = quantidadeIngressos;
@@ -43,43 +43,43 @@ public class PedidoEntity {
                 '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdPacote() {
+    public Long getIdPacote() {
         return idPacote;
     }
 
-    public void setIdPacote(int idPacote) {
+    public void setIdPacote(Long idPacote) {
         this.idPacote = idPacote;
     }
 
-    public int getQuantidadeIngressos() {
+    public Long getQuantidadeIngressos() {
         return quantidadeIngressos;
     }
 
-    public void setQuantidadeIngressos(int quantidadeIngressos) {
+    public void setQuantidadeIngressos(Long quantidadeIngressos) {
         this.quantidadeIngressos = quantidadeIngressos;
     }
 
-    public double getValorTotal() {
+    public BigDecimal getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(double valorTotal) {
+    public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
 

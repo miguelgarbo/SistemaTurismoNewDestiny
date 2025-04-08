@@ -12,7 +12,7 @@ public class UsuarioRepository {
         this.em = em;
     }
 
-    public UsuarioEntity findById(int id){
+    public UsuarioEntity findById(Long id){
 
         return em.find(UsuarioEntity.class,id);
     }
@@ -41,7 +41,6 @@ public class UsuarioRepository {
         em.getTransaction().begin();
         em.merge(usuario);
         em.getTransaction().commit();
-
     }
 
     public void remover(UsuarioEntity usuario){
@@ -50,11 +49,4 @@ public class UsuarioRepository {
         em.remove(em.contains(usuario)? usuario : em.merge(usuario));
         em.getTransaction().commit();
    }
-
-
-
-
-
-
-
 }

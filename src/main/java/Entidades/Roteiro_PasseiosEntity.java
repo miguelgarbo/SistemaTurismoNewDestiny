@@ -1,23 +1,19 @@
 package Entidades;
-
-
-import javax.persistence.Entity;
-
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "roteiro_passeios")
+@IdClass(RoteiroPasseiosID.class)
 
-public class Roteiro_PasseiosEntity {
+public class Roteiro_PasseiosEntity implements Serializable{
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idRoteiro;
-    private int idPasseio;
+    private Long idRoteiro;
+    @Id
+    private Long idPasseio;
 
 
-    public Roteiro_PasseiosEntity(int idRoteiro, int idPasseio) {
+    public Roteiro_PasseiosEntity(Long idRoteiro, Long idPasseio) {
 
         this.idRoteiro = idRoteiro;
         this.idPasseio = idPasseio;
@@ -34,19 +30,19 @@ public class Roteiro_PasseiosEntity {
                 '}';
     }
 
-    public int getIdRoteiro() {
+    public Long getIdRoteiro() {
         return idRoteiro;
     }
 
-    public void setIdRoteiro(int idRoteiro) {
+    public void setIdRoteiro(Long idRoteiro) {
         this.idRoteiro = idRoteiro;
     }
 
-    public int getIdPasseio() {
+    public Long getIdPasseio() {
         return idPasseio;
     }
 
-    public void setIdPasseio(int idPasseio) {
+    public void setIdPasseio(Long idPasseio) {
         this.idPasseio = idPasseio;
     }
 }

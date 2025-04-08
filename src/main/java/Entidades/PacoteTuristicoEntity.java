@@ -9,13 +9,12 @@ import javax.persistence.Id;
 public class PacoteTuristicoEntity {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String titulo;
     private double precoTotal;
     private String categoria;
 
-    public PacoteTuristicoEntity(int id, String titulo, double precoTotal, String categoria) {
-        this.id = id;
+    public PacoteTuristicoEntity(String titulo, double precoTotal, String categoria) {
         this.titulo = titulo;
         this.precoTotal = precoTotal;
         this.categoria = categoria;
@@ -35,11 +34,11 @@ public class PacoteTuristicoEntity {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -9,13 +9,12 @@ import javax.persistence.Id;
 public class RoteiroPersonalizadoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int idUsuario;
+    private Long id;
+    private Long idUsuario;
     private String titulo;
-    private int numeroDias;
+    private Long numeroDias;
 
-    public RoteiroPersonalizadoEntity(int id, int idUsuario, String titulo, int numeroDias) {
-        this.id = id;
+    public RoteiroPersonalizadoEntity(Long idUsuario, String titulo, Long numeroDias) {
         this.idUsuario = idUsuario;
         this.titulo = titulo;
         this.numeroDias = numeroDias;
@@ -23,19 +22,19 @@ public class RoteiroPersonalizadoEntity {
 
     public RoteiroPersonalizadoEntity(){}
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -47,11 +46,11 @@ public class RoteiroPersonalizadoEntity {
         this.titulo = titulo;
     }
 
-    public int getNumeroDias() {
+    public Long getNumeroDias() {
         return numeroDias;
     }
 
-    public void setNumeroDias(int numeroDias) {
+    public void setNumeroDias(Long numeroDias) {
         this.numeroDias = numeroDias;
     }
 

@@ -7,14 +7,13 @@ import javax.persistence.*;
 public class UsuarioEntity {
 @Id
 @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nome;
     private String senha;
     private String email;
     private String numeroTelefone;
 
-    public UsuarioEntity(int id, String nome, String senha, String email, String numeroTelefone) {
-        this.id = id;
+    public UsuarioEntity(String nome, String senha, String email, String numeroTelefone) {
         this.nome = nome;
         this.senha = senha;
         this.email = email;
@@ -34,11 +33,11 @@ public class UsuarioEntity {
                 '}';
     }
 
-    public int getid() {
+    public Long getid() {
         return id;
     }
 
-    public void setid(int id) {
+    public void setid(Long id) {
         this.id = id;
     }
 

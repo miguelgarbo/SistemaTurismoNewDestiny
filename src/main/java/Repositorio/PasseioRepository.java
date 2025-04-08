@@ -13,7 +13,7 @@ public class PasseioRepository {
         this.em = em;
     }
 
-    public PasseioEntity findById(int id){
+    public PasseioEntity findById(Long id){
 
         return em.find(PasseioEntity.class,id);
     }

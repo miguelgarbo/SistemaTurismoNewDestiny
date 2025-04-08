@@ -12,7 +12,7 @@ public class PagamentoRepository {
         this.em =em;
     }
 
-    public PagamentoEntity findById(int id){
+    public PagamentoEntity findById(Long id){
 
         return em.find(PagamentoEntity.class,id);
     }

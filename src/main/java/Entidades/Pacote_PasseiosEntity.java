@@ -1,17 +1,20 @@
 package Entidades;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-@Entity(name = "pacote_passeios")
-public class Pacote_PasseiosEntity {
-    @Id
-    private int idPacote;
-    @Id
-    private int idPasseio;
+import javax.persistence.IdClass;
+import java.io.Serializable;
 
-    public Pacote_PasseiosEntity(int idPacote, int idPasseio) {
+@Entity(name = "pacote_passeios")
+@IdClass(Pacote_PasseiosEntity.class)
+
+public class Pacote_PasseiosEntity implements Serializable {
+    @Id
+    private Long idPacote;
+    @Id
+    private Long idPasseio;
+
+    public Pacote_PasseiosEntity(Long idPacote, Long idPasseio) {
         this.idPacote = idPacote;
         this.idPasseio = idPasseio;
     }
@@ -26,19 +29,19 @@ public class Pacote_PasseiosEntity {
                 '}';
     }
 
-    public int getIdPacote() {
+    public Long getIdPacote() {
         return idPacote;
     }
 
-    public void setIdPacote(int idPacote) {
+    public void setIdPacote(Long idPacote) {
         this.idPacote = idPacote;
     }
 
-    public int getIdPasseio() {
+    public Long getIdPasseio() {
         return idPasseio;
     }
 
-    public void setIdPasseio(int idPasseio) {
+    public void setIdPasseio(Long idPasseio) {
         this.idPasseio = idPasseio;
     }
 }
