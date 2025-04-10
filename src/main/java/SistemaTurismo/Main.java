@@ -1,8 +1,8 @@
 package SistemaTurismo;
-import Repositorio.CustomizerFactory;
-import Repositorio.PacoteTuristicoRepository;
-import Repositorio.UsuarioRepository;
+import Repositorio.*;
 import Servicos.PacoteTuristicoService;
+import Servicos.PasseioService;
+import Servicos.RoteiroPersonalizadoService;
 import Servicos.UsuarioService;
 import javax.persistence.EntityManager;
 import java.util.Scanner;
@@ -58,8 +58,13 @@ public class Main {
 
         UsuarioRepository usuarioRepository = new UsuarioRepository(em);
         PacoteTuristicoRepository pacoteTuristicoRepository = new PacoteTuristicoRepository(em);
+        PasseioRepository passeioRepository = new PasseioRepository(em);
+        RoteiroPersonalizadoRepository  roteiroPersonalizadoRepository= new RoteiroPersonalizadoRepository(em);
+
+        RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService();
         PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService();
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository,pacoteTuristicoRepository, pacoteTuristicoService);
+        PasseioService passeioService = new PasseioService();
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoRepository, roteiroPersonalizadoService);
         Scanner sc = new Scanner(System.in);
         int opcao;
 
@@ -78,7 +83,12 @@ public class Main {
 
                 case 1:
 
-                    usuarioService.menuLogin();
+                    if(usuarioService.menuLogin()){
+
+                        usuarioService.menuVisaoUsuario();
+                    }else {
+
+                    }
                     break;
 
                 case 2:

@@ -5,8 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity (name = "passeio")
-
+@Entity(name = "Passeio")
 public class PasseioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,25 +15,29 @@ public class PasseioEntity {
     private String  duracao;
     private BigDecimal preco;
     private String localizacao;
-    @ElementCollection
-    @CollectionTable(name = "passeio_fotos", joinColumns = @JoinColumn(name = "passeio_id"))
-    @Column(name = "foto")
-    private List<String> listaFotos = new ArrayList<>();
+    private String horarios;
 
-    @ElementCollection
-    @CollectionTable(name = "passeio_horarios", joinColumns = @JoinColumn(name = "passeio_id"))
-    @Column(name = "horario")
-    private List<String> listaHorarios = new ArrayList<>();
+    @ManyToMany(mappedBy = "passeios")
+    private List<PacoteTuristicoEntity> pacotes = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "passeios")
+    private List<RoteiroPersonalizadoEntity> roteiros = new ArrayList<>();
 
 
-    public PasseioEntity(String titulo, String descricao, String duracao, BigDecimal preco, String localizacao, List<String> listaFotos, List<String> listaHorarios) {
+    @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FotoEntity> listaFotos = new ArrayList<>();
+
+    public PasseioEntity(Long id, String titulo, String descricao, String duracao, BigDecimal preco, String localizacao, String horarios, List<PacoteTuristicoEntity> pacotes, List<RoteiroPersonalizadoEntity> roteiros, List<FotoEntity> listaFotos) {
+        this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
         this.preco = preco;
         this.localizacao = localizacao;
+        this.horarios = horarios;
+        this.pacotes = pacotes;
+        this.roteiros = roteiros;
         this.listaFotos = listaFotos;
-        this.listaHorarios = listaHorarios;
     }
 
     public PasseioEntity() {
@@ -49,8 +52,10 @@ public class PasseioEntity {
                 ", duracao='" + duracao + '\'' +
                 ", preco=" + preco +
                 ", localizacao='" + localizacao + '\'' +
+                ", horarios='" + horarios + '\'' +
+                ", pacotes=" + pacotes +
+                ", roteiros=" + roteiros +
                 ", listaFotos=" + listaFotos +
-                ", listaHorarios=" + listaHorarios +
                 '}';
     }
 
@@ -58,10 +63,18 @@ public class PasseioEntity {
         return id;
     }
 
-
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(String horarios) {
+        this.horarios = horarios;
+    }
+
 
     public String getTitulo() {
         return titulo;
@@ -95,14 +108,6 @@ public class PasseioEntity {
         this.preco = preco;
     }
 
-    public List<String> getListaHorarios() {
-        return listaHorarios;
-    }
-
-    public void setListaHorarios(List<String> listaHorarios) {
-        this.listaHorarios = listaHorarios;
-    }
-
     public String getLocalizacao() {
         return localizacao;
     }
@@ -111,20 +116,31 @@ public class PasseioEntity {
         this.localizacao = localizacao;
     }
 
-    public List<String> getListaFotos() {
+    public List<FotoEntity> getListaFotos() {
         return listaFotos;
     }
 
-    public void setListaFotos(List<String> listaFotos) {
+    public void setListaFotos(List<FotoEntity> listaFotos) {
         this.listaFotos = listaFotos;
     }
 
-    public void addFoto(String foto){
+    public void addFoto(FotoEntity foto){
         this.listaFotos.add(foto);
     }
 
-    public void addHorario(String horario){
-        this.listaHorarios.add(horario);
+    public List<PacoteTuristicoEntity> getPacotes() {
+        return pacotes;
     }
 
+    public void setPacotes(List<PacoteTuristicoEntity> pacotes) {
+        this.pacotes = pacotes;
+    }
+
+    public List<RoteiroPersonalizadoEntity> getRoteiros() {
+        return roteiros;
+    }
+
+    public void setRoteiros(List<RoteiroPersonalizadoEntity> roteiros) {
+        this.roteiros = roteiros;
+    }
 }

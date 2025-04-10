@@ -19,24 +19,22 @@ public class PacoteTuristicoEntity {
             joinColumns = @JoinColumn(name = "idpacote"),
             inverseJoinColumns = @JoinColumn(name = "idpasseio")
     )
-    private List<PasseioEntity> listaPasseiosInclusos = new ArrayList<>();
+    private List<PasseioEntity> passeios = new ArrayList<>();
 
     @OneToMany(mappedBy = "pacoteTuristico")
     private List<PedidoEntity> listaPedidosFeitos = new ArrayList<>();
 
 
-    public PacoteTuristicoEntity(Long id, String titulo, double precoTotal, String categoria, List<PasseioEntity> listaPasseiosInclusos, List<PedidoEntity> listaPedidosFeitos) {
+    public PacoteTuristicoEntity(Long id, String titulo, double precoTotal, String categoria, List<PasseioEntity> passeios, List<PedidoEntity> listaPedidosFeitos) {
         this.id = id;
         this.titulo = titulo;
         this.precoTotal = precoTotal;
         this.categoria = categoria;
-        this.listaPasseiosInclusos = listaPasseiosInclusos;
+        this.passeios = passeios;
         this.listaPedidosFeitos = listaPedidosFeitos;
     }
 
-    public PacoteTuristicoEntity(){
-
-    }
+    public PacoteTuristicoEntity(){}
 
     public Long getId() {
         return id;
@@ -66,12 +64,28 @@ public class PacoteTuristicoEntity {
         return categoria;
     }
 
+    public List<PasseioEntity> getpasseios() {
+        return passeios;
+    }
+
+    public void setpasseios(List<PasseioEntity> passeios) {
+        this.passeios = passeios;
+    }
+
+    public List<PedidoEntity> getListaPedidosFeitos() {
+        return listaPedidosFeitos;
+    }
+
+    public void setListaPedidosFeitos(List<PedidoEntity> listaPedidosFeitos) {
+        this.listaPedidosFeitos = listaPedidosFeitos;
+    }
+
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
     public void addPasseio(PasseioEntity passeio){
-        this.listaPasseiosInclusos.add(passeio);
+        this.passeios.add(passeio);
     }
 
     @Override
@@ -81,7 +95,7 @@ public class PacoteTuristicoEntity {
                 ", titulo='" + titulo + '\'' +
                 ", precoTotal=" + precoTotal +
                 ", categoria='" + categoria + '\'' +
-                ", listaPasseiosInclusos=" + listaPasseiosInclusos +
+                ", passeios=" + passeios +
                 '}';
     }
 }

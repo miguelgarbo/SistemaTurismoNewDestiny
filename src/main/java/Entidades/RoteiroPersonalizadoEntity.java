@@ -22,14 +22,14 @@ public class RoteiroPersonalizadoEntity {
         joinColumns = @JoinColumn(name = "idpacote"),
             inverseJoinColumns = @JoinColumn(name = "idpasseio")
     )
-    private List<PasseioEntity> listaPasseiosInclusos = new ArrayList<>();
+    private List<PasseioEntity> passeios = new ArrayList<>();
 
-    public RoteiroPersonalizadoEntity(Long id, UsuarioEntity usuario, String titulo, Long numeroDias, List<PasseioEntity> listaPasseiosInclusos) {
+    public RoteiroPersonalizadoEntity(Long id, UsuarioEntity usuario, String titulo, Long numeroDias, List<PasseioEntity> passeios) {
         this.id = id;
         this.usuario = usuario;
         this.titulo = titulo;
         this.numeroDias = numeroDias;
-        this.listaPasseiosInclusos = listaPasseiosInclusos;
+        this.passeios = passeios = new ArrayList<>();
     }
 
     public RoteiroPersonalizadoEntity(){}
@@ -67,7 +67,9 @@ public class RoteiroPersonalizadoEntity {
     }
 
     public void addPasseio(PasseioEntity passeio) {
-        this.listaPasseiosInclusos.add(passeio);
+        if (passeio != null) {
+            this.passeios.add(passeio);
+        }
     }
 
     @Override
@@ -77,7 +79,7 @@ public class RoteiroPersonalizadoEntity {
                 ", usuario=" + usuario +
                 ", titulo='" + titulo + '\'' +
                 ", numeroDias=" + numeroDias +
-                ", listaPasseiosInclusos=" + listaPasseiosInclusos +
+                ", passeios=" + passeios +
                 '}';
     }
 }

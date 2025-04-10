@@ -2,7 +2,10 @@ package Servicos;
 
 import Entidades.UsuarioEntity;
 import Repositorio.PacoteTuristicoRepository;
+import Repositorio.PasseioRepository;
+import Repositorio.RoteiroPersonalizadoRepository;
 import Repositorio.UsuarioRepository;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -12,15 +15,45 @@ public class UsuarioService {
 
     @Inject
     private UsuarioRepository usuarioRepository;
+
+    @Inject
     private PacoteTuristicoRepository pacoteTuristicoRepository;
+
+    @Inject
     private PacoteTuristicoService pacoteTuristicoService;
+
+    @Inject
+    private PasseioService passeioService;
+
+    @Inject
+    private PasseioRepository passeioRepository;
+
+
+    @Inject
+    private RoteiroPersonalizadoRepository roteiroPersonalizadoRepository;
+
+    @Inject
+    private RoteiroPersonalizadoService roteiroPersonalizadoService;
+
+    private Long idLogged;
+
     private Scanner sc = new Scanner(System.in);
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PacoteTuristicoRepository pacoteTuristicoRepository, PacoteTuristicoService pacoteTuristicoService) {
+    public UsuarioService(UsuarioRepository usuarioRepository,
+                          PacoteTuristicoRepository pacoteTuristicoRepository,
+                          PacoteTuristicoService pacoteTuristicoService,
+                          PasseioService passeioService,
+                          PasseioRepository passeioRepository,
+                          RoteiroPersonalizadoRepository roteiroPersonalizadoRepository,
+                          RoteiroPersonalizadoService roteiroPersonalizadoService) {
+
         this.usuarioRepository = usuarioRepository;
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
         this.pacoteTuristicoService = pacoteTuristicoService;
-        this.sc = new Scanner(System.in);
+        this.passeioService = passeioService;
+        this.passeioRepository = passeioRepository;
+        this.roteiroPersonalizadoRepository = roteiroPersonalizadoRepository;
+        this.roteiroPersonalizadoService = roteiroPersonalizadoService;
     }
 
     @Transactional
@@ -69,6 +102,14 @@ public class UsuarioService {
     }
 
 
+    public Long getIdLogged() {
+        return idLogged;
+    }
+
+    public void setIdLogged(Long idLogged) {
+        this.idLogged = idLogged;
+    }
+
     public boolean menuLogin(){
 
         System.out.println("==LOGIN==");
@@ -81,9 +122,10 @@ public class UsuarioService {
         boolean loginCorreto = false;
 
         for(UsuarioEntity usuario: listaUsuarios){
-            if(usuario.getemail().equals(emailInformado) || usuario.getsenha().equals(senhaInformada)){
+            if(usuario.getemail().equals(emailInformado) && usuario.getsenha().equals(senhaInformada)){
                 System.out.println("Login Realizado Com Sucesso, Seja Bem Vindo "+ usuario.getnome());
                 loginCorreto = true;
+                idLogged = usuario.getid();
                 return true;
             }
         }
@@ -125,7 +167,6 @@ public class UsuarioService {
 
 
     public boolean isEmailRegistrado(String email){
-
         List<UsuarioEntity> listaUsuarios = usuarioRepository.buscarTodos();
 
         for(UsuarioEntity usuario: listaUsuarios){
@@ -138,8 +179,10 @@ public class UsuarioService {
 
     }
 
-    public void menuVisaoUsuario(){
 
+
+    public void menuVisaoUsuario(){
+        System.out.println("==MENU USUARIO==");
         System.out.println("1 - Visualizar Pacotes Disponiveis: ");
         System.out.println("2 - Visualizar Passeios Diponiveis");
         System.out.println("3 - Criar Roteiro de Viagem");
@@ -147,19 +190,22 @@ public class UsuarioService {
         int opcao = sc.nextInt();
 
         switch (opcao){
-
             case 1:
-
-                pacoteTuristicoService.mostrarPacotesFormatados();
-
-
+                pacoteTuristicoService.imprimirPacotesDisponiveis(pacoteTuristicoRepository.buscarTodos());
                 break;
 
             case 2:
 
+                passeioService.mostrarTodosPasseios(passeioRepository.buscarTodos());
                 break;
 
             case 3:
+                if (idLogged == null) {
+                    System.out.println("Você precisa estar logado para criar um roteiro");
+                } else {
+                    UsuarioEntity usuarioLogged = usuarioRepository.findById(idLogged);
+                    roteiroPersonalizadoService.menuCadastro(usuarioLogged);
+                }
 
                 break;
 
@@ -168,11 +214,5 @@ public class UsuarioService {
                 break;
 
         }
-
     }
-
-
-
-
-
 }

@@ -32,7 +32,6 @@ public class PacoteTuristicoRepository {
     }
 
 
-
     public List<PacoteTuristicoEntity> buscarPorTituloInicial(String prefixo){
 
         return em.createQuery("SELECT u FROM PacoteTuristico u WHERE u.titulo LIKE :prefixo", PacoteTuristicoEntity.class)
@@ -54,10 +53,5 @@ public class PacoteTuristicoRepository {
         em.remove(em.contains(PacoteTuristico)? PacoteTuristico : em.merge(PacoteTuristico));
         em.getTransaction().commit();
     }
-
-
-
-
-
 
 }
