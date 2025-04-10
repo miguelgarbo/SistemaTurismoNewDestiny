@@ -1,9 +1,8 @@
 package Entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "PacoteTuristico")
 public class PacoteTuristicoEntity {
@@ -14,20 +13,25 @@ public class PacoteTuristicoEntity {
     private double precoTotal;
     private String categoria;
 
-    public PacoteTuristicoEntity(String titulo, double precoTotal, String categoria) {
+    @ManyToMany
+    @JoinTable(
+            name = "pacote_passeios",
+            joinColumns = @JoinColumn(name = "idpacote"),
+            inverseJoinColumns = @JoinColumn(name = "idpasseio")
+    )
+    private List<PasseioEntity> listaPasseiosInclusos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pacoteTuristico")
+    private List<PedidoEntity> listaPedidosFeitos = new ArrayList<>();
+
+
+    public PacoteTuristicoEntity(Long id, String titulo, double precoTotal, String categoria, List<PasseioEntity> listaPasseiosInclusos, List<PedidoEntity> listaPedidosFeitos) {
+        this.id = id;
         this.titulo = titulo;
         this.precoTotal = precoTotal;
         this.categoria = categoria;
-    }
-
-    @Override
-    public String toString() {
-        return "PacoteTuristicoEntity{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", precoTotal=" + precoTotal +
-                ", categoria='" + categoria + '\'' +
-                '}';
+        this.listaPasseiosInclusos = listaPasseiosInclusos;
+        this.listaPedidosFeitos = listaPedidosFeitos;
     }
 
     public PacoteTuristicoEntity(){
@@ -64,5 +68,20 @@ public class PacoteTuristicoEntity {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public void addPasseio(PasseioEntity passeio){
+        this.listaPasseiosInclusos.add(passeio);
+    }
+
+    @Override
+    public String toString() {
+        return "PacoteTuristicoEntity{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", precoTotal=" + precoTotal +
+                ", categoria='" + categoria + '\'' +
+                ", listaPasseiosInclusos=" + listaPasseiosInclusos +
+                '}';
     }
 }

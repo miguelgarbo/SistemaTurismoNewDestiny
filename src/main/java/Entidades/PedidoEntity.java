@@ -1,9 +1,6 @@
 package Entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -12,16 +9,27 @@ public class PedidoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long idUsuario;
-    private Long idPacote;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario",nullable = false)
+    private UsuarioEntity usuario;
+
+    @ManyToOne()
+    @JoinColumn(name = "pacoteTuristico", nullable = false)
+    private PacoteTuristicoEntity pacoteTuristico;
+
     private Long quantidadeIngressos;
     private BigDecimal valorTotal;
     private StatusPagamento statusPagamento;
     private LocalDate dataCompra;
 
-    public PedidoEntity(Long idUsuario, Long idPacote, Long quantidadeIngressos, BigDecimal valorTotal, StatusPagamento statusPagamento, LocalDate dataCompra) {
-        this.idUsuario = idUsuario;
-        this.idPacote = idPacote;
+    @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private PagamentoEntity pagamento;
+
+
+    public PedidoEntity(UsuarioEntity usuario, PacoteTuristicoEntity pacoteTuristico, Long quantidadeIngressos, BigDecimal valorTotal, StatusPagamento statusPagamento, LocalDate dataCompra) {
+        this.usuario = usuario;
+        this.pacoteTuristico = pacoteTuristico;
         this.quantidadeIngressos = quantidadeIngressos;
         this.valorTotal = valorTotal;
         this.statusPagamento = statusPagamento;
@@ -34,8 +42,8 @@ public class PedidoEntity {
     public String toString() {
         return "PedidoEntity{" +
                 "id=" + id +
-                ", idUsuario=" + idUsuario +
-                ", idPacote=" + idPacote +
+                ", usuario=" + usuario +
+                ", pacoteTuristico=" + pacoteTuristico +
                 ", quantidadeIngressos=" + quantidadeIngressos +
                 ", valorTotal=" + valorTotal +
                 ", statusPagamento=" + statusPagamento +
@@ -51,20 +59,20 @@ public class PedidoEntity {
         this.id = id;
     }
 
-    public Long getIdUsuario() {
-        return idUsuario;
+    public UsuarioEntity getusuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setusuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
-    public Long getIdPacote() {
-        return idPacote;
+    public PacoteTuristicoEntity getpacoteTuristico() {
+        return pacoteTuristico;
     }
 
-    public void setIdPacote(Long idPacote) {
-        this.idPacote = idPacote;
+    public void setpacoteTuristico(PacoteTuristicoEntity pacoteTuristico) {
+        this.pacoteTuristico = pacoteTuristico;
     }
 
     public Long getQuantidadeIngressos() {

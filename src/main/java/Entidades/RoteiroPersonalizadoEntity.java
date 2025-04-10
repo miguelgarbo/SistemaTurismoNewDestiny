@@ -1,23 +1,35 @@
 package Entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "RoteiroPersonalizado")
 public class RoteiroPersonalizadoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long idUsuario;
+
+    @ManyToOne
+    @JoinColumn(name = "roteiropersonalizado", nullable = false)
+    private UsuarioEntity usuario;
+
     private String titulo;
     private Long numeroDias;
 
-    public RoteiroPersonalizadoEntity(Long idUsuario, String titulo, Long numeroDias) {
-        this.idUsuario = idUsuario;
+    @ManyToMany
+    @JoinTable(name = "roteiro_passeios",
+        joinColumns = @JoinColumn(name = "idpacote"),
+            inverseJoinColumns = @JoinColumn(name = "idpasseio")
+    )
+    private List<PasseioEntity> listaPasseiosInclusos = new ArrayList<>();
+
+    public RoteiroPersonalizadoEntity(Long id, UsuarioEntity usuario, String titulo, Long numeroDias, List<PasseioEntity> listaPasseiosInclusos) {
+        this.id = id;
+        this.usuario = usuario;
         this.titulo = titulo;
         this.numeroDias = numeroDias;
+        this.listaPasseiosInclusos = listaPasseiosInclusos;
     }
 
     public RoteiroPersonalizadoEntity(){}
@@ -30,12 +42,12 @@ public class RoteiroPersonalizadoEntity {
         this.id = id;
     }
 
-    public Long getIdUsuario() {
-        return idUsuario;
+    public UsuarioEntity getusuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setusuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
     public String getTitulo() {
@@ -54,13 +66,18 @@ public class RoteiroPersonalizadoEntity {
         this.numeroDias = numeroDias;
     }
 
+    public void addPasseio(PasseioEntity passeio) {
+        this.listaPasseiosInclusos.add(passeio);
+    }
+
     @Override
     public String toString() {
         return "RoteiroPersonalizadoEntity{" +
                 "id=" + id +
-                ", idUsuario=" + idUsuario +
+                ", usuario=" + usuario +
                 ", titulo='" + titulo + '\'' +
                 ", numeroDias=" + numeroDias +
+                ", listaPasseiosInclusos=" + listaPasseiosInclusos +
                 '}';
     }
 }

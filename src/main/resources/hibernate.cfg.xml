@@ -21,22 +21,6 @@
         <mapping class="Entidades.PasseioEntity"/>
         <mapping class="Entidades.PacoteTuristicoEntity"/>
         <mapping class="Entidades.RoteiroPersonalizadoEntity"/>
-        <mapping class="Entidades.FotoEntity"/>
-        <mapping class="Entidades.HorarioEntity"/>
-
-
-        <mapping class="Entidades.PacotePasseiosID"/>
-        <mapping class="Entidades.RoteiroPasseiosID"/>
-
-        <mapping class="Entidades.Pacote_PasseiosEntity"/>
-        <mapping class="Entidades.Roteiro_PasseiosEntity"/>
-
-
-
-
-
-
-
 
     </session-factory>
 </hibernate-configuration>

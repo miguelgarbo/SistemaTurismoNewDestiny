@@ -1,6 +1,8 @@
-package Entidades;;
+package Entidades;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Usuario")
 
@@ -13,11 +15,19 @@ public class UsuarioEntity {
     private String email;
     private String numeroTelefone;
 
-    public UsuarioEntity(String nome, String senha, String email, String numeroTelefone) {
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidoEntity> pedidos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoteiroPersonalizadoEntity> roteirosCriados = new ArrayList<>();
+
+    public UsuarioEntity(Long id, String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos) {
+        this.id = id;
         this.nome = nome;
         this.senha = senha;
         this.email = email;
         this.numeroTelefone = numeroTelefone;
+        this.pedidos = pedidos;
     }
 
     public UsuarioEntity(){}
@@ -71,5 +81,13 @@ public class UsuarioEntity {
 
     public void setnumeroTelefone(String numeroTelefone) {
         this.numeroTelefone = numeroTelefone;
+    }
+
+    public List<PedidoEntity> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<PedidoEntity> pedidos) {
+        this.pedidos = pedidos;
     }
 }

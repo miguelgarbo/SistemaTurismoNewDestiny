@@ -16,7 +16,6 @@ public class PasseioService {
     @Transactional
     public void cadastrarPasseio(PasseioEntity passeio){
 
-
         if(passeio.getTitulo()==null || passeio.getTitulo().isEmpty()){
 
             throw new IllegalArgumentException("Titulo Não pode estar Vazio");
@@ -26,9 +25,6 @@ public class PasseioService {
 
             throw new IllegalArgumentException("Preço Não pode ser Negativo Nem Vazio");
         }
-
-        
-
     }
 
     @Transactional

@@ -13,6 +13,8 @@ public class PacoteTuristicoRepository {
         this.em = em;
     }
 
+    public PacoteTuristicoRepository(){}
+
     public PacoteTuristicoEntity findById(Long id){
 
         return em.find(PacoteTuristicoEntity.class,id);
@@ -28,6 +30,7 @@ public class PacoteTuristicoRepository {
     public List<PacoteTuristicoEntity> buscarTodos(){
         return em.createQuery("SELECT p FROM PacoteTuristico p", PacoteTuristicoEntity.class).getResultList();
     }
+
 
 
     public List<PacoteTuristicoEntity> buscarPorTituloInicial(String prefixo){

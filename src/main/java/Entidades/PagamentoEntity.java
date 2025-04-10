@@ -10,13 +10,17 @@ public class PagamentoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long idPedido;
+
+    @OneToOne
+    @JoinColumn(name = "pedido", nullable = false, unique = true)
+    private PedidoEntity pedido;
+
     private String metodoPagamento;
     private StatusPagamento statusPagamento;
     private LocalDate data;
 
-    public PagamentoEntity(Long idPedido, String metodoPagamento, StatusPagamento statusPagamento, LocalDate data) {
-        this.idPedido = idPedido;
+    public PagamentoEntity(PedidoEntity pedido, String metodoPagamento, StatusPagamento statusPagamento, LocalDate data) {
+        this.pedido = pedido;
         this.metodoPagamento = metodoPagamento;
         this.statusPagamento = statusPagamento;
         this.data = data;
@@ -28,7 +32,7 @@ public class PagamentoEntity {
     public String toString() {
         return "PagamentoEntity{" +
                 "id=" + id +
-                ", idPedido=" + idPedido +
+                ", pedido=" + pedido +
                 ", metodoPagamento='" + metodoPagamento + '\'' +
                 ", statusPagamento=" + statusPagamento +
                 ", data=" + data +
@@ -43,12 +47,12 @@ public class PagamentoEntity {
         this.id = id;
     }
 
-    public Long getIdPedido() {
-        return idPedido;
+    public PedidoEntity getpedido() {
+        return pedido;
     }
 
-    public void setIdPedido(Long idPedido) {
-        this.idPedido = idPedido;
+    public void setpedido(PedidoEntity pedido) {
+        this.pedido = pedido;
     }
 
     public String getMetodoPagamento() {

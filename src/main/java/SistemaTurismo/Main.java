@@ -1,23 +1,15 @@
 package SistemaTurismo;
-import Entidades.PasseioEntity;
-import Entidades.Roteiro_PasseiosEntity;
-import Entidades.UsuarioEntity;
 import Repositorio.CustomizerFactory;
-import Repositorio.PasseioRepository;
-import Repositorio.Roteiro_PasseiosRepository;
+import Repositorio.PacoteTuristicoRepository;
 import Repositorio.UsuarioRepository;
+import Servicos.PacoteTuristicoService;
 import Servicos.UsuarioService;
-
 import javax.persistence.EntityManager;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-
-
-
 //
 //        PasseioEntity passeio = passeioRepository.findById(1);
 //        System.out.println(passeio.toString());
@@ -65,34 +57,49 @@ public class Main {
         EntityManager em = CustomizerFactory.getEntityManager();
 
         UsuarioRepository usuarioRepository = new UsuarioRepository(em);
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+        PacoteTuristicoRepository pacoteTuristicoRepository = new PacoteTuristicoRepository(em);
+        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService();
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository,pacoteTuristicoRepository, pacoteTuristicoService);
         Scanner sc = new Scanner(System.in);
+        int opcao;
 
-        System.out.println("==SISTEMA DE TURISMO (NEW DESTINY)==");
-        System.out.println("===MENU PRINCIPAL===");
-        System.out.println("1 - Login Como Usuário");
-        System.out.println("2 - Entrar Como Administrador");
-        System.out.println("3 - Entrar Sem Cadastro ");
-        System.out.println("Informe A opção: ");
-        int opcao = sc.nextInt();
-        switch (opcao){
+        do {
+            System.out.println("==SISTEMA DE TURISMO (NEW DESTINY)==");
+            System.out.println("===MENU PRINCIPAL===");
+            System.out.println("1 - Login Como Usuário");
+            System.out.println("2 - Cadastrar Como Usuário");
+            System.out.println("3 - Entrar Sem Cadastro ");
+            System.out.println("4 - Entrar Como Administrador");
+            System.out.println("5 - Sair");
+            System.out.println("Informe A opção: ");
+            opcao = sc.nextInt();
 
-            case 1:
+            switch (opcao) {
 
-                usuarioService.menuLogin();
-                break;
+                case 1:
 
-            case 2:
+                    usuarioService.menuLogin();
+                    break;
 
-                break;
+                case 2:
+                    usuarioService.menuCadastro();
+                    break;
 
-            case 3:
+                case 3:
 
-                break;
+                    usuarioService.menuVisaoUsuario();
 
+                    break;
 
-        }
+                case 4:
 
+                    break;
+
+                default:
+                    System.out.println("Opcao Invalida");
+                    break;
+            }
+        }while (opcao !=5);
 
 
 

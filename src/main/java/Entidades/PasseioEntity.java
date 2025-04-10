@@ -12,25 +12,29 @@ public class PasseioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
-    private String descricao;
-    private String duracao;
+    private String  descricao;
+    private String  duracao;
     private BigDecimal preco;
     private String localizacao;
+    @ElementCollection
+    @CollectionTable(name = "passeio_fotos", joinColumns = @JoinColumn(name = "passeio_id"))
+    @Column(name = "foto")
+    private List<String> listaFotos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FotoEntity> fotos = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "passeio_horarios", joinColumns = @JoinColumn(name = "passeio_id"))
+    @Column(name = "horario")
+    private List<String> listaHorarios = new ArrayList<>();
 
-    @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HorarioEntity> listaHorarios = new ArrayList<>();
 
-    public PasseioEntity(String titulo, String descricao, String duracao, BigDecimal preco, List<HorarioEntity> listaHorarios, String localizacao, List<FotoEntity> fotos) {
+    public PasseioEntity(String titulo, String descricao, String duracao, BigDecimal preco, String localizacao, List<String> listaFotos, List<String> listaHorarios) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
         this.preco = preco;
-        this.listaHorarios = listaHorarios;
         this.localizacao = localizacao;
-        this.fotos = fotos;
+        this.listaFotos = listaFotos;
+        this.listaHorarios = listaHorarios;
     }
 
     public PasseioEntity() {
@@ -44,9 +48,9 @@ public class PasseioEntity {
                 ", descricao='" + descricao + '\'' +
                 ", duracao='" + duracao + '\'' +
                 ", preco=" + preco +
-                ", listaHorarios=" + listaHorarios +
                 ", localizacao='" + localizacao + '\'' +
-                ", fotos=" + fotos +
+                ", listaFotos=" + listaFotos +
+                ", listaHorarios=" + listaHorarios +
                 '}';
     }
 
@@ -91,11 +95,11 @@ public class PasseioEntity {
         this.preco = preco;
     }
 
-    public List<HorarioEntity> getListaHorarios() {
+    public List<String> getListaHorarios() {
         return listaHorarios;
     }
 
-    public void setListaHorarios(List<HorarioEntity> listaHorarios) {
+    public void setListaHorarios(List<String> listaHorarios) {
         this.listaHorarios = listaHorarios;
     }
 
@@ -107,31 +111,20 @@ public class PasseioEntity {
         this.localizacao = localizacao;
     }
 
-    public List<FotoEntity> getFotos() {
-        return fotos;
+    public List<String> getListaFotos() {
+        return listaFotos;
     }
 
-    public void setFotos(List<FotoEntity> fotos) {
-        this.fotos = fotos;
+    public void setListaFotos(List<String> listaFotos) {
+        this.listaFotos = listaFotos;
     }
 
-    public void addFoto(FotoEntity foto) {
-        fotos.add(foto);
-        foto.setPasseio(this);
+    public void addFoto(String foto){
+        this.listaFotos.add(foto);
     }
 
-    public void addHorario(HorarioEntity horario) {
-        listaHorarios.add(horario);
-        horario.setPasseio(this);
+    public void addHorario(String horario){
+        this.listaHorarios.add(horario);
     }
 
-    public void removeFoto(FotoEntity foto) {
-        fotos.remove(foto);
-        foto.setPasseio(null); // Remove the relationship
-    }
-
-    public void removeHorario(HorarioEntity horario) {
-        listaHorarios.remove(horario);
-        horario.setPasseio(null); // Remove the relationship
-    }
 }
