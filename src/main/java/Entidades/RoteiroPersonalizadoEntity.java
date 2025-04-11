@@ -11,15 +11,32 @@ public class RoteiroPersonalizadoEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "roteiropersonalizado", nullable = false)
+    @JoinColumn(name = "idusuario", nullable = false)
     private UsuarioEntity usuario;
+
 
     private String titulo;
     private Long numeroDias;
 
+    public List<PasseioEntity> getPasseios() {
+        return passeios;
+    }
+
+    public void setPasseios(List<PasseioEntity> passeios) {
+        this.passeios = passeios;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
     @ManyToMany
     @JoinTable(name = "roteiro_passeios",
-        joinColumns = @JoinColumn(name = "idpacote"),
+        joinColumns = @JoinColumn(name = "idroteiro"),
             inverseJoinColumns = @JoinColumn(name = "idpasseio")
     )
     private List<PasseioEntity> passeios = new ArrayList<>();

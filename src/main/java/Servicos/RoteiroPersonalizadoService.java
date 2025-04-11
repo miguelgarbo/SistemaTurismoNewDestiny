@@ -19,7 +19,14 @@ public class RoteiroPersonalizadoService {
 
     @Inject
     private PasseioRepository passeioRepository;
+
     private Scanner sc = new Scanner(System.in);
+
+    public RoteiroPersonalizadoService(PasseioRepository passeioRepository, PasseioService passeioService, RoteiroPersonalizadoRepository roteiroPersonalizadoRepository) {
+        this.passeioRepository = passeioRepository;
+        this.passeioService = passeioService;
+        this.roteiroPersonalizadoRepository = roteiroPersonalizadoRepository;
+    }
 
     public void cadastrarRoteiro(RoteiroPersonalizadoEntity roteiro){
 
@@ -66,19 +73,39 @@ public class RoteiroPersonalizadoService {
             System.out.println("Deseja Adicionar Mais Um Passeio? (sim/nao)");
             continuar = sc.nextLine().toLowerCase();
 
-        }while (!continuar.equals("sim"));
-
-        System.out.println("Informe Seu Numero De Telefone (Para Contato): ");
-        String telefoneInformado = sc.nextLine();
-
-
+        }while (continuar.equals("sim"));
 
         roteiroNovo.setTitulo(tituloInformado);
         roteiroNovo.setNumeroDias(numeroDias);
         roteiroNovo.setusuario(usuario);
         cadastrarRoteiro(roteiroNovo);
         System.out.println("Roteiro ("+ roteiroNovo.getTitulo()+ ") Cadastrado Com Sucesso !!");
-        System.out.println(roteiroNovo.toString());
+
+    }
+
+    public void mostrarMeusRoteiros(UsuarioEntity usuario){
+
+        for(RoteiroPersonalizadoEntity roteiro : usuario.getRoteirosCriados()){
+            System.out.println("ID ROTEIRO: "+ roteiro.getId());
+            System.out.println("Roteiro Titulo: "+ roteiro.getTitulo());
+            System.out.println("Numero de Dias: "+ roteiro.getNumeroDias());
+            if(usuario.getRoteirosCriados() == null || usuario.getRoteirosCriados().isEmpty()){
+
+                System.out.println("Sem Passeios Adicionados");
+            }else{
+
+                System.out.println("Passeios Adicionados: ");
+                for(PasseioEntity passeio : roteiro.getPasseios()){
+                    System.out.println("ID PASSEIO: "+ passeio.getId());
+                    System.out.println("Titulo Passeio: "+ passeio.getTitulo());
+                    System.out.println("Localização: "+ passeio.getLocalizacao());
+                }
+
+            }
+
+
+        }
+
 
     }
 

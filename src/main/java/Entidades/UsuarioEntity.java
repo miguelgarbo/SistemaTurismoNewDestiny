@@ -43,43 +43,43 @@ public class UsuarioEntity {
                 '}';
     }
 
-    public Long getid() {
+    public Long getId() {
         return id;
     }
 
-    public void setid(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getnome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setnome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public String getsenha() {
+    public String getSenha() {
         return senha;
     }
 
-    public void setsenha(String senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
-    public String getemail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setemail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getnumeroTelefone() {
+    public String getNumeroTelefone() {
         return numeroTelefone;
     }
 
-    public void setnumeroTelefone(String numeroTelefone) {
+    public void setNumeroTelefone(String numeroTelefone) {
         this.numeroTelefone = numeroTelefone;
     }
 
@@ -89,5 +89,13 @@ public class UsuarioEntity {
 
     public void setPedidos(List<PedidoEntity> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public List<RoteiroPersonalizadoEntity> getRoteirosCriados() {
+        return roteirosCriados;
+    }
+
+    public void setRoteirosCriados(List<RoteiroPersonalizadoEntity> roteirosCriados) {
+        this.roteirosCriados = roteirosCriados;
     }
 }

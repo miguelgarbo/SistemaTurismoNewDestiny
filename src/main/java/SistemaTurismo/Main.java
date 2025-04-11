@@ -60,11 +60,12 @@ public class Main {
         PacoteTuristicoRepository pacoteTuristicoRepository = new PacoteTuristicoRepository(em);
         PasseioRepository passeioRepository = new PasseioRepository(em);
         RoteiroPersonalizadoRepository  roteiroPersonalizadoRepository= new RoteiroPersonalizadoRepository(em);
-
-        RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService();
-        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService();
         PasseioService passeioService = new PasseioService();
+
+        RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService(passeioRepository, passeioService, roteiroPersonalizadoRepository);
+        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService();
         UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoRepository, roteiroPersonalizadoService);
+
         Scanner sc = new Scanner(System.in);
         int opcao;
 
@@ -73,7 +74,7 @@ public class Main {
             System.out.println("===MENU PRINCIPAL===");
             System.out.println("1 - Login Como Usuário");
             System.out.println("2 - Cadastrar Como Usuário");
-            System.out.println("3 - Entrar Sem Cadastro ");
+            System.out.println("3 - Entrar Como Usuario ");
             System.out.println("4 - Entrar Como Administrador");
             System.out.println("5 - Sair");
             System.out.println("Informe A opção: ");
@@ -82,9 +83,7 @@ public class Main {
             switch (opcao) {
 
                 case 1:
-
                     if(usuarioService.menuLogin()){
-
                         usuarioService.menuVisaoUsuario();
                     }else {
 
@@ -104,15 +103,10 @@ public class Main {
                 case 4:
 
                     break;
-
                 default:
                     System.out.println("Opcao Invalida");
                     break;
             }
         }while (opcao !=5);
-
-
-
     }
-
 }
