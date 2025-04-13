@@ -15,6 +15,7 @@ public class PacoteTuristicoRepository {
 
     public PacoteTuristicoRepository(){}
 
+
     public PacoteTuristicoEntity findById(Long id){
 
         return em.find(PacoteTuristicoEntity.class,id);

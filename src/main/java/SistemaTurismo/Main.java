@@ -1,9 +1,7 @@
 package SistemaTurismo;
 import Repositorio.*;
-import Servicos.PacoteTuristicoService;
-import Servicos.PasseioService;
-import Servicos.RoteiroPersonalizadoService;
-import Servicos.UsuarioService;
+import Servicos.*;
+
 import javax.persistence.EntityManager;
 import java.util.Scanner;
 
@@ -60,11 +58,13 @@ public class Main {
         PacoteTuristicoRepository pacoteTuristicoRepository = new PacoteTuristicoRepository(em);
         PasseioRepository passeioRepository = new PasseioRepository(em);
         RoteiroPersonalizadoRepository  roteiroPersonalizadoRepository= new RoteiroPersonalizadoRepository(em);
-        PasseioService passeioService = new PasseioService();
+        PasseioService passeioService = new PasseioService(passeioRepository);
+        AdministradorRepository administradorRepository = new AdministradorRepository(em);
 
         RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService(passeioRepository, passeioService, roteiroPersonalizadoRepository);
-        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService();
+        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService(pacoteTuristicoRepository, passeioRepository, passeioService);
         UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoRepository, roteiroPersonalizadoService);
+        AdministradorService administradorService = new AdministradorService(administradorRepository, pacoteTuristicoRepository, passeioRepository, usuarioRepository, pacoteTuristicoService, passeioService, usuarioService);
 
         Scanner sc = new Scanner(System.in);
         int opcao;
@@ -97,10 +97,13 @@ public class Main {
                 case 3:
 
                     usuarioService.menuVisaoUsuario();
-
                     break;
 
                 case 4:
+
+                    if(administradorService.login()) {
+                        administradorService.menuAdministrador();
+                    }
 
                     break;
                 default:

@@ -1,6 +1,7 @@
 package Entidades;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class PacoteTuristicoEntity {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
-    private double precoTotal;
+    private BigDecimal precoTotal;
     private String categoria;
 
     @ManyToMany
@@ -25,7 +26,7 @@ public class PacoteTuristicoEntity {
     private List<PedidoEntity> listaPedidosFeitos = new ArrayList<>();
 
 
-    public PacoteTuristicoEntity(Long id, String titulo, double precoTotal, String categoria, List<PasseioEntity> passeios, List<PedidoEntity> listaPedidosFeitos) {
+    public PacoteTuristicoEntity(Long id, String titulo, BigDecimal precoTotal, String categoria, List<PasseioEntity> passeios, List<PedidoEntity> listaPedidosFeitos) {
         this.id = id;
         this.titulo = titulo;
         this.precoTotal = precoTotal;
@@ -52,11 +53,11 @@ public class PacoteTuristicoEntity {
         this.titulo = titulo;
     }
 
-    public double getPrecoTotal() {
+    public BigDecimal getPrecoTotal() {
         return precoTotal;
     }
 
-    public void setPrecoTotal(double precoTotal) {
+    public void setPrecoTotal(BigDecimal precoTotal) {
         this.precoTotal = precoTotal;
     }
 

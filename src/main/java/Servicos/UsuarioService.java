@@ -1,5 +1,6 @@
 package Servicos;
 
+import Entidades.RoteiroPersonalizadoEntity;
 import Entidades.UsuarioEntity;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
@@ -93,9 +94,18 @@ public class UsuarioService {
         }
     }
 
-    @Transactional
-    public List<UsuarioEntity> listarUsuario() {
-        return usuarioRepository.buscarTodos();
+    public void listarUsuariosCadastrados(List<UsuarioEntity> usuarios) {
+
+        System.out.println("==USUARIOS CADASTRADOS==");
+
+        for(UsuarioEntity usuario : usuarios){
+
+            System.out.println("ID: "+ usuario.getId());
+            System.out.println("Nome: "+ usuario.getNome());
+            System.out.println("Email: "+ usuario.getEmail());
+            System.out.println("Numero Telefone: "+ usuario.getNumeroTelefone());
+            roteiroPersonalizadoService.mostrarMeusRoteiros(usuario);
+        }
     }
 
     public Long getIdLogged() {

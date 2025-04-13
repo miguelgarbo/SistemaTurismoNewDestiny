@@ -1,5 +1,6 @@
 package Servicos;
 
+import Entidades.PacoteTuristicoEntity;
 import Entidades.PasseioEntity;
 import Repositorio.PasseioRepository;
 
@@ -7,15 +8,21 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Scanner;
 
 public class PasseioService {
 
     @Inject
     private PasseioRepository passeioRepository;
 
+    private Scanner sc = new Scanner(System.in);
+
+    public PasseioService(PasseioRepository passeioRepository) {
+        this.passeioRepository = passeioRepository;
+    }
 
     @Transactional
-    public void cadastrarPasseio(PasseioEntity passeio) {
+    public void cadastrar(PasseioEntity passeio) {
 
         if (passeio.getTitulo() == null || passeio.getTitulo().isEmpty()) {
 
@@ -65,5 +72,36 @@ public class PasseioService {
             System.out.println("-------------------------------------");
         }
     }
+
+    public void cadastrarPasseio() {
+        PasseioEntity passeioNovo = new PasseioEntity();
+
+        System.out.println("== CADASTRO DE PASSEIO ==");
+
+        System.out.print("Digite o título do Passeio: ");
+        passeioNovo.setTitulo(sc.nextLine());
+
+        System.out.print("Digite a Descrição do Passeio: ");
+        passeioNovo.setDescricao(sc.nextLine());
+
+        System.out.print("Digite a Duração do Passeio:(ex: 2h30min) ");
+        passeioNovo.setDuracao(sc.nextLine());
+
+        System.out.print("Digite o Preço do Passeio: ");
+        passeioNovo.setPreco(sc.nextBigDecimal());
+
+        sc.nextLine();
+
+        System.out.println("Digite a Localização do Passeio: ");
+        passeioNovo.setLocalizacao(sc.nextLine());
+
+        System.out.println("Digite os Horarios Disponiveis: (ex: De 8h até as 16h)");
+        passeioNovo.setHorarios(sc.nextLine());
+
+        passeioRepository.cadastrar(passeioNovo);
+
+        System.out.println("Passeio '" + passeioNovo.getTitulo() + "' cadastrado com sucesso!");
+    }
+
 }
 

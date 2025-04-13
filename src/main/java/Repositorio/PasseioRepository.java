@@ -20,7 +20,7 @@ public class PasseioRepository {
 
     public void cadastrar(PasseioEntity passeio){
 
-        em.getTransaction();
+        em.getTransaction().begin();
         em.persist(passeio);
         em.getTransaction().commit();
     }

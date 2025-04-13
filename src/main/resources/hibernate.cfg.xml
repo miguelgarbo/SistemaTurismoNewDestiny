@@ -22,6 +22,7 @@
         <mapping class="Entidades.PacoteTuristicoEntity"/>
         <mapping class="Entidades.RoteiroPersonalizadoEntity"/>
         <mapping class="Entidades.FotoEntity"/>
+        <mapping class="Entidades.AdministradorEntity"/>
 
     </session-factory>
 </hibernate-configuration>
