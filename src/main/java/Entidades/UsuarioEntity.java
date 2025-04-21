@@ -15,10 +15,10 @@ public class UsuarioEntity {
     private String email;
     private String numeroTelefone;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PedidoEntity> pedidos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RoteiroPersonalizadoEntity> roteirosCriados = new ArrayList<>();
 
     public UsuarioEntity(Long id, String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos) {
@@ -40,6 +40,8 @@ public class UsuarioEntity {
                 ", senha='" + senha + '\'' +
                 ", email='" + email + '\'' +
                 ", numeroTelefone='" + numeroTelefone + '\'' +
+                ", pedidos=" + pedidos +
+                ", roteirosCriados=" + roteirosCriados +
                 '}';
     }
 

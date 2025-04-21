@@ -24,7 +24,7 @@ public class PasseioEntity {
     private List<RoteiroPersonalizadoEntity> roteiros = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<FotoEntity> listaFotos = new ArrayList<>();
 
     public PasseioEntity(Long id, String titulo, String descricao, String duracao, BigDecimal preco, String localizacao, String horarios, List<PacoteTuristicoEntity> pacotes, List<RoteiroPersonalizadoEntity> roteiros, List<FotoEntity> listaFotos) {

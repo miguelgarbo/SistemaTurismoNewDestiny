@@ -301,6 +301,7 @@ public class UsuarioService {
                     System.out.println("Você ainda não possui roteiros criados.");
                 } else {
                     roteiroPersonalizadoService.mostrarMeusRoteiros(usuarioLogged);
+
                 }
                 break;
 
@@ -313,9 +314,6 @@ public class UsuarioService {
                     alterarInformacoes(usuarioLogado);
                 }
 
-
-
-
                 break;
 
             default:
@@ -325,4 +323,14 @@ public class UsuarioService {
 
         }
     }
+
+    public void gerenciandoRoteiros(UsuarioEntity usuario){
+
+
+        System.out.println("1 - Gerenciar  ");
+
+
+    }
+
+
 }

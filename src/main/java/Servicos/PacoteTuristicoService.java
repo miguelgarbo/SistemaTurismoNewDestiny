@@ -87,8 +87,6 @@ public class PacoteTuristicoService {
         System.out.println("Pacote '" + pacoteNovo.getTitulo() + "' cadastrado com sucesso!");
     }
 
-
-
     public void imprimirPacotesDisponiveis(List<PacoteTuristicoEntity> pacotes) {
         System.out.println("==== Lista de Pacotes Turísticos ====");
 
