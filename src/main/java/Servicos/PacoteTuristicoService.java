@@ -2,29 +2,38 @@ package Servicos;
 
 import Entidades.PacoteTuristicoEntity;
 import Entidades.PasseioEntity;
-
+import Entidades.RoteiroPersonalizadoEntity;
+import Entidades.UsuarioEntity;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
+import Repositorio.UsuarioRepository;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-
 public class PacoteTuristicoService {
 
-    private final  PacoteTuristicoRepository pacoteTuristicoRepository;
+    @Inject
+    private PacoteTuristicoRepository pacoteTuristicoRepository;
 
-    private final PasseioRepository passeioRepository;
+    @Inject
+    private PagamentoService pagamentoService;
 
-    private final  PasseioService passeioService;
+    @Inject
+    private PasseioRepository passeioRepository;
 
-    private final Scanner sc = new Scanner(System.in);
+    @Inject
+    private PasseioService passeioService;
 
 
-    public PacoteTuristicoService(PacoteTuristicoRepository pacoteTuristicoRepository, PasseioRepository passeioRepository, PasseioService passeioService) {
+    private Scanner sc = new Scanner(System.in);
+
+    public PacoteTuristicoService(PacoteTuristicoRepository pacoteTuristicoRepository, PagamentoService pagamentoService, PasseioRepository passeioRepository, PasseioService passeioService) {
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
+        this.pagamentoService = pagamentoService;
         this.passeioRepository = passeioRepository;
         this.passeioService = passeioService;
     }
@@ -40,7 +49,7 @@ public class PacoteTuristicoService {
 
     public void cadastrarPacote() {
         PacoteTuristicoEntity pacoteNovo = new PacoteTuristicoEntity();
-        String continuar;
+        String continuar = "sim";
 
         System.out.println("== CADASTRO DE PACOTE ==");
 
@@ -80,7 +89,7 @@ public class PacoteTuristicoService {
         System.out.println("Pacote '" + pacoteNovo.getTitulo() + "' cadastrado com sucesso!");
     }
 
-    public void imprimirPacotesDisponiveis(List<PacoteTuristicoEntity> pacotes) {
+    public void imprimirPacotesDisponiveisUser(List<PacoteTuristicoEntity> pacotes, UsuarioEntity usuario) {
         System.out.println("==== Lista de Pacotes Turísticos ====");
 
         for (PacoteTuristicoEntity pacote : pacotes) {
@@ -105,6 +114,31 @@ public class PacoteTuristicoService {
 
             System.out.println("-------------------------------------");
         }
+        pagamentoService.efetuarPagamento(usuario);
     }
 
+    public void imprimirPacotesDisponiveisAdm(List<PacoteTuristicoEntity> pacotes) {
+        System.out.println("==== Lista de Pacotes Turísticos ====");
+
+        for (PacoteTuristicoEntity pacote : pacotes) {
+            System.out.printf("ID: %d\n", pacote.getId());
+            System.out.printf("Título: %s\n", pacote.getTitulo());
+            System.out.printf("Preço Total: R$ %.2f\n", pacote.getPrecoTotal());
+
+            if (pacote.getpasseios() != null && !pacote.getpasseios().isEmpty()) {
+                System.out.println("Passeios Inclusos:");
+                for (PasseioEntity passeio : pacote.getpasseios()) {
+                    System.out.println("ID: " + passeio.getId());
+                    System.out.println("Título: " + passeio.getTitulo());
+                    System.out.println("Descrição: " + passeio.getDescricao());
+                    System.out.println("Localização: " + passeio.getLocalizacao());
+                    System.out.println("Preço: " + passeio.getPreco());
+                    System.out.println("Duração: " + passeio.getDuracao());
+                    System.out.println("-------------------------------------");
+                }
+            } else {
+                System.out.println("Nenhum passeio incluso.");
+            }
+        }
+    }
 }
