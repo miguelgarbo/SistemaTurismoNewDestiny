@@ -15,10 +15,13 @@ public class PedidoEntity {
     private UsuarioEntity usuario;
 
     @ManyToOne()
-    @JoinColumn(name = "pacoteTuristico", nullable = false)
+    @JoinColumn(name = "pacoteTuristico")
     private PacoteTuristicoEntity pacoteTuristico;
 
-    private Long quantidadeIngressos;
+    @ManyToOne()
+    @JoinColumn(name = "Passeio")
+    private PasseioEntity passeio;
+
     private BigDecimal valorTotal;
     private StatusPagamento statusPagamento;
     private LocalDate dataCompra;
@@ -30,7 +33,6 @@ public class PedidoEntity {
     public PedidoEntity(UsuarioEntity usuario, PacoteTuristicoEntity pacoteTuristico, Long quantidadeIngressos, BigDecimal valorTotal, StatusPagamento statusPagamento, LocalDate dataCompra) {
         this.usuario = usuario;
         this.pacoteTuristico = pacoteTuristico;
-        this.quantidadeIngressos = quantidadeIngressos;
         this.valorTotal = valorTotal;
         this.statusPagamento = statusPagamento;
         this.dataCompra = dataCompra;
@@ -44,7 +46,6 @@ public class PedidoEntity {
                 "id=" + id +
                 ", usuario=" + usuario +
                 ", pacoteTuristico=" + pacoteTuristico +
-                ", quantidadeIngressos=" + quantidadeIngressos +
                 ", valorTotal=" + valorTotal +
                 ", statusPagamento=" + statusPagamento +
                 ", dataCompra=" + dataCompra +
@@ -73,14 +74,6 @@ public class PedidoEntity {
 
     public void setpacoteTuristico(PacoteTuristicoEntity pacoteTuristico) {
         this.pacoteTuristico = pacoteTuristico;
-    }
-
-    public Long getQuantidadeIngressos() {
-        return quantidadeIngressos;
-    }
-
-    public void setQuantidadeIngressos(Long quantidadeIngressos) {
-        this.quantidadeIngressos = quantidadeIngressos;
     }
 
     public BigDecimal getValorTotal() {

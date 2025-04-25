@@ -261,12 +261,14 @@ public class UsuarioService {
         System.out.println("3 - Criar Roteiro de Viagem");
         System.out.println("4 - Visualizar Meus Roteiros Criados");
         System.out.println("5 - Editar Meus Dados");
-        System.out.println("6 - Voltar ao Menu");
+        System.out.println("6 - Cadastrar Cartão");
+        System.out.println("7 - Voltar ao Menu");
         int opcao = sc.nextInt();
 
         switch (opcao) {
             case 1:
-                pacoteTuristicoService.imprimirPacotesDisponiveis(pacoteTuristicoRepository.buscarTodos());
+                UsuarioEntity us = usuarioRepository.findById(idLogged);
+                pacoteTuristicoService.imprimirPacotesDisponiveisUser(pacoteTuristicoRepository.buscarTodos(), us);
                 break;
 
             case 2:
@@ -315,6 +317,10 @@ public class UsuarioService {
                 }
 
                 break;
+            case 6:
+                CartaoSevice cartaoSevice = new CartaoSevice();
+                UsuarioEntity usuarioLogado = usuarioRepository.findById(idLogged);
+                cartaoSevice.cadastroCartão(usuarioLogado);
 
             default:
 
@@ -329,6 +335,9 @@ public class UsuarioService {
 
         System.out.println("1 - Gerenciar  ");
 
+
+    }
+    public void efetuarPagamentoUsuario(UsuarioEntity usuario){
 
     }
 

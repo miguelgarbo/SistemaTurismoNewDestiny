@@ -1,4 +1,5 @@
 package SistemaTurismo;
+import Entidades.PagamentoEntity;
 import Repositorio.*;
 import Servicos.*;
 
@@ -17,9 +18,19 @@ public class Main {
         RoteiroPersonalizadoRepository  roteiroPersonalizadoRepository= new RoteiroPersonalizadoRepository(em);
         PasseioService passeioService = new PasseioService(passeioRepository);
         AdministradorRepository administradorRepository = new AdministradorRepository(em);
+        PagamentoEntity pagamentoEntity = new PagamentoEntity();
+        CartaoRepositorio cartaoRepositorio = new CartaoRepositorio(em);
+        PedidoRepository pedidoRepository = new PedidoRepository(em);
+
+        CartaoSevice cartaoSevice = new CartaoSevice();
+
+        PagamentoRepository pagamentoRepository = new PagamentoRepository(em);
+        PagamentoService pagamentoService = new PagamentoService(pagamentoRepository, pagamentoEntity, cartaoSevice, pacoteTuristicoRepository,cartaoRepositorio);
 
         RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService(passeioRepository, passeioService, roteiroPersonalizadoRepository);
-        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService(pacoteTuristicoRepository, passeioRepository, passeioService);
+
+
+        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService(pacoteTuristicoRepository, pagamentoService, passeioRepository, passeioService);
         UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoRepository, roteiroPersonalizadoService);
         AdministradorService administradorService = new AdministradorService(administradorRepository, pacoteTuristicoRepository, passeioRepository, usuarioRepository, pacoteTuristicoService, passeioService, usuarioService);
 

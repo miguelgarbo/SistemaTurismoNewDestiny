@@ -21,6 +21,10 @@ public class UsuarioEntity {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RoteiroPersonalizadoEntity> roteirosCriados = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CartaoEntity> cartões = new ArrayList<>();
+
+
     public UsuarioEntity(Long id, String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos) {
         this.id = id;
         this.nome = nome;
@@ -99,5 +103,17 @@ public class UsuarioEntity {
 
     public void setRoteirosCriados(List<RoteiroPersonalizadoEntity> roteirosCriados) {
         this.roteirosCriados = roteirosCriados;
+    }
+
+    public List<CartaoEntity> getCartões() {
+        return cartões;
+    }
+
+    public void addCartao(CartaoEntity cartao){
+        this.getCartões().add(cartao);
+    }
+
+    public void setCartões(List<CartaoEntity> cartões) {
+        this.cartões = cartões;
     }
 }

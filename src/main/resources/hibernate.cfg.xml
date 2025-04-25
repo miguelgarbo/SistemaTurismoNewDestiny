@@ -7,11 +7,11 @@
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/NewDestiny</property>
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.connection.password">barcopirata007</property>
 
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="hibernate.show_sql">false</property>
-        <property name="hibernate.format_sql">false</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- ENTIDADES DO PROEJTO -->
@@ -23,6 +23,7 @@
         <mapping class="Entidades.RoteiroPersonalizadoEntity"/>
         <mapping class="Entidades.FotoEntity"/>
         <mapping class="Entidades.AdministradorEntity"/>
+        <mapping class="Entidades.CartaoEntity"></mapping>
 
     </session-factory>
 </hibernate-configuration>

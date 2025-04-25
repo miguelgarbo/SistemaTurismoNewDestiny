@@ -6,6 +6,7 @@ import Entidades.RoteiroPersonalizadoEntity;
 import Entidades.UsuarioEntity;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
+import Repositorio.UsuarioRepository;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -18,20 +19,21 @@ public class PacoteTuristicoService {
     @Inject
     private PacoteTuristicoRepository pacoteTuristicoRepository;
 
-
+    @Inject
+    private PagamentoService pagamentoService;
 
     @Inject
     private PasseioRepository passeioRepository;
 
     @Inject
-    private  PasseioService passeioService;
-
+    private PasseioService passeioService;
 
 
     private Scanner sc = new Scanner(System.in);
 
-    public PacoteTuristicoService(PacoteTuristicoRepository pacoteTuristicoRepository, PasseioRepository passeioRepository, PasseioService passeioService) {
+    public PacoteTuristicoService(PacoteTuristicoRepository pacoteTuristicoRepository, PagamentoService pagamentoService, PasseioRepository passeioRepository, PasseioService passeioService) {
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
+        this.pagamentoService = pagamentoService;
         this.passeioRepository = passeioRepository;
         this.passeioService = passeioService;
     }
@@ -87,7 +89,7 @@ public class PacoteTuristicoService {
         System.out.println("Pacote '" + pacoteNovo.getTitulo() + "' cadastrado com sucesso!");
     }
 
-    public void imprimirPacotesDisponiveis(List<PacoteTuristicoEntity> pacotes) {
+    public void imprimirPacotesDisponiveisUser(List<PacoteTuristicoEntity> pacotes, UsuarioEntity usuario) {
         System.out.println("==== Lista de Pacotes Turísticos ====");
 
         for (PacoteTuristicoEntity pacote : pacotes) {
@@ -112,6 +114,31 @@ public class PacoteTuristicoService {
 
             System.out.println("-------------------------------------");
         }
+        pagamentoService.efetuarPagamento(usuario);
     }
 
+    public void imprimirPacotesDisponiveisAdm(List<PacoteTuristicoEntity> pacotes) {
+        System.out.println("==== Lista de Pacotes Turísticos ====");
+
+        for (PacoteTuristicoEntity pacote : pacotes) {
+            System.out.printf("ID: %d\n", pacote.getId());
+            System.out.printf("Título: %s\n", pacote.getTitulo());
+            System.out.printf("Preço Total: R$ %.2f\n", pacote.getPrecoTotal());
+
+            if (pacote.getpasseios() != null && !pacote.getpasseios().isEmpty()) {
+                System.out.println("Passeios Inclusos:");
+                for (PasseioEntity passeio : pacote.getpasseios()) {
+                    System.out.println("ID: " + passeio.getId());
+                    System.out.println("Título: " + passeio.getTitulo());
+                    System.out.println("Descrição: " + passeio.getDescricao());
+                    System.out.println("Localização: " + passeio.getLocalizacao());
+                    System.out.println("Preço: " + passeio.getPreco());
+                    System.out.println("Duração: " + passeio.getDuracao());
+                    System.out.println("-------------------------------------");
+                }
+            } else {
+                System.out.println("Nenhum passeio incluso.");
+            }
+        }
+    }
 }
