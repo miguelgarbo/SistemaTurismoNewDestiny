@@ -1,5 +1,6 @@
 package Entidades;
 
+
 import javax.persistence.*;
 import java.time.LocalDate;
 @Entity

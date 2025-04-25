@@ -23,9 +23,13 @@ public class PasseioEntity {
     @ManyToMany(mappedBy = "passeios")
     private List<RoteiroPersonalizadoEntity> roteiros = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<FotoEntity> listaFotos = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "dia_id")
+    private DiaEntity dia;
+
 
     public PasseioEntity(Long id, String titulo, String descricao, String duracao, BigDecimal preco, String localizacao, String horarios, List<PacoteTuristicoEntity> pacotes, List<RoteiroPersonalizadoEntity> roteiros, List<FotoEntity> listaFotos) {
         this.id = id;
@@ -38,25 +42,10 @@ public class PasseioEntity {
         this.pacotes = pacotes;
         this.roteiros = roteiros;
         this.listaFotos = listaFotos;
+
     }
 
     public PasseioEntity() {
-    }
-
-    @Override
-    public String toString() {
-        return "PasseioEntity{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", duracao='" + duracao + '\'' +
-                ", preco=" + preco +
-                ", localizacao='" + localizacao + '\'' +
-                ", horarios='" + horarios + '\'' +
-                ", pacotes=" + pacotes +
-                ", roteiros=" + roteiros +
-                ", listaFotos=" + listaFotos +
-                '}';
     }
 
     public Long getId() {
@@ -142,5 +131,29 @@ public class PasseioEntity {
 
     public void setRoteiros(List<RoteiroPersonalizadoEntity> roteiros) {
         this.roteiros = roteiros;
+    }
+
+    public DiaEntity getDia() {
+        return dia;
+    }
+
+    public void setDia(DiaEntity dia) {
+        this.dia = dia;
+    }
+
+    @Override
+    public String toString() {
+        return "PasseioEntity{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", duracao='" + duracao + '\'' +
+                ", preco=" + preco +
+                ", localizacao='" + localizacao + '\'' +
+                ", horarios='" + horarios + '\'' +
+                ", pacotes=" + pacotes +
+                ", roteiros=" + roteiros +
+                ", listaFotos=" + listaFotos +
+                '}';
     }
 }

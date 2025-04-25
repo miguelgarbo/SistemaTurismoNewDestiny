@@ -1,14 +1,15 @@
 package Repositorio;
 
 import Entidades.RoteiroPersonalizadoEntity;
+
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class RoteiroPersonalizadoRepository {
 
+public class RoteiroPersonalizadoRepository {
     private EntityManager em;
 
-    public RoteiroPersonalizadoRepository (EntityManager em){
+    public RoteiroPersonalizadoRepository(EntityManager em) {
         this.em = em;
     }
 

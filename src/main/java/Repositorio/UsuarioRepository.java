@@ -1,8 +1,11 @@
 package Repositorio;
 
 import Entidades.UsuarioEntity;
+
+
 import javax.persistence.EntityManager;
 import java.util.List;
+
 
 public class UsuarioRepository {
 

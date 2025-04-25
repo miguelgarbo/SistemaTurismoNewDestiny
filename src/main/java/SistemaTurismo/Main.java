@@ -2,12 +2,14 @@ package SistemaTurismo;
 import Repositorio.*;
 import Servicos.*;
 
+
 import javax.persistence.EntityManager;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+
 
         EntityManager em = CustomizerFactory.getEntityManager();
 
@@ -18,12 +20,12 @@ public class Main {
         PasseioService passeioService = new PasseioService(passeioRepository);
         AdministradorRepository administradorRepository = new AdministradorRepository(em);
 
-        RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService(passeioRepository, passeioService, roteiroPersonalizadoRepository);
+        RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService(roteiroPersonalizadoRepository, passeioService, passeioRepository);
         PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService(pacoteTuristicoRepository, passeioRepository, passeioService);
         UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoRepository, roteiroPersonalizadoService);
         AdministradorService administradorService = new AdministradorService(administradorRepository, pacoteTuristicoRepository, passeioRepository, usuarioRepository, pacoteTuristicoService, passeioService, usuarioService);
 
-        Scanner sc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
         int opcao;
 
         do {

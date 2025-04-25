@@ -1,12 +1,12 @@
 package Repositorio;
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
 
 public class CustomizerFactory {
 

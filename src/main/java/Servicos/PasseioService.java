@@ -4,18 +4,17 @@ import Entidades.PacoteTuristicoEntity;
 import Entidades.PasseioEntity;
 import Repositorio.PasseioRepository;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class PasseioService {
 
-    @Inject
-    private PasseioRepository passeioRepository;
+    private final PasseioRepository passeioRepository;
 
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public PasseioService(PasseioRepository passeioRepository) {
         this.passeioRepository = passeioRepository;

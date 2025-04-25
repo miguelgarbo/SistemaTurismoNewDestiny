@@ -2,14 +2,15 @@ package Repositorio;
 
 import Entidades.PasseioEntity;
 
+
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class PasseioRepository {
 
+public class PasseioRepository {
     private EntityManager em;
 
-    public PasseioRepository(EntityManager em){
+    public PasseioRepository(EntityManager em) {
         this.em = em;
     }
 

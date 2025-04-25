@@ -1,10 +1,14 @@
 package Repositorio;
 
 import Entidades.AdministradorEntity;
+
+
+
 import javax.persistence.EntityManager;
 import java.util.List;
 
 public class AdministradorRepository {
+
     private EntityManager em;
 
     public AdministradorRepository(EntityManager em) {

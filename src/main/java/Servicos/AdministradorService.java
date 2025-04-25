@@ -6,39 +6,32 @@ import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
 import Repositorio.UsuarioRepository;
 
-import javax.inject.Inject;
+
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class AdministradorService {
-    @Inject
-    private AdministradorRepository administradorRepository;
 
-    @Inject
-    private PacoteTuristicoRepository pacoteTuristicoRepository;
+    private final  AdministradorRepository administradorRepository;
+     
+    private final  PacoteTuristicoRepository pacoteTuristicoRepository;
 
-    @Inject
-    private PasseioRepository passeioRepository;
+    private final PasseioRepository passeioRepository;
 
-    @Inject
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    @Inject
-    private PacoteTuristicoService pacoteTuristicoService;
+    private final PacoteTuristicoService pacoteTuristicoService;
 
-    @Inject
-    private PasseioService passeioService;
+    private final PasseioService passeioService;
 
-    @Inject
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
-    public AdministradorService(AdministradorRepository administradorRepository,
-                                PacoteTuristicoRepository pacoteTuristicoRepository,
-                                PasseioRepository passeioRepository,
-                                UsuarioRepository usuarioRepository, PacoteTuristicoService pacoteTuristicoService, PasseioService passeioService, UsuarioService usuarioService) {
+
+    public AdministradorService(AdministradorRepository administradorRepository, PacoteTuristicoRepository pacoteTuristicoRepository, PasseioRepository passeioRepository, UsuarioRepository usuarioRepository, PacoteTuristicoService pacoteTuristicoService, PasseioService passeioService, UsuarioService usuarioService) {
         this.administradorRepository = administradorRepository;
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
         this.passeioRepository = passeioRepository;
@@ -47,6 +40,7 @@ public class AdministradorService {
         this.passeioService = passeioService;
         this.usuarioService = usuarioService;
     }
+
 
     @Transactional
     public void cadastrarAdm(AdministradorEntity adm) {

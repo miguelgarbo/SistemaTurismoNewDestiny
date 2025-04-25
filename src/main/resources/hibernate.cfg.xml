@@ -23,6 +23,7 @@
         <mapping class="Entidades.RoteiroPersonalizadoEntity"/>
         <mapping class="Entidades.FotoEntity"/>
         <mapping class="Entidades.AdministradorEntity"/>
+        <mapping class="Entidades.DiaEntity"/>
 
     </session-factory>
 </hibernate-configuration>

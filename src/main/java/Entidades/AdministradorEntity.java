@@ -11,6 +11,8 @@ public class AdministradorEntity {
     private String email;
     private String senha;
 
+
+
     public AdministradorEntity() {}
 
     public AdministradorEntity(String nome, String email, String senha) {

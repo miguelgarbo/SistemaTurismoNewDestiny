@@ -12,6 +12,7 @@ public class PacoteTuristicoEntity {
     private Long id;
     private String titulo;
     private BigDecimal precoTotal;
+
     private String categoria;
 
     @ManyToMany

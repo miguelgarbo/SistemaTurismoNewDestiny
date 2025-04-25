@@ -1,5 +1,6 @@
 package Entidades;
 
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,6 +18,10 @@ public class PedidoEntity {
     @ManyToOne()
     @JoinColumn(name = "pacoteTuristico", nullable = false)
     private PacoteTuristicoEntity pacoteTuristico;
+
+    @ManyToOne()
+    @JoinColumn(name = "passeio", nullable = false)
+    private PasseioEntity passeio;
 
     private Long quantidadeIngressos;
     private BigDecimal valorTotal;

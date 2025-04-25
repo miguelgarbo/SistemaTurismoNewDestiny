@@ -8,8 +8,8 @@ public class PagamentoRepository {
 
     private EntityManager em;
 
-    public PagamentoRepository(EntityManager em){
-        this.em =em;
+    public PagamentoRepository(EntityManager em) {
+        this.em = em;
     }
 
     public PagamentoEntity findById(Long id){

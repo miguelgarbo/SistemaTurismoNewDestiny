@@ -1,53 +1,36 @@
 package Servicos;
-
-import Entidades.RoteiroPersonalizadoEntity;
 import Entidades.UsuarioEntity;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
 import Repositorio.RoteiroPersonalizadoRepository;
 import Repositorio.UsuarioRepository;
-import jdk.swing.interop.SwingInterOpUtils;
 
-import javax.inject.Inject;
+
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Scanner;
 
 public class UsuarioService {
 
-    @Inject
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    @Inject
-    private PacoteTuristicoRepository pacoteTuristicoRepository;
+    private final PacoteTuristicoRepository pacoteTuristicoRepository;
 
-    @Inject
-    private PacoteTuristicoService pacoteTuristicoService;
+    private  final PacoteTuristicoService pacoteTuristicoService;
 
-    @Inject
-    private PasseioService passeioService;
+    private final PasseioService passeioService;
 
-    @Inject
-    private PasseioRepository passeioRepository;
+    private final PasseioRepository passeioRepository;
 
-    @Inject
-    private RoteiroPersonalizadoRepository roteiroPersonalizadoRepository;
+    private final RoteiroPersonalizadoRepository roteiroPersonalizadoRepository;
 
-    @Inject
-    private RoteiroPersonalizadoService roteiroPersonalizadoService;
+    private final RoteiroPersonalizadoService roteiroPersonalizadoService;
 
     private Long idLogged;
 
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
-    public UsuarioService(UsuarioRepository usuarioRepository,
-                          PacoteTuristicoRepository pacoteTuristicoRepository,
-                          PacoteTuristicoService pacoteTuristicoService,
-                          PasseioService passeioService,
-                          PasseioRepository passeioRepository,
-                          RoteiroPersonalizadoRepository roteiroPersonalizadoRepository,
-                          RoteiroPersonalizadoService roteiroPersonalizadoService) {
-
+    public UsuarioService(UsuarioRepository usuarioRepository, PacoteTuristicoRepository pacoteTuristicoRepository, PacoteTuristicoService pacoteTuristicoService, PasseioService passeioService, PasseioRepository passeioRepository, RoteiroPersonalizadoRepository roteiroPersonalizadoRepository, RoteiroPersonalizadoService roteiroPersonalizadoService) {
         this.usuarioRepository = usuarioRepository;
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
         this.pacoteTuristicoService = pacoteTuristicoService;
@@ -106,6 +89,9 @@ public class UsuarioService {
             System.out.println("Numero Telefone: "+ usuario.getNumeroTelefone());
             roteiroPersonalizadoService.mostrarMeusRoteiros(usuario);
         }
+
+        System.out.println("Quantidade de usuários recebidos: " + usuarios.size());
+
     }
 
     public Long getIdLogged() {
@@ -300,7 +286,7 @@ public class UsuarioService {
                 if (usuarioLogged.getRoteirosCriados().isEmpty()) {
                     System.out.println("Você ainda não possui roteiros criados.");
                 } else {
-                    roteiroPersonalizadoService.mostrarMeusRoteiros(usuarioLogged);
+                    roteiroPersonalizadoService.opcoesRoteiro(usuarioLogged);
 
                 }
                 break;
@@ -324,13 +310,7 @@ public class UsuarioService {
         }
     }
 
-    public void gerenciandoRoteiros(UsuarioEntity usuario){
 
-
-        System.out.println("1 - Gerenciar  ");
-
-
-    }
 
 
 }

@@ -2,33 +2,26 @@ package Servicos;
 
 import Entidades.PacoteTuristicoEntity;
 import Entidades.PasseioEntity;
-import Entidades.RoteiroPersonalizadoEntity;
-import Entidades.UsuarioEntity;
+
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+
 public class PacoteTuristicoService {
 
-    @Inject
-    private PacoteTuristicoRepository pacoteTuristicoRepository;
+    private final  PacoteTuristicoRepository pacoteTuristicoRepository;
 
+    private final PasseioRepository passeioRepository;
 
+    private final  PasseioService passeioService;
 
-    @Inject
-    private PasseioRepository passeioRepository;
+    private final Scanner sc = new Scanner(System.in);
 
-    @Inject
-    private  PasseioService passeioService;
-
-
-
-    private Scanner sc = new Scanner(System.in);
 
     public PacoteTuristicoService(PacoteTuristicoRepository pacoteTuristicoRepository, PasseioRepository passeioRepository, PasseioService passeioService) {
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
@@ -47,7 +40,7 @@ public class PacoteTuristicoService {
 
     public void cadastrarPacote() {
         PacoteTuristicoEntity pacoteNovo = new PacoteTuristicoEntity();
-        String continuar = "sim";
+        String continuar;
 
         System.out.println("== CADASTRO DE PACOTE ==");
 

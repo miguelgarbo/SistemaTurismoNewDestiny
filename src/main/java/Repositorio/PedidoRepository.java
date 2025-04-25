@@ -4,11 +4,11 @@ import Entidades.PedidoEntity;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class PedidoRepository {
 
+public class PedidoRepository {
     private EntityManager em;
 
-    public PedidoRepository(EntityManager em){
+    public PedidoRepository(EntityManager em) {
         this.em = em;
     }
 

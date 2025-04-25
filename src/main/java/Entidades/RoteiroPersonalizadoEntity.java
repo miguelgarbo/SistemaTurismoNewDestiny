@@ -1,6 +1,8 @@
 package Entidades;
 
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +17,13 @@ public class RoteiroPersonalizadoEntity {
     @ManyToOne
     @JoinColumn(name = "idusuario", nullable = false)
     private UsuarioEntity usuario;
+
     private String titulo;
-    private Long numeroDias;
+
+    @OneToMany(mappedBy = "roteiro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiaEntity> dias = new ArrayList<>();
+
+    private LocalDate dataInicio;
 
     @ManyToMany
     @JoinTable(name = "roteiro_passeios",
@@ -26,40 +33,16 @@ public class RoteiroPersonalizadoEntity {
     private List<PasseioEntity> passeios = new ArrayList<>();
 
 
-// para ter a relaçcao de passeios nos dias especificos que o usuario quiser
-@Transient
-private Map<Integer, List<PasseioEntity>> passeiosPorDia;
-
-    public RoteiroPersonalizadoEntity(UsuarioEntity usuario, String titulo, Long numeroDias, List<PasseioEntity> passeios, Map<Integer, List<PasseioEntity>> passeiosPorDia) {
-        this.usuario = usuario;
-        this.titulo = titulo;
-        this.numeroDias = numeroDias;
-        this.passeios  = (passeios != null) ? passeios : new ArrayList<>();
-        this.passeiosPorDia = (passeiosPorDia != null) ? passeiosPorDia : new HashMap<>();
-    }
-
-
     public RoteiroPersonalizadoEntity(){}
 
-    public void adicionarPasseioAoDia(int diaSelecionado, PasseioEntity passeio){
-        if (passeiosPorDia == null) {
-            passeiosPorDia = new HashMap<>();
-        }
 
-        if(!passeiosPorDia.containsKey(diaSelecionado)){
-            passeiosPorDia.put(diaSelecionado, new ArrayList<>());
-        }else {
-
-            passeiosPorDia.get(diaSelecionado).add(passeio);
-
-        }
+    public RoteiroPersonalizadoEntity(UsuarioEntity usuario, String titulo, List<DiaEntity> dias, LocalDate dataInicio, List<PasseioEntity> passeios) {
+        this.usuario = usuario;
+        this.titulo = titulo;
+        this.dias = dias;
+        this.dataInicio = dataInicio;
+        this.passeios = passeios;
     }
-
-    public List<PasseioEntity> getPasseiosPorDia(int dia){
-
-        return passeiosPorDia.getOrDefault(dia, new ArrayList<>());
-    }
-
 
     public Long getId() {
         return id;
@@ -85,14 +68,6 @@ private Map<Integer, List<PasseioEntity>> passeiosPorDia;
         this.titulo = titulo;
     }
 
-    public Long getNumeroDias() {
-        return numeroDias;
-    }
-
-    public void setNumeroDias(Long numeroDias) {
-        this.numeroDias = numeroDias;
-    }
-
     public void addPasseio(PasseioEntity passeio) {
         if (passeio != null) {
             this.passeios.add(passeio);
@@ -103,6 +78,11 @@ private Map<Integer, List<PasseioEntity>> passeiosPorDia;
         this.passeios = passeios;
     }
 
+    public List<PasseioEntity> getPasseios() {
+        return passeios;
+    }
+
+
     public UsuarioEntity getUsuario() {
         return usuario;
     }
@@ -111,18 +91,27 @@ private Map<Integer, List<PasseioEntity>> passeiosPorDia;
         this.usuario = usuario;
     }
 
-    public List<PasseioEntity> getPasseios() {
-        return passeios;
+
+    public LocalDate getDataInicio() {
+        return dataInicio;
     }
 
-    @Override
-    public String toString() {
-        return "RoteiroPersonalizadoEntity{" +
-                "id=" + id +
-                ", usuario=" + usuario +
-                ", titulo='" + titulo + '\'' +
-                ", numeroDias=" + numeroDias +
-                ", passeios=" + passeios +
-                '}';
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    // Métodos para gerenciar os dias do roteiro
+    public void adicionarDia(DiaEntity dia) {
+        if (dias == null) dias = new ArrayList<>();
+        this.dias.add(dia);
+        dia.setRoteiro(this); // Associando o roteiro ao dia
+    }
+
+    public List<DiaEntity> getDias() {
+        return dias;
+    }
+
+    public void setDias(List<DiaEntity> dias) {
+        this.dias = dias;
     }
 }
