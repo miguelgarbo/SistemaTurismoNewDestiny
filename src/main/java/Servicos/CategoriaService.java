@@ -11,11 +11,12 @@ public class CategoriaService {
     @Inject
     private CategoriaRepository categoriaRepository;
 
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
-    public CategoriaService(CategoriaRepository categoriaRepository) {
+    public CategoriaService(CategoriaRepository categoriaRepository){
         this.categoriaRepository = categoriaRepository;
     }
+
 
     @Transactional
     public void cadastrar(CategoriaEntity categoria) {
@@ -52,9 +53,10 @@ public class CategoriaService {
         return categoriaRepository.findById(id);
     }
 
-    public void mostrarTodasCategorias(List<CategoriaEntity> categorias) {
+    public void mostrarTodasCategorias() {
+
         System.out.println("==CATEGORIAS DISPONÍVEIS==");
-        for (CategoriaEntity categoria : categorias) {
+        for (CategoriaEntity categoria : buscarTodos()) {
             System.out.println("ID: " + categoria.getId());
             System.out.println("Nome: " + categoria.getNome());
             System.out.println("Descrição: " + categoria.getDescricao());
@@ -74,6 +76,6 @@ public class CategoriaService {
         categoriaNova.setDescricao(sc.nextLine());
 
         cadastrar(categoriaNova);
-        System.out.println("Categoria '" + categoriaNova.getNome() + "' cadastrada com sucesso!");
+        System.out.println("Categoria '" + categoriaNova.getNome() + " cadastrada com sucesso!");
     }
 } 

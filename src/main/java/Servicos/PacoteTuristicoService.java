@@ -1,41 +1,42 @@
 package Servicos;
 
+import Entidades.CategoriaEntity;
 import Entidades.PacoteTuristicoEntity;
 import Entidades.PasseioEntity;
-import Entidades.RoteiroPersonalizadoEntity;
 import Entidades.UsuarioEntity;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
-import Repositorio.UsuarioRepository;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class PacoteTuristicoService {
 
     @Inject
-    private PacoteTuristicoRepository pacoteTuristicoRepository;
+    private final PacoteTuristicoRepository pacoteTuristicoRepository;
 
     @Inject
-    private PagamentoService pagamentoService;
+    private  final PagamentoService pagamentoService;
 
     @Inject
-    private PasseioRepository passeioRepository;
+    private final  PasseioRepository passeioRepository;
 
     @Inject
-    private PasseioService passeioService;
+    private final  PasseioService passeioService;
 
+    @Inject
+    private final CategoriaService categoriaService;
 
-    private Scanner sc = new Scanner(System.in);
+    private final  Scanner sc = new Scanner(System.in);
 
-    public PacoteTuristicoService(PacoteTuristicoRepository pacoteTuristicoRepository, PagamentoService pagamentoService, PasseioRepository passeioRepository, PasseioService passeioService) {
+    public PacoteTuristicoService(PacoteTuristicoRepository pacoteTuristicoRepository, PagamentoService pagamentoService, PasseioRepository passeioRepository, PasseioService passeioService, CategoriaService categoriaService) {
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
         this.pagamentoService = pagamentoService;
         this.passeioRepository = passeioRepository;
         this.passeioService = passeioService;
+        this.categoriaService = categoriaService;
     }
 
     public BigDecimal somarValorPasseios(List<PasseioEntity> passeios) {
@@ -49,23 +50,44 @@ public class PacoteTuristicoService {
 
     public void cadastrarPacote() {
         PacoteTuristicoEntity pacoteNovo = new PacoteTuristicoEntity();
-        String continuar = "sim";
+        String continuar;
 
         System.out.println("== CADASTRO DE PACOTE ==");
 
         System.out.print("Digite o título do pacote: ");
         pacoteNovo.setTitulo(sc.nextLine());
 
-        System.out.print("Digite a categoria do pacote: ");
-        pacoteNovo.setCategoria(sc.nextLine());
 
-        do {
+        do{
+            System.out.println("== Categorias Disponiveis ==");
+            categoriaService.mostrarTodasCategorias();
+
+            System.out.println("Informe o ID da Categoria: ");
+            Long idCategoria = sc.nextLong();
+            sc.nextLine(); // consumir o ENTER
+            CategoriaEntity categoriaSelecionada = categoriaService.findById(idCategoria);
+
+            if (categoriaSelecionada != null) {
+                pacoteNovo.addCategoria(categoriaSelecionada);
+                categoriaService.atualizar(categoriaSelecionada);
+                System.out.println(" Categoria adicionada com sucesso!");
+            } else {
+                System.out.println(" Categoria não encontrada.");
+            }
+            System.out.print("Deseja adicionar mais uma categoria? (sim/nao): ");
+            continuar = sc.nextLine().toLowerCase();
+
+        }while(continuar.equals("sim"));
+
+
+        do{
             System.out.println("=== Passeios disponíveis ===");
             passeioService.mostrarTodosPasseios(passeioRepository.buscarTodos());
 
             System.out.print("Informe o ID do passeio que deseja adicionar: ");
             Long idPasseioInformado = sc.nextLong();
-            sc.nextLine(); // consumir o ENTER
+
+            sc.nextLine();
 
             PasseioEntity passeioEscolhido = passeioRepository.findById(idPasseioInformado);
 
@@ -75,7 +97,6 @@ public class PacoteTuristicoService {
             } else {
                 System.out.println(" Passeio não encontrado.");
             }
-
             System.out.print("Deseja adicionar mais um passeio? (sim/nao): ");
             continuar = sc.nextLine().toLowerCase();
 
@@ -109,12 +130,23 @@ public class PacoteTuristicoService {
                     System.out.println("-------------------------------------");
                 }
             } else {
-                System.out.println("Nenhum passeio incluso.");
+                System.out.println("Nenhum passeio incluso");
             }
+            if (pacote.getCategorias() != null && !pacote.getCategorias().isEmpty()) {
+                System.out.println("Categorias Inclusas:");
+                for (CategoriaEntity categoria : pacote.getCategorias()) {
+                    System.out.println("ID: " + categoria.getId());
+                    System.out.println("Título: " + categoria.getNome());
+                    System.out.println("-------------------------------------");
+                }
 
-            System.out.println("-------------------------------------");
+                System.out.println("-------------------------------------");
+            } else {
+                System.out.println("Nenhuma categoria inclusa");
+
+            }
+            pagamentoService.efetuarPagamento(usuario);
         }
-        pagamentoService.efetuarPagamento(usuario);
     }
 
     public void imprimirPacotesDisponiveisAdm(List<PacoteTuristicoEntity> pacotes) {
@@ -139,6 +171,20 @@ public class PacoteTuristicoService {
             } else {
                 System.out.println("Nenhum passeio incluso.");
             }
+            if (pacote.getCategorias() != null && !pacote.getCategorias().isEmpty()) {
+                System.out.println("Categorias Inclusas:");
+                for (CategoriaEntity categoria : pacote.getCategorias()) {
+                    System.out.println("ID: " + categoria.getId());
+                    System.out.println("Título: " + categoria.getNome());
+                    System.out.println("-------------------------------------");
+                }
+
+                System.out.println("-------------------------------------");
+            } else {
+                System.out.println("Nenhuma categoria inclusa");
+
+            }
+
         }
     }
 }

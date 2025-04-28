@@ -13,7 +13,6 @@ public class PacoteTuristicoEntity {
     private String titulo;
     private BigDecimal precoTotal;
 
-    private String categoria;
 
     @ManyToMany
     @JoinTable(
@@ -27,13 +26,22 @@ public class PacoteTuristicoEntity {
     private List<PedidoEntity> listaPedidosFeitos = new ArrayList<>();
 
 
-    public PacoteTuristicoEntity(Long id, String titulo, BigDecimal precoTotal, String categoria, List<PasseioEntity> passeios, List<PedidoEntity> listaPedidosFeitos) {
+    @ManyToMany
+    @JoinTable(
+            name = "pacote_categoria",
+            joinColumns = @JoinColumn(name = "pacote_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<CategoriaEntity> categorias = new ArrayList<>();
+
+
+    public PacoteTuristicoEntity(Long id, String titulo, BigDecimal precoTotal, List<PasseioEntity> passeios, List<PedidoEntity> listaPedidosFeitos, List<CategoriaEntity> categorias) {
         this.id = id;
         this.titulo = titulo;
         this.precoTotal = precoTotal;
-        this.categoria = categoria;
         this.passeios = passeios;
         this.listaPedidosFeitos = listaPedidosFeitos;
+        this.categorias = categorias;
     }
 
     public PacoteTuristicoEntity(){}
@@ -62,9 +70,6 @@ public class PacoteTuristicoEntity {
         this.precoTotal = precoTotal;
     }
 
-    public String getCategoria() {
-        return categoria;
-    }
 
     public List<PasseioEntity> getpasseios() {
         return passeios;
@@ -82,12 +87,29 @@ public class PacoteTuristicoEntity {
         this.listaPedidosFeitos = listaPedidosFeitos;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
 
     public void addPasseio(PasseioEntity passeio){
         this.passeios.add(passeio);
+    }
+
+    public void addCategoria (CategoriaEntity categoria) {
+        this.categorias.add(categoria);
+    }
+
+    public List<PasseioEntity> getPasseios() {
+        return passeios;
+    }
+
+    public void setPasseios(List<PasseioEntity> passeios) {
+        this.passeios = passeios;
+    }
+
+    public List<CategoriaEntity> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<CategoriaEntity> categorias) {
+        this.categorias = categorias;
     }
 
     @Override
@@ -96,8 +118,9 @@ public class PacoteTuristicoEntity {
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
                 ", precoTotal=" + precoTotal +
-                ", categoria='" + categoria + '\'' +
                 ", passeios=" + passeios +
+                ", listaPedidosFeitos=" + listaPedidosFeitos +
+                ", categorias=" + categorias +
                 '}';
     }
 }

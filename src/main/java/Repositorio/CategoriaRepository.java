@@ -22,13 +22,13 @@ public class CategoriaRepository {
     }
 
     public List<CategoriaEntity> buscarTodos() {
-        return em.createQuery("SELECT c FROM categorias c", CategoriaEntity.class)
+        return em.createQuery("SELECT c FROM categoria c", CategoriaEntity.class)
                 .getResultList();
     }
 
     public CategoriaEntity buscarPorNome(String nome) {
         try {
-            return em.createQuery("SELECT c FROM categorias c WHERE c.nome = :nome", CategoriaEntity.class)
+            return em.createQuery("SELECT c FROM categoria c WHERE c.nome = :nome", CategoriaEntity.class)
                     .setParameter("nome", nome)
                     .getSingleResult();
         } catch (Exception e) {

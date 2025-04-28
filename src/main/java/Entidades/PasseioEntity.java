@@ -30,9 +30,17 @@ public class PasseioEntity {
     @JoinColumn(name = "dia_id")
     private DiaEntity dia;
 
+    @ManyToMany
+    @JoinTable(
+            name = "passeio_categoria",
+            joinColumns = @JoinColumn(name = "passeio_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<CategoriaEntity> categorias = new ArrayList<>();
 
-    public PasseioEntity(Long id, String titulo, String descricao, String duracao, BigDecimal preco, String localizacao, String horarios, List<PacoteTuristicoEntity> pacotes, List<RoteiroPersonalizadoEntity> roteiros, List<FotoEntity> listaFotos) {
-        this.id = id;
+
+
+    public PasseioEntity( String titulo, String descricao, String duracao, BigDecimal preco, String localizacao, String horarios, List<PacoteTuristicoEntity> pacotes, List<RoteiroPersonalizadoEntity> roteiros, List<FotoEntity> listaFotos) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
@@ -114,7 +122,7 @@ public class PasseioEntity {
     }
 
     public void addFoto(FotoEntity foto){
-        this.listaFotos.add(foto);
+        this.getListaFotos().add(foto);
     }
 
     public List<PacoteTuristicoEntity> getPacotes() {
@@ -139,6 +147,19 @@ public class PasseioEntity {
 
     public void setDia(DiaEntity dia) {
         this.dia = dia;
+    }
+
+    public List<CategoriaEntity> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<CategoriaEntity> categorias) {
+        this.categorias = categorias;
+    }
+
+    public void addCategoria(CategoriaEntity categoria){
+        this.getCategorias().add(categoria);
+
     }
 
     @Override

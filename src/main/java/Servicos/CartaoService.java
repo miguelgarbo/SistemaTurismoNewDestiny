@@ -1,0 +1,92 @@
+package Servicos;
+
+import Entidades.CartaoEntity;
+import Entidades.CategoriaEntity;
+import Entidades.EBandeirasCartao;
+import Entidades.UsuarioEntity;
+import Repositorio.CartaoRepositorio;
+
+import javax.transaction.Transactional;
+import java.util.Scanner;
+
+public class CartaoService {
+
+    private final Scanner sc = new Scanner(System.in);
+    private  final CartaoRepositorio cartaoRepositorio;
+
+    public CartaoService(CartaoRepositorio cartaoRepositorio) {
+        this.cartaoRepositorio = cartaoRepositorio;
+    }
+
+    @Transactional
+    public void cadastrar(CartaoEntity cartao) {
+        if(cartao.getNomeCartao() == null || cartao.getNomeCartao().isEmpty()){
+            cartao.setNomeCartao("Cartão Comum");
+        }
+
+        if(cartao.getUsuario()==null || cartao.getUsuario().getCartoes().isEmpty()){
+
+            throw new IllegalArgumentException("nao pode criar cartao sem ta logado");
+        }
+
+        if (cartao.getNumeroCartao() == null || cartao.getNumeroCartao().isEmpty()) {
+            throw new IllegalArgumentException(" não pode estar vazio");
+        }
+
+        if (cartao.getDigitoVerificador() == null || cartao.getDigitoVerificador().isEmpty()) {
+            throw new IllegalArgumentException(" não pode estar vazio");
+        }
+        cartaoRepositorio.cadastrar(cartao);
+    }
+
+    public void cadastroCartao(UsuarioEntity usuario){
+
+        EBandeirasCartao[] cartaoBandeiras = EBandeirasCartao.values();
+
+        System.out.println("==CADASTRO DE CARTAO==");
+        System.out.println("Informe um nome ao Cartao: ");
+        String nomeCartao = sc.nextLine();
+
+        System.out.println("DIgite o numero do cartão:");
+        String numeroCartao = sc.nextLine();
+        System.out.println("Digite o Dígito de verificação");
+        String numeroVerificador = sc.nextLine();
+        System.out.println("Digite método de pagamento: ");
+        String metodoPagamento = sc.nextLine();
+
+
+        System.out.println("Digite a Bandeira do Cartão De Acordo Com essas Abaixo:");
+
+        for(int i =0;i< cartaoBandeiras.length;i++){
+
+            System.out.println(i+ "-"+ cartaoBandeiras[i]);
+        }
+
+        int bandeiraOpcao = sc.nextInt();
+        sc.nextLine();
+        EBandeirasCartao bandeiraSelecionada = cartaoBandeiras[bandeiraOpcao];
+
+        CartaoEntity cartaoNovo  = new CartaoEntity();
+        cartaoNovo.setNomeCartao(nomeCartao);
+        cartaoNovo.setNumeroCartao(numeroCartao);
+        cartaoNovo.setDigitoVerificador(numeroVerificador);
+        cartaoNovo.setBandeira(bandeiraSelecionada);
+        cartaoNovo.setmetodo(metodoPagamento);
+        cartaoNovo.setUsuario(usuario);
+
+        usuario.addCartao(cartaoNovo);
+        cadastrar(cartaoNovo);
+        System.out.println("Cartão cadastrado com secesso!");
+    }
+    public void listarCartoes(UsuarioEntity usuario){
+        if (usuario.getCartoes().isEmpty() && usuario.getCartoes() == null){
+            System.out.println("Nenhum Cartao Cadastrado");
+        }
+
+        for(int i=0; i<usuario.getCartoes().size();i++){
+            System.out.println("Id cartão: " +usuario.getCartoes().get(i).getId());
+            System.out.println("Nome do cartão: "+usuario.getCartoes().get(i).getNomeCartao());
+        }
+    }
+
+}

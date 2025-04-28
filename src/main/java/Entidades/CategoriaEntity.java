@@ -1,10 +1,10 @@
 package Entidades;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "categorias")
+@Entity(name = "categoria")
 public class CategoriaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,15 +16,23 @@ public class CategoriaEntity {
     @Column(length = 500)
     private String descricao;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    private List<ServicoCategoriaEntity> servicos;
+    @ManyToMany(mappedBy = "categorias")
+    private List<PasseioEntity> passeios = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "categorias")
+    private List<PacoteTuristicoEntity> pacoteTuristico;
+
+    public CategoriaEntity( String nome, String descricao, List<PasseioEntity> passeios, List<PacoteTuristicoEntity> pacoteTuristico) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.passeios = passeios;
+        this.pacoteTuristico = pacoteTuristico;
+    }
+
+    public CategoriaEntity(){}
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -43,11 +51,19 @@ public class CategoriaEntity {
         this.descricao = descricao;
     }
 
-    public List<ServicoCategoriaEntity> getServicos() {
-        return servicos;
+    public List<PasseioEntity> getPasseios() {
+        return passeios;
     }
 
-    public void setServicos(List<ServicoCategoriaEntity> servicos) {
-        this.servicos = servicos;
+    public void setPasseios(List<PasseioEntity> passeios) {
+        this.passeios = passeios;
     }
-} 
+
+    public List<PacoteTuristicoEntity> getPacoteTuristico() {
+        return pacoteTuristico;
+    }
+
+    public void setPacoteTuristico(List<PacoteTuristicoEntity> pacoteTuristico) {
+        this.pacoteTuristico = pacoteTuristico;
+    }
+}

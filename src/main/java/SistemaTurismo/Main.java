@@ -1,8 +1,6 @@
 package SistemaTurismo;
 import Repositorio.*;
 import Servicos.*;
-import Entidades.*;
-
 import javax.persistence.EntityManager;
 import java.util.Scanner;
 
@@ -13,8 +11,6 @@ public class Main {
         //gerenciador de entidades
         EntityManager em = CustomizerFactory.getEntityManager();
 
-        PagamentoEntity pagamentoEntity = new PagamentoEntity();
-
         // repositorios das entidades
         RoteiroPersonalizadoRepository  roteiroPersonalizadoRepository= new RoteiroPersonalizadoRepository(em);
         PasseioRepository passeioRepository = new PasseioRepository(em);
@@ -23,17 +19,18 @@ public class Main {
         UsuarioRepository usuarioRepository = new UsuarioRepository(em);
         PagamentoRepository pagamentoRepository = new PagamentoRepository(em);
         PacoteTuristicoRepository pacoteTuristicoRepository = new PacoteTuristicoRepository(em);
-
-        CartaoSevice cartaoSevice = new CartaoSevice();
-
+        CartaoService cartaoService = new CartaoService(cartaoRepositorio);
+        PedidoRepository pedidoRepository = new PedidoRepository(em);
+        CategoriaRepository categoriaRepository = new CategoriaRepository(em);
         //servicos das entidades
 
-        PasseioService passeioService = new PasseioService(passeioRepository);
-        PagamentoService pagamentoService = new PagamentoService(pagamentoRepository, pagamentoEntity, cartaoSevice, pacoteTuristicoRepository,cartaoRepositorio);
+        CategoriaService categoriaService = new CategoriaService(categoriaRepository);
+        PasseioService passeioService = new PasseioService(passeioRepository, categoriaService);
+        PagamentoService pagamentoService = new PagamentoService(pagamentoRepository, cartaoService, pacoteTuristicoRepository,cartaoRepositorio, pedidoRepository);
         RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService(roteiroPersonalizadoRepository, passeioService, passeioRepository);
-        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService(pacoteTuristicoRepository, pagamentoService, passeioRepository, passeioService);
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoRepository, roteiroPersonalizadoService);
-        AdministradorService administradorService = new AdministradorService(administradorRepository, pacoteTuristicoRepository, passeioRepository, usuarioRepository, pacoteTuristicoService, passeioService, usuarioService);
+        PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService(pacoteTuristicoRepository, pagamentoService, passeioRepository, passeioService, categoriaService);
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoService, cartaoRepositorio,cartaoService);
+        AdministradorService administradorService = new AdministradorService(administradorRepository, pacoteTuristicoRepository, passeioRepository, usuarioRepository, pacoteTuristicoService, passeioService, usuarioService, categoriaService);
 
         Scanner sc = new Scanner(System.in);
         int opcao;
@@ -70,9 +67,7 @@ public class Main {
 
                 case 4:
 
-                    if(administradorService.login()) {
                         administradorService.menuAdministrador();
-                    }
 
                     break;
                 default:

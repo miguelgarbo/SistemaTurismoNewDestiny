@@ -16,11 +16,11 @@ public class PedidoEntity {
     private UsuarioEntity usuario;
 
     @ManyToOne()
-    @JoinColumn(name = "pacoteTuristico", nullable = false)
+    @JoinColumn(name = "pacoteTuristico", nullable = true)
     private PacoteTuristicoEntity pacoteTuristico;
 
     @ManyToOne()
-    @JoinColumn(name = "passeio", nullable = false)
+    @JoinColumn(name = "passeio", nullable = true)
     private PasseioEntity passeio;
 
     private Long quantidadeIngressos;

@@ -24,6 +24,8 @@
         <mapping class="Entidades.FotoEntity"/>
         <mapping class="Entidades.AdministradorEntity"/>
         <mapping class="Entidades.DiaEntity"/>
+        <mapping class="Entidades.CategoriaEntity"></mapping>
+        <mapping class="Entidades.CartaoEntity"></mapping>
 
     </session-factory>
 </hibernate-configuration>

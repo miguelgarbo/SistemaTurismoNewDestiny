@@ -22,14 +22,17 @@ public class UsuarioEntity {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RoteiroPersonalizadoEntity> roteirosCriados = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CartaoEntity> cartoes = new ArrayList<>();
 
-    public UsuarioEntity(Long id, String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos) {
-        this.id = id;
+    public UsuarioEntity(String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos, List<RoteiroPersonalizadoEntity> roteirosCriados, List<CartaoEntity> cartoes) {
         this.nome = nome;
         this.senha = senha;
         this.email = email;
         this.numeroTelefone = numeroTelefone;
         this.pedidos = pedidos;
+        this.roteirosCriados = roteirosCriados;
+        this.cartoes = cartoes;
     }
 
     public UsuarioEntity(){}
@@ -102,4 +105,18 @@ public class UsuarioEntity {
     public void setRoteirosCriados(List<RoteiroPersonalizadoEntity> roteirosCriados) {
         this.roteirosCriados = roteirosCriados;
     }
+
+    public List<CartaoEntity> getCartoes() {
+        return cartoes;
+    }
+
+    public void addCartao(CartaoEntity cartao){
+        this.getCartoes().add(cartao);
+    }
+
+    public void setCartoes(List<CartaoEntity> cartões) {
+        this.cartoes = cartoes;
+    }
+
+
 }

@@ -1,12 +1,10 @@
 package Servicos;
 
-import Entidades.RoteiroPersonalizadoEntity;
 import Entidades.UsuarioEntity;
+import Repositorio.CartaoRepositorio;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
-import Repositorio.RoteiroPersonalizadoRepository;
 import Repositorio.UsuarioRepository;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -16,45 +14,42 @@ import java.util.Scanner;
 public class UsuarioService {
 
     @Inject
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     @Inject
-    private PacoteTuristicoRepository pacoteTuristicoRepository;
+    private  final PacoteTuristicoRepository pacoteTuristicoRepository;
 
     @Inject
-    private PacoteTuristicoService pacoteTuristicoService;
+    private  final  PacoteTuristicoService pacoteTuristicoService;
 
     @Inject
-    private PasseioService passeioService;
+    private final  PasseioService passeioService;
 
     @Inject
-    private PasseioRepository passeioRepository;
+    private final  PasseioRepository passeioRepository;
+
+
 
     @Inject
-    private RoteiroPersonalizadoRepository roteiroPersonalizadoRepository;
+    private  final RoteiroPersonalizadoService roteiroPersonalizadoService;
 
-    @Inject
-    private RoteiroPersonalizadoService roteiroPersonalizadoService;
+    private final CartaoRepositorio cartaoRepositorio;
+
+    private final CartaoService cartaoService;
 
     private Long idLogged;
 
-    private Scanner sc = new Scanner(System.in);
+    private  final Scanner sc = new Scanner(System.in);
 
-    public UsuarioService(UsuarioRepository usuarioRepository,
-                          PacoteTuristicoRepository pacoteTuristicoRepository,
-                          PacoteTuristicoService pacoteTuristicoService,
-                          PasseioService passeioService,
-                          PasseioRepository passeioRepository,
-                          RoteiroPersonalizadoRepository roteiroPersonalizadoRepository,
-                          RoteiroPersonalizadoService roteiroPersonalizadoService) {
-
+    public UsuarioService(UsuarioRepository usuarioRepository, PacoteTuristicoRepository pacoteTuristicoRepository, PacoteTuristicoService pacoteTuristicoService, PasseioService passeioService, PasseioRepository passeioRepository, RoteiroPersonalizadoService roteiroPersonalizadoService, CartaoRepositorio cartaoRepositorio, CartaoService cartaoService) {
         this.usuarioRepository = usuarioRepository;
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
         this.pacoteTuristicoService = pacoteTuristicoService;
         this.passeioService = passeioService;
         this.passeioRepository = passeioRepository;
-        this.roteiroPersonalizadoRepository = roteiroPersonalizadoRepository;
         this.roteiroPersonalizadoService = roteiroPersonalizadoService;
+        this.cartaoRepositorio = cartaoRepositorio;
+        this.cartaoService = cartaoService;
     }
 
     @Transactional
@@ -262,7 +257,8 @@ public class UsuarioService {
         System.out.println("4 - Visualizar Meus Roteiros Criados");
         System.out.println("5 - Editar Meus Dados");
         System.out.println("6 - Cadastrar Cartão");
-        System.out.println("7 - Voltar ao Menu");
+        System.out.println("7 - Visualizar Meus Cartões");
+        System.out.println("8 - Voltar ao Menu");
         int opcao = sc.nextInt();
 
         switch (opcao) {
@@ -318,10 +314,20 @@ public class UsuarioService {
 
                 break;
             case 6:
-                CartaoSevice cartaoSevice = new CartaoSevice();
+                CartaoService cartaoSevice = new CartaoService(cartaoRepositorio);
                 UsuarioEntity usuarioLogado = usuarioRepository.findById(idLogged);
-                cartaoSevice.cadastroCartão(usuarioLogado);
+                cartaoSevice.cadastroCartao(usuarioLogado);
+                break;
 
+            case 7:
+                UsuarioEntity usuarioLoged = usuarioRepository.findById(idLogged);
+                cartaoService.listarCartoes(usuarioLoged);
+
+                break;
+
+            case 8:
+                System.out.println("Voltando ao menu principal...");
+                break;
             default:
 
                 System.out.println("case invalido");
