@@ -74,6 +74,10 @@ public class RoteiroPersonalizadoEntity {
         }
     }
 
+
+
+
+
     public void setPasseios(List<PasseioEntity> passeios) {
         this.passeios = passeios;
     }

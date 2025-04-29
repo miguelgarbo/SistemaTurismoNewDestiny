@@ -23,7 +23,7 @@ public class PacoteTuristicoEntity {
     private List<PasseioEntity> passeios = new ArrayList<>();
 
     @OneToMany(mappedBy = "pacoteTuristico")
-    private List<PedidoEntity> listaPedidosFeitos = new ArrayList<>();
+    private List<PedidoEntity> pedidos = new ArrayList<>();
 
 
     @ManyToMany
@@ -35,12 +35,12 @@ public class PacoteTuristicoEntity {
     private List<CategoriaEntity> categorias = new ArrayList<>();
 
 
-    public PacoteTuristicoEntity(Long id, String titulo, BigDecimal precoTotal, List<PasseioEntity> passeios, List<PedidoEntity> listaPedidosFeitos, List<CategoriaEntity> categorias) {
+    public PacoteTuristicoEntity(Long id, String titulo, BigDecimal precoTotal, List<PasseioEntity> passeios, List<PedidoEntity> pedidos, List<CategoriaEntity> categorias) {
         this.id = id;
         this.titulo = titulo;
         this.precoTotal = precoTotal;
         this.passeios = passeios;
-        this.listaPedidosFeitos = listaPedidosFeitos;
+        this.pedidos = pedidos;
         this.categorias = categorias;
     }
 
@@ -79,12 +79,12 @@ public class PacoteTuristicoEntity {
         this.passeios = passeios;
     }
 
-    public List<PedidoEntity> getListaPedidosFeitos() {
-        return listaPedidosFeitos;
+    public List<PedidoEntity> getpedidos() {
+        return pedidos;
     }
 
-    public void setListaPedidosFeitos(List<PedidoEntity> listaPedidosFeitos) {
-        this.listaPedidosFeitos = listaPedidosFeitos;
+    public void setpedidos(List<PedidoEntity> pedidos) {
+        this.pedidos = pedidos;
     }
 
 
@@ -119,7 +119,7 @@ public class PacoteTuristicoEntity {
                 ", titulo='" + titulo + '\'' +
                 ", precoTotal=" + precoTotal +
                 ", passeios=" + passeios +
-                ", listaPedidosFeitos=" + listaPedidosFeitos +
+                ", pedidos=" + pedidos +
                 ", categorias=" + categorias +
                 '}';
     }

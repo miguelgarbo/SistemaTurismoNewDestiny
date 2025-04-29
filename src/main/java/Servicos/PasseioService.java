@@ -1,7 +1,9 @@
 package Servicos;
 
 import Entidades.CategoriaEntity;
+import Entidades.DiaEntity;
 import Entidades.PasseioEntity;
+import Entidades.RoteiroPersonalizadoEntity;
 import Repositorio.PasseioRepository;
 
 import javax.transaction.Transactional;
@@ -136,6 +138,24 @@ public class PasseioService {
 
         System.out.println("Passeio '" + passeioNovo.getTitulo() + "' cadastrado com sucesso!");
     }
+
+    public void removerPasseioRoteiroPorId(Long idPasseio, RoteiroPersonalizadoEntity roteiroPersonalizado) {
+        if (idPasseio != null) {
+            PasseioEntity passeio = passeioRepository.findById(idPasseio);
+            if (passeio != null) {
+                // Remove da lista principal de passeios do roteiro
+                roteiroPersonalizado.getPasseios().remove(passeio);
+
+                // Remove de cada dia do roteiro, se existir
+                if (roteiroPersonalizado.getDias() != null) {
+                    for (DiaEntity dia : roteiroPersonalizado.getDias()) {
+                        dia.getPasseios().remove(passeio);
+                    }
+                }
+            }
+        }
+    }
+
 
 }
 

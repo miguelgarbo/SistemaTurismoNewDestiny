@@ -1,5 +1,4 @@
 package Servicos;
-
 import Entidades.UsuarioEntity;
 import Repositorio.CartaoRepositorio;
 import Repositorio.PacoteTuristicoRepository;
@@ -8,6 +7,7 @@ import Repositorio.UsuarioRepository;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,7 +37,7 @@ public class UsuarioService {
 
     private final CartaoService cartaoService;
 
-    private Long idLogged;
+    private UsuarioEntity idLoggedUser;
 
     private  final Scanner sc = new Scanner(System.in);
 
@@ -103,12 +103,12 @@ public class UsuarioService {
         }
     }
 
-    public Long getIdLogged() {
-        return idLogged;
+    public UsuarioEntity getidLoggedUser() {
+        return idLoggedUser;
     }
 
-    public void setIdLogged(Long idLogged) {
-        this.idLogged = idLogged;
+    public void setidLoggedUser(UsuarioEntity idLoggedUser) {
+        this.idLoggedUser = idLoggedUser;
     }
 
     public boolean menuLogin() {
@@ -126,7 +126,7 @@ public class UsuarioService {
             if (usuario.getEmail().equals(emailInformado) && usuario.getSenha().equals(senhaInformada)) {
                 System.out.println("Login Realizado Com Sucesso, Seja Bem Vindo " + usuario.getNome());
                 loginCorreto = true;
-                idLogged = usuario.getId();
+                idLoggedUser = usuario;
                 return true;
             }
         }
@@ -185,7 +185,7 @@ public class UsuarioService {
     }
 
 
-    public void alterarInformacoes(UsuarioEntity usuarioLogado) {
+    public void alterarInformacoesUsuario(UsuarioEntity usuarioLogado) {
         System.out.println("SUAS INFORMAÇÕES: ");
         System.out.println("1 - NOME: " + usuarioLogado.getNome());
         System.out.println("2 - SENHA: " + usuarioLogado.getSenha());
@@ -263,66 +263,50 @@ public class UsuarioService {
 
         switch (opcao) {
             case 1:
-                UsuarioEntity us = usuarioRepository.findById(idLogged);
-                pacoteTuristicoService.imprimirPacotesDisponiveisUser(pacoteTuristicoRepository.buscarTodos(), us);
+                pacoteTuristicoService.imprimirPacotesDisponiveisUser(pacoteTuristicoRepository.buscarTodos(), getidLoggedUser());
                 break;
-
             case 2:
-
                 passeioService.mostrarTodosPasseios(passeioRepository.buscarTodos());
                 break;
-
             case 3:
-                if (idLogged == null) {
+                if (idLoggedUser == null) {
                     System.out.println("Você precisa estar logado para criar um roteiro");
                 } else {
-                    UsuarioEntity usuarioLogged = usuarioRepository.findById(idLogged);
-                    roteiroPersonalizadoService.menuCadastro(usuarioLogged);
+                    roteiroPersonalizadoService.menuCadastro(getidLoggedUser());
                 }
 
                 break;
 
             case 4:
-                if (idLogged == null) {
+                if (idLoggedUser == null) {
                     System.out.println("Você precisa estar logado para ver seus roteiros.");
                     break;
                 }
 
-                UsuarioEntity usuarioLogged = usuarioRepository.findById(idLogged);
-
-                if (usuarioLogged == null) {
-                    System.out.println("Usuário não encontrado. Faça login novamente.");
-                    break;
-                }
-
-                if (usuarioLogged.getRoteirosCriados().isEmpty()) {
+                if (idLoggedUser.getRoteirosCriados().isEmpty()) {
                     System.out.println("Você ainda não possui roteiros criados.");
                 } else {
-                    roteiroPersonalizadoService.mostrarMeusRoteiros(usuarioLogged);
+                    roteiroPersonalizadoService.mostrarMeusRoteiros(idLoggedUser);
 
                 }
                 break;
 
             case 5:
-                if (idLogged == null) {
+                if (idLoggedUser == null) {
                     System.out.println("Você precisa estar logado para alterar suas informações.");
                     break;
                 }else{
-                    UsuarioEntity usuarioLogado = usuarioRepository.findById(idLogged);
-                    alterarInformacoes(usuarioLogado);
+                    alterarInformacoesUsuario(getidLoggedUser());
                 }
 
                 break;
             case 6:
                 CartaoService cartaoSevice = new CartaoService(cartaoRepositorio);
-                UsuarioEntity usuarioLogado = usuarioRepository.findById(idLogged);
-                cartaoSevice.cadastroCartao(usuarioLogado);
+                cartaoSevice.cadastroCartao(getidLoggedUser());
                 break;
 
             case 7:
-                UsuarioEntity usuarioLoged = usuarioRepository.findById(idLogged);
-                cartaoService.listarCartoes(usuarioLoged);
-
+                cartaoService.listarCartoes(getidLoggedUser());
                 break;
 
             case 8:
@@ -334,17 +318,6 @@ public class UsuarioService {
                 break;
 
         }
-    }
-
-    public void gerenciandoRoteiros(UsuarioEntity usuario){
-
-
-        System.out.println("1 - Gerenciar  ");
-
-
-    }
-    public void efetuarPagamentoUsuario(UsuarioEntity usuario){
-
     }
 
 
