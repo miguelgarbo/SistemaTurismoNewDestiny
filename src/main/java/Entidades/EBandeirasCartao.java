@@ -24,3 +24,4 @@ public enum EBandeirasCartao {
                 return label;
         }
 }
+

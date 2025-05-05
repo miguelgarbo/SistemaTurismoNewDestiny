@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class PagamentoService {
     @Inject
     private final PagamentoRepository pagamentoRepository;
+
     @Inject
     private final CartaoService cartaoService;
 

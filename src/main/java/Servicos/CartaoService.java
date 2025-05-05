@@ -21,9 +21,8 @@ public class CartaoService {
             cartao.setNomeCartao("Cartão Comum");
         }
 
-        if(cartao.getUsuario()==null || cartao.getUsuario().getCartoes().isEmpty()){
-
-            throw new IllegalArgumentException("nao pode criar cartao sem ta logado");
+        if (cartao.getUsuario() == null) {
+            throw new IllegalArgumentException("Não é possível criar cartão sem estar logado.");
         }
 
         if (cartao.getNumeroCartao() == null || cartao.getNumeroCartao().isEmpty()) {
@@ -94,8 +93,9 @@ public class CartaoService {
         System.out.println("Cartão cadastrado com secesso!");
     }
     public void listarCartoes(UsuarioEntity usuario){
-        if (usuario.getCartoes().isEmpty() && usuario.getCartoes() == null){
-            System.out.println("Nenhum Cartao Cadastrado");
+        if (usuario.getCartoes() == null || usuario.getCartoes().isEmpty()) {
+            System.out.println("Nenhum Cartão Cadastrado");
+            return;
         }
 
         for(int i=0; i<usuario.getCartoes().size();i++){
