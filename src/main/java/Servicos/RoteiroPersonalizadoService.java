@@ -257,7 +257,6 @@ public class RoteiroPersonalizadoService {
 
     public void gerenciandoRoteiros(UsuarioEntity usuario) {
 
-
         System.out.println("Informe o ID do roteiro: ");
         Long idRoteiroSelecionado = sc.nextLong();
 
@@ -266,8 +265,8 @@ public class RoteiroPersonalizadoService {
         System.out.println("Roteiro '" + roteiroEscolhido.getTitulo() + "' Escolhido\n");
         System.out.println("1 - Titulo : " + roteiroEscolhido.getTitulo());
         System.out.println("2 - Data Inicio : " + roteiroEscolhido.getDataInicio());
-        System.out.println("4 - Gerenciar os Passeios do Roteiro");
-        System.out.println("5 - Gerenciar os Dias/ Dias Com Passeios do Roteiro\n");
+        System.out.println("3 - Gerenciar os Passeios do Roteiro");
+        System.out.println("4 - Gerenciar os Dias/ Dias Com Passeios do Roteiro\n");
 
         if (roteiroEscolhido.getPasseios() == null || roteiroEscolhido.getPasseios().isEmpty()) {
             System.out.println("Sem Passeios Adicionados");

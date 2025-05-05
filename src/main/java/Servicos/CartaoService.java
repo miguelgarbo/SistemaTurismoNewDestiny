@@ -1,9 +1,6 @@
 package Servicos;
 
-import Entidades.CartaoEntity;
-import Entidades.CategoriaEntity;
-import Entidades.EBandeirasCartao;
-import Entidades.UsuarioEntity;
+import Entidades.*;
 import Repositorio.CartaoRepositorio;
 
 import javax.transaction.Transactional;
@@ -40,8 +37,10 @@ public class CartaoService {
     }
 
     public void cadastroCartao(UsuarioEntity usuario){
+        CartaoEntity cartaoNovo  = new CartaoEntity();
 
         EBandeirasCartao[] cartaoBandeiras = EBandeirasCartao.values();
+        EMetodosPagamento[] metodosPagamentos = EMetodosPagamento.values();
 
         System.out.println("==CADASTRO DE CARTAO==");
         System.out.println("Informe um nome ao Cartao: ");
@@ -51,8 +50,25 @@ public class CartaoService {
         String numeroCartao = sc.nextLine();
         System.out.println("Digite o Dígito de verificação");
         String numeroVerificador = sc.nextLine();
-        System.out.println("Digite método de pagamento: ");
-        String metodoPagamento = sc.nextLine();
+
+        System.out.println("Digite método de pagamento pelo número: ");
+
+        for(int i= 0 ;i<metodosPagamentos.length;i++){
+            System.out.println(i+ "-" + metodosPagamentos[i]);
+        }
+        int metodoPagamento = sc.nextInt();
+
+        if(metodoPagamento == 0 ){
+
+            cartaoNovo.setmetodo(EMetodosPagamento.débito.name());
+        } else if(metodoPagamento == 1){
+
+            cartaoNovo.setmetodo(EMetodosPagamento.crédito.name());
+        }else{
+
+
+            System.out.println("Metodo Invalido");
+        }
 
 
         System.out.println("Digite a Bandeira do Cartão De Acordo Com essas Abaixo:");
@@ -64,14 +80,13 @@ public class CartaoService {
 
         int bandeiraOpcao = sc.nextInt();
         sc.nextLine();
-        EBandeirasCartao bandeiraSelecionada = cartaoBandeiras[bandeiraOpcao];
 
-        CartaoEntity cartaoNovo  = new CartaoEntity();
+        EBandeirasCartao bandeiraSelecionada = EBandeirasCartao.values()[bandeiraOpcao];
+
         cartaoNovo.setNomeCartao(nomeCartao);
         cartaoNovo.setNumeroCartao(numeroCartao);
         cartaoNovo.setDigitoVerificador(numeroVerificador);
         cartaoNovo.setBandeira(bandeiraSelecionada);
-        cartaoNovo.setmetodo(metodoPagamento);
         cartaoNovo.setUsuario(usuario);
 
         usuario.addCartao(cartaoNovo);
