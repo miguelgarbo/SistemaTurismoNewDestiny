@@ -24,12 +24,13 @@ public class Main {
         CategoriaRepository categoriaRepository = new CategoriaRepository(em);
         //servicos das entidades
 
+
         CategoriaService categoriaService = new CategoriaService(categoriaRepository);
-        PasseioService passeioService = new PasseioService(passeioRepository, categoriaService);
-        PagamentoService pagamentoService = new PagamentoService(pagamentoRepository, cartaoService, pacoteTuristicoRepository,cartaoRepositorio, pedidoRepository);
+        PagamentoService pagamentoService = new PagamentoService(pagamentoRepository, cartaoService, passeioRepository,  pacoteTuristicoRepository,cartaoRepositorio, pedidoRepository);
+        PasseioService passeioService = new PasseioService(passeioRepository, categoriaService, pagamentoService);
         RoteiroPersonalizadoService roteiroPersonalizadoService = new RoteiroPersonalizadoService(roteiroPersonalizadoRepository, passeioService, passeioRepository);
         PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService(pacoteTuristicoRepository, pagamentoService, passeioRepository, passeioService, categoriaService);
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoService, cartaoRepositorio,cartaoService);
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository, pacoteTuristicoRepository,pacoteTuristicoService,passeioService,passeioRepository, roteiroPersonalizadoService, cartaoRepositorio,cartaoService, pagamentoService);
         AdministradorService administradorService = new AdministradorService(administradorRepository, pacoteTuristicoRepository, passeioRepository, usuarioRepository, pacoteTuristicoService, passeioService, usuarioService, categoriaService);
 
         Scanner sc = new Scanner(System.in);

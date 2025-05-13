@@ -1,6 +1,8 @@
 package Entidades;
 
 
+import Servicos.PagamentoService;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,11 @@ public class UsuarioEntity {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CartaoEntity> cartoes = new ArrayList<>();
 
-    public UsuarioEntity(String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos, List<RoteiroPersonalizadoEntity> roteirosCriados, List<CartaoEntity> cartoes) {
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<PagamentoEntity> pagamentos = new ArrayList<>();
+
+
+    public UsuarioEntity( String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos, List<RoteiroPersonalizadoEntity> roteirosCriados, List<CartaoEntity> cartoes, List<PagamentoEntity> pagamentos) {
         this.nome = nome;
         this.senha = senha;
         this.email = email;
@@ -33,6 +39,7 @@ public class UsuarioEntity {
         this.pedidos = pedidos;
         this.roteirosCriados = roteirosCriados;
         this.cartoes = cartoes;
+        this.pagamentos = pagamentos;
     }
 
     public UsuarioEntity(){}
@@ -47,6 +54,8 @@ public class UsuarioEntity {
                 ", numeroTelefone='" + numeroTelefone + '\'' +
                 ", pedidos=" + pedidos +
                 ", roteirosCriados=" + roteirosCriados +
+                ", cartoes=" + cartoes +
+                ", pagamentos=" + pagamentos +
                 '}';
     }
 
@@ -118,5 +127,19 @@ public class UsuarioEntity {
         this.cartoes = cartoes;
     }
 
+    public void addPedido(PedidoEntity pedido){
+        this.getPedidos().add(pedido);
+    }
 
+    public void addPagamento(PagamentoEntity pagamento){
+        this.getPagamentos().add(pagamento);
+    }
+
+    public List<PagamentoEntity> getPagamentos() {
+        return pagamentos;
+    }
+
+    public void setPagamentos(List<PagamentoEntity> pagamentos) {
+        this.pagamentos = pagamentos;
+    }
 }

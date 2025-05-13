@@ -20,7 +20,7 @@ public class RoteiroPersonalizadoEntity {
 
     private String titulo;
 
-    @OneToMany(mappedBy = "roteiro", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "roteiro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<DiaEntity> dias = new ArrayList<>();
 
     private LocalDate dataInicio;

@@ -3,6 +3,8 @@ package Entidades;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+
 @Entity
 @Table(name = "Pagamento")
 
@@ -19,6 +21,10 @@ public class PagamentoEntity {
     private String metodoPagamento;
     private StatusPagamento statusPagamento;
     private LocalDate data;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
 
     public PagamentoEntity(PedidoEntity pedido, String metodoPagamento, StatusPagamento statusPagamento, LocalDate data) {
         this.pedido = pedido;
@@ -37,6 +43,7 @@ public class PagamentoEntity {
                 ", metodoPagamento='" + metodoPagamento + '\'' +
                 ", statusPagamento=" + statusPagamento +
                 ", data=" + data +
+                ", usuario=" + usuario +
                 '}';
     }
 
@@ -78,5 +85,21 @@ public class PagamentoEntity {
 
     public void setData(LocalDate data) {
         this.data = data;
+    }
+
+    public PedidoEntity getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(PedidoEntity pedido) {
+        this.pedido = pedido;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 }

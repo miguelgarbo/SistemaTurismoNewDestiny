@@ -188,7 +188,7 @@ public class AdministradorService {
                         pacoteTuristicoService.cadastrarPacote();
                         break;
                     case 2:
-                        pacoteTuristicoService.imprimirPacotesDisponiveisAdm(pacoteTuristicoRepository.buscarTodos());
+                        pacoteTuristicoService.imprimirPacotesDisponiveis(pacoteTuristicoRepository.buscarTodos());
                         break;
                     case 3:
                         System.out.println("Saindo...");

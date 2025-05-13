@@ -16,11 +16,11 @@ public class PedidoEntity {
     private UsuarioEntity usuario;
 
     @ManyToOne()
-    @JoinColumn(name = "pacoteTuristico", nullable = true)
+    @JoinColumn(name = "pacoteTuristico")
     private PacoteTuristicoEntity pacoteTuristico;
 
     @ManyToOne()
-    @JoinColumn(name = "passeio", nullable = true)
+    @JoinColumn(name = "passeio")
     private PasseioEntity passeio;
 
     private Long quantidadeIngressos;
@@ -32,13 +32,16 @@ public class PedidoEntity {
     private PagamentoEntity pagamento;
 
 
-    public PedidoEntity(UsuarioEntity usuario, PacoteTuristicoEntity pacoteTuristico, Long quantidadeIngressos, BigDecimal valorTotal, StatusPagamento statusPagamento, LocalDate dataCompra) {
+    public PedidoEntity(Long id, UsuarioEntity usuario, PacoteTuristicoEntity pacoteTuristico, PasseioEntity passeio, Long quantidadeIngressos, BigDecimal valorTotal, StatusPagamento statusPagamento, LocalDate dataCompra, PagamentoEntity pagamento) {
+        this.id = id;
         this.usuario = usuario;
         this.pacoteTuristico = pacoteTuristico;
+        this.passeio = passeio;
         this.quantidadeIngressos = quantidadeIngressos;
         this.valorTotal = valorTotal;
         this.statusPagamento = statusPagamento;
         this.dataCompra = dataCompra;
+        this.pagamento = pagamento;
     }
 
     public PedidoEntity(){}
@@ -49,10 +52,12 @@ public class PedidoEntity {
                 "id=" + id +
                 ", usuario=" + usuario +
                 ", pacoteTuristico=" + pacoteTuristico +
+                ", passeio=" + passeio +
                 ", quantidadeIngressos=" + quantidadeIngressos +
                 ", valorTotal=" + valorTotal +
                 ", statusPagamento=" + statusPagamento +
                 ", dataCompra=" + dataCompra +
+                ", pagamento=" + pagamento +
                 '}';
     }
 
@@ -110,6 +115,38 @@ public class PedidoEntity {
 
     public void setDataCompra(LocalDate dataCompra) {
         this.dataCompra = dataCompra;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    public PacoteTuristicoEntity getPacoteTuristico() {
+        return pacoteTuristico;
+    }
+
+    public void setPacoteTuristico(PacoteTuristicoEntity pacoteTuristico) {
+        this.pacoteTuristico = pacoteTuristico;
+    }
+
+    public PasseioEntity getPasseio() {
+        return passeio;
+    }
+
+    public void setPasseio(PasseioEntity passeio) {
+        this.passeio = passeio;
+    }
+
+    public PagamentoEntity getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(PagamentoEntity pagamento) {
+        this.pagamento = pagamento;
     }
 }
 

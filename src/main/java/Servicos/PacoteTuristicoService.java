@@ -110,7 +110,7 @@ public class PacoteTuristicoService {
         System.out.println("Pacote '" + pacoteNovo.getTitulo() + "' cadastrado com sucesso!");
     }
 
-    public void imprimirPacotesDisponiveisUser(List<PacoteTuristicoEntity> pacotes, UsuarioEntity usuario) {
+    public void imprimirPacotesDisponiveis(List<PacoteTuristicoEntity> pacotes, UsuarioEntity usuario) {
         System.out.println("==== Lista de Pacotes Turísticos ====");
 
         for (PacoteTuristicoEntity pacote : pacotes) {
@@ -145,11 +145,21 @@ public class PacoteTuristicoService {
                 System.out.println("Nenhuma categoria inclusa");
 
             }
-            pagamentoService.efetuarPagamento(usuario);
+
+            System.out.println("1 - realizar compra /// 2 - Sair");
+            int op = sc.nextInt();
+            sc.nextLine();
+
+            if(op ==1){
+
+                pagamentoService.efetuarPagamentoPacote(usuario);
+            }else {
+                return;
+            }
         }
     }
 
-    public void imprimirPacotesDisponiveisAdm(List<PacoteTuristicoEntity> pacotes) {
+    public void imprimirPacotesDisponiveis(List<PacoteTuristicoEntity> pacotes) {
         System.out.println("==== Lista de Pacotes Turísticos ====");
 
         for (PacoteTuristicoEntity pacote : pacotes) {

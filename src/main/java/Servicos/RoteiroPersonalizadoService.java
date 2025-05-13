@@ -29,6 +29,7 @@ public class RoteiroPersonalizadoService {
 
     public void cadastrarRoteiro(RoteiroPersonalizadoEntity roteiro) {
 
+
         if (roteiro.getTitulo() == null || roteiro.getTitulo().isEmpty()) {
 
             throw new IllegalArgumentException("Nome não pode ser Vazio");
@@ -70,8 +71,8 @@ public class RoteiroPersonalizadoService {
         for (int i = 0; i <= numeroDias; i++) {
             DiaEntity dia = new DiaEntity();
 
-            dia.setNumeroDoDia(i);
-            dia.setdataReal(dataInicioInformada.plusDays(i - 1));//definindo data dos dias
+            dia.setNumeroDoDia(i+1);
+            dia.setdataReal(dataInicioInformada.plusDays(i));
             roteiroNovo.adicionarDia(dia);
         }
 
@@ -80,9 +81,10 @@ public class RoteiroPersonalizadoService {
             passeioService.mostrarTodosPasseios(passeioRepository.buscarTodos());
             System.out.println("Informe o ID do Passeio que você ira adiciona: ");
             Long idPasseioInformado = sc.nextLong();
-            sc.nextLine(); //quebra linha
+            sc.nextLine();
 
             PasseioEntity passeioEscolhido = passeioRepository.findById(idPasseioInformado);
+
 
             if (passeioEscolhido != null) {
 
@@ -97,13 +99,27 @@ public class RoteiroPersonalizadoService {
                     case 1:
 
                         System.out.println("Informe o numero do dia em que o passeio pertence: ");
+                        for(DiaEntity dia : roteiroNovo.getDias()){
+
+                            System.out.println("Dia: "+ dia.getNumeroDoDia());
+                            System.out.println("Dia " + dia.getdataReal().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ": ");
+                        }
+
                         int numeroDia = sc.nextInt();
                         sc.nextLine();
 
                         if (numeroDia >= 1 && numeroDia <= numeroDias) {
-
                             DiaEntity diaSelecionado = roteiroNovo.getDias().get(numeroDia - 1);
-                            diaSelecionado.addPasseio(passeioEscolhido);
+
+                            if (validarPasseioNoDia(diaSelecionado, passeioEscolhido)) {
+                                System.out.println("Este passeio já está adicionado nesse dia!");
+                            } else {
+                                diaSelecionado.addPasseio(passeioEscolhido);
+                                System.out.println("Passeio adicionado ao dia " + numeroDia);
+                            }
+
+                        } else {
+                            System.out.println("Número de dia inválido.");
                         }
 
                         break;
@@ -219,6 +235,7 @@ public class RoteiroPersonalizadoService {
         if (diaSelecionado > 0 && diaSelecionado <= roteiro.getDias().size()) {
             DiaEntity dia = roteiro.getDias().get(diaSelecionado - 1);
 
+
             System.out.println("Dia escolhido para adicionar passeios: " + diaSelecionado);
 
             passeioService.mostrarTodosPasseios(passeioRepository.buscarTodos());
@@ -229,15 +246,17 @@ public class RoteiroPersonalizadoService {
 
             PasseioEntity passeioSelecionado = passeioRepository.findById(idPasseio);
 
-            if (passeioSelecionado != null) {
-                boolean passeioNoRoteiro = roteiro.getPasseios().contains(passeioSelecionado);
 
-                if (passeioNoRoteiro) {
+
+            if (passeioSelecionado != null) {
+
+                if (!validarPasseioNoDia(dia, passeioSelecionado)) {
                     dia.addPasseio(passeioSelecionado);
                     System.out.println("Passeio '" + passeioSelecionado.getTitulo() + "' adicionado ao dia " + diaSelecionado);
                 } else {
-                    System.out.println("Esse passeio ainda não foi adicionado ao roteiro. Adicione ele ao roteiro primeiro.");
+                    System.out.println("O passeio '" + passeioSelecionado.getTitulo() + "' já foi adicionado ao dia " + diaSelecionado + "!");
                 }
+
             } else {
                 System.out.println("Passeio inválido.");
             }
@@ -267,6 +286,8 @@ public class RoteiroPersonalizadoService {
         System.out.println("2 - Data Inicio : " + roteiroEscolhido.getDataInicio());
         System.out.println("3 - Gerenciar os Passeios do Roteiro");
         System.out.println("4 - Gerenciar os Dias/ Dias Com Passeios do Roteiro\n");
+        System.out.println("Informe o Campo vc gostaria de Modificar: ");
+
 
         if (roteiroEscolhido.getPasseios() == null || roteiroEscolhido.getPasseios().isEmpty()) {
             System.out.println("Sem Passeios Adicionados");
@@ -292,7 +313,6 @@ public class RoteiroPersonalizadoService {
             System.out.println("Ainda Nao Foi relacionado os dias com os passeios");
         }
 
-        System.out.println("Informe o Campo vc gostaria de Modificar: ");
         int campoSelecionado = sc.nextInt();
         sc.nextLine();
 
@@ -336,7 +356,6 @@ public class RoteiroPersonalizadoService {
                     System.out.println("Titulo Passeio: " + passeio.getTitulo());
                     System.out.println("Localização: " + passeio.getLocalizacao());
                 }
-
 
                 System.out.println("1 - Add Passeio no Roteiro // 2 - Excluir Passeio do Roteiro");
                 int opcaoSN = sc.nextInt();
@@ -440,6 +459,13 @@ public class RoteiroPersonalizadoService {
     }
 
 
+    public boolean validarPasseioNoDia(DiaEntity dia, PasseioEntity passeioSelecionado) {
+        return dia.getPasseios() != null && dia.getPasseios().contains(passeioSelecionado);
+    }
+
+
+
 }
+
 
 

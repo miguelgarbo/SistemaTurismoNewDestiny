@@ -4,44 +4,35 @@ import Repositorio.CartaoRepositorio;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
 import Repositorio.UsuarioRepository;
-
-import javax.inject.Inject;
 import javax.transaction.Transactional;
-
 import java.util.List;
 import java.util.Scanner;
 
 public class UsuarioService {
 
-    @Inject
     private final UsuarioRepository usuarioRepository;
 
-    @Inject
     private  final PacoteTuristicoRepository pacoteTuristicoRepository;
 
-    @Inject
     private  final  PacoteTuristicoService pacoteTuristicoService;
 
-    @Inject
     private final  PasseioService passeioService;
 
-    @Inject
     private final  PasseioRepository passeioRepository;
 
-
-
-    @Inject
     private  final RoteiroPersonalizadoService roteiroPersonalizadoService;
 
     private final CartaoRepositorio cartaoRepositorio;
 
     private final CartaoService cartaoService;
 
+    private final PagamentoService pagamentoService;
+
     private UsuarioEntity idLoggedUser;
 
     private  final Scanner sc = new Scanner(System.in);
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PacoteTuristicoRepository pacoteTuristicoRepository, PacoteTuristicoService pacoteTuristicoService, PasseioService passeioService, PasseioRepository passeioRepository, RoteiroPersonalizadoService roteiroPersonalizadoService, CartaoRepositorio cartaoRepositorio, CartaoService cartaoService) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PacoteTuristicoRepository pacoteTuristicoRepository, PacoteTuristicoService pacoteTuristicoService, PasseioService passeioService, PasseioRepository passeioRepository, RoteiroPersonalizadoService roteiroPersonalizadoService, CartaoRepositorio cartaoRepositorio, CartaoService cartaoService,PagamentoService pagamentoService) {
         this.usuarioRepository = usuarioRepository;
         this.pacoteTuristicoRepository = pacoteTuristicoRepository;
         this.pacoteTuristicoService = pacoteTuristicoService;
@@ -50,6 +41,7 @@ public class UsuarioService {
         this.roteiroPersonalizadoService = roteiroPersonalizadoService;
         this.cartaoRepositorio = cartaoRepositorio;
         this.cartaoService = cartaoService;
+        this.pagamentoService = pagamentoService;
     }
 
     @Transactional
@@ -103,7 +95,7 @@ public class UsuarioService {
         }
     }
 
-    public UsuarioEntity getidLoggedUser() {
+    public UsuarioEntity getUserLogged() {
         return idLoggedUser;
     }
 
@@ -254,25 +246,27 @@ public class UsuarioService {
         System.out.println("1 - Visualizar Pacotes Disponiveis: ");
         System.out.println("2 - Visualizar Passeios Diponiveis");
         System.out.println("3 - Criar Roteiro de Viagem");
-        System.out.println("4 - Visualizar Meus Roteiros Criados");
+        System.out.println("4 - Gerenciar Meus Roteiros Criados");
         System.out.println("5 - Editar Meus Dados");
         System.out.println("6 - Cadastrar Cartão");
         System.out.println("7 - Visualizar Meus Cartões");
-        System.out.println("8 - Voltar ao Menu");
+        System.out.println("8 - Visualizar Meus Pagamentos");
+        System.out.println("9 - Visualizar Pedidos Pendentes");
+        System.out.println("10 - Voltar ao Menu");
         int opcao = sc.nextInt();
 
         switch (opcao) {
             case 1:
-                pacoteTuristicoService.imprimirPacotesDisponiveisUser(pacoteTuristicoRepository.buscarTodos(), getidLoggedUser());
+                pacoteTuristicoService.imprimirPacotesDisponiveis(pacoteTuristicoRepository.buscarTodos(), getUserLogged());
                 break;
             case 2:
-                passeioService.mostrarTodosPasseios(passeioRepository.buscarTodos());
+                passeioService.mostrarTodosPasseios(passeioRepository.buscarTodos(), getUserLogged());
                 break;
             case 3:
                 if (idLoggedUser == null) {
                     System.out.println("Você precisa estar logado para criar um roteiro");
                 } else {
-                    roteiroPersonalizadoService.menuCadastro(getidLoggedUser());
+                    roteiroPersonalizadoService.menuCadastro(getUserLogged());
                 }
 
                 break;
@@ -296,23 +290,37 @@ public class UsuarioService {
                     System.out.println("Você precisa estar logado para alterar suas informações.");
                     break;
                 }else{
-                    alterarInformacoesUsuario(getidLoggedUser());
+                    alterarInformacoesUsuario(getUserLogged());
                 }
 
                 break;
             case 6:
                 CartaoService cartaoSevice = new CartaoService(cartaoRepositorio);
-                cartaoSevice.cadastroCartao(getidLoggedUser());
+                cartaoSevice.cadastroCartao(getUserLogged());
                 break;
 
             case 7:
-                cartaoService.listarCartoes(getidLoggedUser());
+                cartaoService.listarCartoes(getUserLogged());
                 break;
 
             case 8:
+
+                pagamentoService.mostrarHistoricoPagamentos(getUserLogged());
+
+                break;
+
+            case 9 :
+
+                pagamentoService.mostrarPedidosPendentes(getUserLogged());
+
+
+                break;
+
+            case 10:
+
                 System.out.println("Voltando ao menu principal...");
                 break;
-            default:
+                default:
 
                 System.out.println("case invalido");
                 break;

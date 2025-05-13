@@ -1,9 +1,6 @@
 package Servicos;
 
-import Entidades.CategoriaEntity;
-import Entidades.DiaEntity;
-import Entidades.PasseioEntity;
-import Entidades.RoteiroPersonalizadoEntity;
+import Entidades.*;
 import Repositorio.PasseioRepository;
 
 import javax.transaction.Transactional;
@@ -18,11 +15,14 @@ public class PasseioService {
 
     private final CategoriaService categoriaService;
 
+    private final PagamentoService pagamentoService;
+
     private final Scanner sc = new Scanner(System.in);
 
-    public PasseioService(PasseioRepository passeioRepository, CategoriaService categoriaService) {
+    public PasseioService(PasseioRepository passeioRepository, CategoriaService categoriaService, PagamentoService pagamentoService) {
         this.passeioRepository = passeioRepository;
         this.categoriaService = categoriaService;
+        this.pagamentoService = pagamentoService;
     }
 
     @Transactional
@@ -64,7 +64,7 @@ public class PasseioService {
     }
 
 
-    public void mostrarTodosPasseios(List<PasseioEntity> passeios) {
+    public void mostrarTodosPasseios(List<PasseioEntity> passeios, UsuarioEntity usuario) {
         System.out.println("==PASSEIOS DISPONIVEIS==");
         for (PasseioEntity passeio : passeios) {
             System.out.println("ID: " + passeio.getId());
@@ -84,20 +84,53 @@ public class PasseioService {
                 }
             }
         }
+        System.out.println("1 - realizar compra /// 2 - Sair");
+        int op = sc.nextInt();
+        sc.nextLine();
+
+        if(op ==1){
+
+            pagamentoService.efetuarPagamentoPasseio(usuario);
+        }else {
+            return;
+        }
+
     }
 
-    public void cadastrarPasseio() {
+    public void mostrarTodosPasseios(List<PasseioEntity> passeios) {
+        System.out.println("==PASSEIOS DISPONIVEIS==");
+        for (PasseioEntity passeio : passeios) {
+            System.out.println("ID: " + passeio.getId());
+            System.out.println("Título: " + passeio.getTitulo());
+            System.out.println("Descrição: " + passeio.getDescricao());
+            System.out.println("Localização: " + passeio.getLocalizacao());
+            System.out.println("Preço: " + passeio.getPreco());
+            System.out.println("Duração: " + passeio.getDuracao());
+            System.out.println("-------------------------------------");
 
-        String continuar;
-        PasseioEntity passeioNovo = new PasseioEntity();
+            if(passeio.getCategorias() != null && !passeio.getCategorias().isEmpty()){
+            System.out.println("Categorias Inclusas: ");
+            for(CategoriaEntity categoria : passeio.getCategorias()){
+                System.out.println("ID: "+ categoria.getId());
+                System.out.println("Titulo: "+ categoria.getNome());
+                System.out.println("-------------------------------------");
+            }
+        }
+    }
+}
 
-        System.out.println("== CADASTRO DE PASSEIO ==");
+public void cadastrarPasseio() {
 
-        System.out.print("Digite o título do Passeio: ");
-        passeioNovo.setTitulo(sc.nextLine());
+    String continuar;
+    PasseioEntity passeioNovo = new PasseioEntity();
 
-        System.out.print("Digite a Descrição do Passeio: ");
-        passeioNovo.setDescricao(sc.nextLine());
+    System.out.println("== CADASTRO DE PASSEIO ==");
+
+    System.out.print("Digite o título do Passeio: ");
+    passeioNovo.setTitulo(sc.nextLine());
+
+    System.out.print("Digite a Descrição do Passeio: ");
+    passeioNovo.setDescricao(sc.nextLine());
 
         System.out.print("Digite a Duração do Passeio:(ex: 2h30min) ");
         passeioNovo.setDuracao(sc.nextLine());
@@ -119,7 +152,7 @@ public class PasseioService {
 
             System.out.println("Informe o ID da Categoria: ");
             Long idCategoria = sc.nextLong();
-            sc.nextLine(); // consumir o ENTER
+            sc.nextLine();
             CategoriaEntity categoriaSelecionada = categoriaService.findById(idCategoria);
 
             if (categoriaSelecionada != null) {
