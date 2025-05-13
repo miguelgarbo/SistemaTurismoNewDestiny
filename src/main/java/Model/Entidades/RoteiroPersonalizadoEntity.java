@@ -1,12 +1,10 @@
-package Entidades;
+package Model.Entidades;
 
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Entity(name = "RoteiroPersonalizado")
 public class RoteiroPersonalizadoEntity {

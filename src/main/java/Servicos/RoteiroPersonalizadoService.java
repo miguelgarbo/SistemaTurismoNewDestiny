@@ -1,6 +1,9 @@
 package Servicos;
 
-import Entidades.*;
+import Model.Entidades.DiaEntity;
+import Model.Entidades.PasseioEntity;
+import Model.Entidades.RoteiroPersonalizadoEntity;
+import Model.Entidades.UsuarioEntity;
 import Repositorio.PasseioRepository;
 import Repositorio.RoteiroPersonalizadoRepository;
 

@@ -1,6 +1,6 @@
 package Repositorio;
 
-import Entidades.RoteiroPersonalizadoEntity;
+import Model.Entidades.RoteiroPersonalizadoEntity;
 
 import javax.persistence.EntityManager;
 import java.util.List;

@@ -1,6 +1,6 @@
 package Repositorio;
 
-import Entidades.AdministradorEntity;
+import Model.Entidades.AdministradorEntity;
 
 
 

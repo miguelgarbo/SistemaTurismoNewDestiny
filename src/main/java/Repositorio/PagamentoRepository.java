@@ -1,6 +1,6 @@
 package Repositorio;
 
-import Entidades.PagamentoEntity;
+import Model.Entidades.PagamentoEntity;
 
 import javax.persistence.EntityManager;
 

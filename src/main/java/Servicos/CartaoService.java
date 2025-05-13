@@ -1,6 +1,9 @@
 package Servicos;
 
-import Entidades.*;
+import Model.Entidades.CartaoEntity;
+import Model.Entidades.EBandeirasCartao;
+import Model.Entidades.EMetodosPagamento;
+import Model.Entidades.UsuarioEntity;
 import Repositorio.CartaoRepositorio;
 
 import javax.transaction.Transactional;

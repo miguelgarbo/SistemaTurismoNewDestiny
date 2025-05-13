@@ -1,6 +1,7 @@
-package SistemaTurismo;
+package View;
 import Repositorio.*;
 import Servicos.*;
+
 import javax.persistence.EntityManager;
 import java.util.Scanner;
 
@@ -67,9 +68,7 @@ public class Main {
                     break;
 
                 case 4:
-
                         administradorService.menuAdministrador();
-
                     break;
                 default:
                     System.out.println("Opcao Invalida");

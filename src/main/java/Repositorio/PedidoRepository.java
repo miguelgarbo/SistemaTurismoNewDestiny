@@ -1,6 +1,6 @@
 package Repositorio;
 
-import Entidades.PedidoEntity;
+import Model.Entidades.PedidoEntity;
 import javax.persistence.EntityManager;
 import java.util.List;
 

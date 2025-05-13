@@ -1,6 +1,6 @@
 package Repositorio;
 
-import Entidades.UsuarioEntity;
+import Model.Entidades.UsuarioEntity;
 
 
 import javax.persistence.EntityManager;

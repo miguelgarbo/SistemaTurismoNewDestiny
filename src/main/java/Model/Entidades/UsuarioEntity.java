@@ -1,7 +1,5 @@
-package Entidades;
+package Model.Entidades;
 
-
-import Servicos.PagamentoService;
 
 import javax.persistence.*;
 import java.util.ArrayList;

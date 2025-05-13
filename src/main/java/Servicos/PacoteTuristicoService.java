@@ -1,9 +1,9 @@
 package Servicos;
 
-import Entidades.CategoriaEntity;
-import Entidades.PacoteTuristicoEntity;
-import Entidades.PasseioEntity;
-import Entidades.UsuarioEntity;
+import Model.Entidades.CategoriaEntity;
+import Model.Entidades.PacoteTuristicoEntity;
+import Model.Entidades.PasseioEntity;
+import Model.Entidades.UsuarioEntity;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;
 

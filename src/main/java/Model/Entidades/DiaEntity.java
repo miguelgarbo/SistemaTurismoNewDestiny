@@ -1,4 +1,4 @@
-package Entidades;
+package Model.Entidades;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;

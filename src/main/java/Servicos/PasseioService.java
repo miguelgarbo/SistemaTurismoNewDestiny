@@ -1,6 +1,6 @@
 package Servicos;
 
-import Entidades.*;
+import Model.Entidades.*;
 import Repositorio.PasseioRepository;
 
 import javax.transaction.Transactional;

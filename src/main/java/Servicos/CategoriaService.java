@@ -1,6 +1,6 @@
 package Servicos;
 
-import Entidades.CategoriaEntity;
+import Model.Entidades.CategoriaEntity;
 import Repositorio.CategoriaRepository;
 import javax.inject.Inject;
 import javax.transaction.Transactional;

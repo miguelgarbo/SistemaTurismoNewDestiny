@@ -1,6 +1,6 @@
 package Repositorio;
 
-import Entidades.PacoteTuristicoEntity;
+import Model.Entidades.PacoteTuristicoEntity;
 
 import javax.persistence.EntityManager;
 import java.util.List;

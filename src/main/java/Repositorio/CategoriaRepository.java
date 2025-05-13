@@ -1,6 +1,6 @@
 package Repositorio;
 
-import Entidades.CategoriaEntity;
+import Model.Entidades.CategoriaEntity;
 import javax.persistence.EntityManager;
 import java.util.List;
 

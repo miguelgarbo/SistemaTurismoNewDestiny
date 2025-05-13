@@ -1,6 +1,6 @@
 package Servicos;
 
-import Entidades.AdministradorEntity;
+import Model.Entidades.AdministradorEntity;
 import Repositorio.AdministradorRepository;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;

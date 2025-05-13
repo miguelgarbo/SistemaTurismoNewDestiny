@@ -15,17 +15,17 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- ENTIDADES DO PROEJTO -->
-        <mapping class="Entidades.UsuarioEntity"/>
-        <mapping class="Entidades.PagamentoEntity"/>
-        <mapping class="Entidades.PedidoEntity"/>
-        <mapping class="Entidades.PasseioEntity"/>
-        <mapping class="Entidades.PacoteTuristicoEntity"/>
-        <mapping class="Entidades.RoteiroPersonalizadoEntity"/>
-        <mapping class="Entidades.FotoEntity"/>
-        <mapping class="Entidades.AdministradorEntity"/>
-        <mapping class="Entidades.DiaEntity"/>
-        <mapping class="Entidades.CategoriaEntity"></mapping>
-        <mapping class="Entidades.CartaoEntity"></mapping>
+        <mapping class="Model.Entidades.UsuarioEntity"/>
+        <mapping class="Model.Entidades.PagamentoEntity"/>
+        <mapping class="Model.Entidades.PedidoEntity"/>
+        <mapping class="Model.Entidades.PasseioEntity"/>
+        <mapping class="Model.Entidades.PacoteTuristicoEntity"/>
+        <mapping class="Model.Entidades.RoteiroPersonalizadoEntity"/>
+        <mapping class="Model.Entidades.FotoEntity"/>
+        <mapping class="Model.Entidades.AdministradorEntity"/>
+        <mapping class="Model.Entidades.DiaEntity"/>
+        <mapping class="Model.Entidades.CategoriaEntity"></mapping>
+        <mapping class="Model.Entidades.CartaoEntity"></mapping>
 
     </session-factory>
 </hibernate-configuration>

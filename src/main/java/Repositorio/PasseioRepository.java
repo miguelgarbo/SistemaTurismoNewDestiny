@@ -1,6 +1,6 @@
 package Repositorio;
 
-import Entidades.PasseioEntity;
+import Model.Entidades.PasseioEntity;
 
 
 import javax.persistence.EntityManager;

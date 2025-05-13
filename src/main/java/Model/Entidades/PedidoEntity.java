@@ -1,4 +1,4 @@
-package Entidades;
+package Model.Entidades;
 
 
 import javax.persistence.*;

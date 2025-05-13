@@ -1,5 +1,5 @@
 package Servicos;
-import Entidades.UsuarioEntity;
+import Model.Entidades.UsuarioEntity;
 import Repositorio.CartaoRepositorio;
 import Repositorio.PacoteTuristicoRepository;
 import Repositorio.PasseioRepository;

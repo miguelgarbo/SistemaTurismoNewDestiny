@@ -1,6 +1,6 @@
 package Servicos;
 
-import Entidades.*;
+import Model.Entidades.*;
 import Repositorio.*;
 
 import java.math.BigDecimal;
