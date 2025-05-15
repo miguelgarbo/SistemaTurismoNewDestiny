@@ -9,7 +9,7 @@ import java.util.List;
 
 public class AdministradorRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     public AdministradorRepository(EntityManager em) {
         this.em = em;

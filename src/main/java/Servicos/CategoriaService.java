@@ -2,16 +2,12 @@ package Servicos;
 
 import Model.Entidades.CategoriaEntity;
 import Repositorio.CategoriaRepository;
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Scanner;
 
 public class CategoriaService {
-    @Inject
-    private CategoriaRepository categoriaRepository;
 
-    private final Scanner sc = new Scanner(System.in);
+    private final CategoriaRepository categoriaRepository;
 
     public CategoriaService(CategoriaRepository categoriaRepository){
         this.categoriaRepository = categoriaRepository;
@@ -53,29 +49,6 @@ public class CategoriaService {
         return categoriaRepository.findById(id);
     }
 
-    public void mostrarTodasCategorias() {
 
-        System.out.println("==CATEGORIAS DISPONÍVEIS==");
-        for (CategoriaEntity categoria : buscarTodos()) {
-            System.out.println("ID: " + categoria.getId());
-            System.out.println("Nome: " + categoria.getNome());
-            System.out.println("Descrição: " + categoria.getDescricao());
-            System.out.println("-------------------------------------");
-        }
-    }
 
-    public void cadastrarCategoria() {
-        CategoriaEntity categoriaNova = new CategoriaEntity();
-
-        System.out.println("== CADASTRO DE CATEGORIA ==");
-
-        System.out.print("Digite o nome da categoria: ");
-        categoriaNova.setNome(sc.nextLine());
-
-        System.out.print("Digite a descrição da categoria: ");
-        categoriaNova.setDescricao(sc.nextLine());
-
-        cadastrar(categoriaNova);
-        System.out.println("Categoria '" + categoriaNova.getNome() + " cadastrada com sucesso!");
-    }
 } 

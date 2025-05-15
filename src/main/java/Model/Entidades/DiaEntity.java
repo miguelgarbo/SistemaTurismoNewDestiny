@@ -18,8 +18,14 @@ public class DiaEntity{
     @JoinColumn(name = "roteiro_id", nullable = false)
     private RoteiroPersonalizadoEntity roteiro;
 
-    @OneToMany(mappedBy = "dia", cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "dia_passeios",
+            joinColumns = @JoinColumn(name = "dia_id"),
+            inverseJoinColumns = @JoinColumn(name = "passeio_id")
+    )
     private List<PasseioEntity> passeios;
+
 
     // Métodos para adicionar passeios ao dia
 
@@ -28,8 +34,8 @@ public class DiaEntity{
             this.passeios = new ArrayList<>();
         }
         this.getPasseios().add(passeio);
-        passeio.setDia(this);
     }
+
 
     public List<PasseioEntity> getPasseios() {
         return passeios;

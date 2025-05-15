@@ -28,7 +28,6 @@ public class UsuarioEntity {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PagamentoEntity> pagamentos = new ArrayList<>();
 
-
     public UsuarioEntity( String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos, List<RoteiroPersonalizadoEntity> roteirosCriados, List<CartaoEntity> cartoes, List<PagamentoEntity> pagamentos) {
         this.nome = nome;
         this.senha = senha;
@@ -42,20 +41,7 @@ public class UsuarioEntity {
 
     public UsuarioEntity(){}
 
-    @Override
-    public String toString() {
-        return "UsuarioEntity{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", senha='" + senha + '\'' +
-                ", email='" + email + '\'' +
-                ", numeroTelefone='" + numeroTelefone + '\'' +
-                ", pedidos=" + pedidos +
-                ", roteirosCriados=" + roteirosCriados +
-                ", cartoes=" + cartoes +
-                ", pagamentos=" + pagamentos +
-                '}';
-    }
+
 
     public Long getId() {
         return id;

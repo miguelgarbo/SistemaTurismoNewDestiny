@@ -26,9 +26,8 @@ public class PasseioEntity {
     @OneToMany(mappedBy = "passeio", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<FotoEntity> listaFotos = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "dia_id")
-    private DiaEntity dia;
+    @ManyToMany(mappedBy = "passeios")
+    private List<DiaEntity> dias;
 
     @ManyToMany
     @JoinTable(
@@ -141,12 +140,13 @@ public class PasseioEntity {
         this.roteiros = roteiros;
     }
 
-    public DiaEntity getDia() {
-        return dia;
+
+    public List<DiaEntity> getDias() {
+        return dias;
     }
 
-    public void setDia(DiaEntity dia) {
-        this.dia = dia;
+    public void setDias(List<DiaEntity> dias) {
+        this.dias = dias;
     }
 
     public List<CategoriaEntity> getCategorias() {
@@ -162,19 +162,4 @@ public class PasseioEntity {
 
     }
 
-    @Override
-    public String toString() {
-        return "PasseioEntity{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", duracao='" + duracao + '\'' +
-                ", preco=" + preco +
-                ", localizacao='" + localizacao + '\'' +
-                ", horarios='" + horarios + '\'' +
-                ", pacotes=" + pacotes +
-                ", roteiros=" + roteiros +
-                ", listaFotos=" + listaFotos +
-                '}';
-    }
 }

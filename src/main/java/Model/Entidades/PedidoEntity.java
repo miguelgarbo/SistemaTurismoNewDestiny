@@ -31,7 +31,6 @@ public class PedidoEntity {
     @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
     private PagamentoEntity pagamento;
 
-
     public PedidoEntity(Long id, UsuarioEntity usuario, PacoteTuristicoEntity pacoteTuristico, PasseioEntity passeio, Long quantidadeIngressos, BigDecimal valorTotal, StatusPagamento statusPagamento, LocalDate dataCompra, PagamentoEntity pagamento) {
         this.id = id;
         this.usuario = usuario;
@@ -46,20 +45,6 @@ public class PedidoEntity {
 
     public PedidoEntity(){}
 
-    @Override
-    public String toString() {
-        return "PedidoEntity{" +
-                "id=" + id +
-                ", usuario=" + usuario +
-                ", pacoteTuristico=" + pacoteTuristico +
-                ", passeio=" + passeio +
-                ", quantidadeIngressos=" + quantidadeIngressos +
-                ", valorTotal=" + valorTotal +
-                ", statusPagamento=" + statusPagamento +
-                ", dataCompra=" + dataCompra +
-                ", pagamento=" + pagamento +
-                '}';
-    }
 
     public Long getId() {
         return id;
@@ -67,14 +52,6 @@ public class PedidoEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public UsuarioEntity getusuario() {
-        return usuario;
-    }
-
-    public void setusuario(UsuarioEntity usuario) {
-        this.usuario = usuario;
     }
 
     public PacoteTuristicoEntity getpacoteTuristico() {

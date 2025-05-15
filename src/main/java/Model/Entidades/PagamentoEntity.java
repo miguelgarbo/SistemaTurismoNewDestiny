@@ -22,29 +22,21 @@ public class PagamentoEntity {
     private LocalDate data;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", nullable = false)
     private UsuarioEntity usuario;
 
-    public PagamentoEntity(PedidoEntity pedido, String metodoPagamento, StatusPagamento statusPagamento, LocalDate data) {
+    public PagamentoEntity(Long id, PedidoEntity pedido, String metodoPagamento, StatusPagamento statusPagamento, LocalDate data, UsuarioEntity usuario) {
+        this.id = id;
         this.pedido = pedido;
         this.metodoPagamento = metodoPagamento;
         this.statusPagamento = statusPagamento;
         this.data = data;
+        this.usuario = usuario;
     }
 
     public PagamentoEntity(){}
 
-    @Override
-    public String toString() {
-        return "PagamentoEntity{" +
-                "id=" + id +
-                ", pedido=" + pedido +
-                ", metodoPagamento='" + metodoPagamento + '\'' +
-                ", statusPagamento=" + statusPagamento +
-                ", data=" + data +
-                ", usuario=" + usuario +
-                '}';
-    }
+
 
     public Long getId() {
         return id;

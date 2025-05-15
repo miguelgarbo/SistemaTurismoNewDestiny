@@ -2,6 +2,7 @@ package Repositorio;
 
 import Model.Entidades.CartaoEntity;
 import Model.Entidades.PacoteTuristicoEntity;
+import Model.Entidades.UsuarioEntity;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -28,10 +29,12 @@ public class CartaoRepositorio {
         em.getTransaction().commit();
     }
 
-    public List<CartaoEntity> buscarTodos(){
-        return em.createQuery("SELECT p FROM PacoteTuristico p", CartaoEntity.class).getResultList();
+    public List<CartaoEntity> buscarTodosPorUsuario(UsuarioEntity usuario) {
+        return em.createQuery(
+                        "SELECT c FROM CartaoEntity c WHERE c.usuario = :usuario", CartaoEntity.class)
+                .setParameter("usuario", usuario)
+                .getResultList();
     }
-
 
     /*public List<CartaoEntity> buscarPorTituloInicial(String prefixo){
 

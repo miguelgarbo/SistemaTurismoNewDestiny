@@ -112,15 +112,5 @@ public class PacoteTuristicoEntity {
         this.categorias = categorias;
     }
 
-    @Override
-    public String toString() {
-        return "PacoteTuristicoEntity{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", precoTotal=" + precoTotal +
-                ", passeios=" + passeios +
-                ", pedidos=" + pedidos +
-                ", categorias=" + categorias +
-                '}';
-    }
+
 }
