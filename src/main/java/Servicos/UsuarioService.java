@@ -1,6 +1,6 @@
 package Servicos;
 import Model.Entidades.UsuarioEntity;
-import Repositorio.UsuarioRepository;
+import Model.Repositorio.UsuarioRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 

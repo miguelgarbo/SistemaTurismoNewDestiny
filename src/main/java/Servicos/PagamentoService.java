@@ -1,7 +1,8 @@
 package Servicos;
 
+import Model.Repositorio.PagamentoRepository;
+import Model.Repositorio.PedidoRepository;
 import Model.Entidades.*;
-import Repositorio.*;
 
 public class PagamentoService {
     private final PagamentoRepository pagamentoRepository;

@@ -25,6 +25,8 @@ public class PedidoEntity {
 
     private Long quantidadeIngressos;
     private BigDecimal valorTotal;
+
+
     private StatusPagamento statusPagamento;
     private LocalDate dataCompra;
 
@@ -54,13 +56,6 @@ public class PedidoEntity {
         this.id = id;
     }
 
-    public PacoteTuristicoEntity getpacoteTuristico() {
-        return pacoteTuristico;
-    }
-
-    public void setpacoteTuristico(PacoteTuristicoEntity pacoteTuristico) {
-        this.pacoteTuristico = pacoteTuristico;
-    }
 
     public Long getQuantidadeIngressos() {
         return quantidadeIngressos;

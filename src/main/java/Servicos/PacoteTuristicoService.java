@@ -1,10 +1,8 @@
 package Servicos;
-import Model.Entidades.CategoriaEntity;
 import Model.Entidades.PacoteTuristicoEntity;
 import Model.Entidades.PasseioEntity;
-import Model.Entidades.UsuarioEntity;
-import Repositorio.PacoteTuristicoRepository;
-import Repositorio.PasseioRepository;
+import Model.Repositorio.PacoteTuristicoRepository;
+import Model.Repositorio.PasseioRepository;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;

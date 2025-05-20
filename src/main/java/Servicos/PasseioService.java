@@ -1,7 +1,7 @@
 package Servicos;
 
 import Model.Entidades.*;
-import Repositorio.PasseioRepository;
+import Model.Repositorio.PasseioRepository;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;

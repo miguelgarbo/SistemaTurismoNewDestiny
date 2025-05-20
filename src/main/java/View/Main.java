@@ -1,6 +1,6 @@
 package View;
 import Controller.*;
-import Repositorio.*;
+import Model.Repositorio.*;
 import Servicos.*;
 
 import javax.persistence.EntityManager;
@@ -14,7 +14,7 @@ public class Main {
         EntityManager em = CustomizerFactory.getEntityManager();
 
         // repositorios das entidades
-        RoteiroPersonalizadoRepository  roteiroPersonalizadoRepository= new RoteiroPersonalizadoRepository(em);
+        RoteiroPersonalizadoRepository roteiroPersonalizadoRepository = new RoteiroPersonalizadoRepository(em);
         PasseioRepository passeioRepository = new PasseioRepository(em);
         AdministradorRepository administradorRepository = new AdministradorRepository(em);
         CartaoRepositorio cartaoRepositorio = new CartaoRepositorio(em);
@@ -38,56 +38,19 @@ public class Main {
 
         /// MVC COISAS NOVAS ABAIXO
         CartaoController cartaoController = new CartaoController(cartaoService);
-        PagamentoController pagamentoController = new PagamentoController(cartaoController,cartaoService, passeioService, pagamentoService, pacoteTuristicoService, usuarioService);
+        PagamentoController pagamentoController = new PagamentoController(cartaoController, cartaoService, passeioService, pagamentoService, pacoteTuristicoService);
         CategoriaController categoriaController = new CategoriaController(categoriaService);
         PasseioController passeioController = new PasseioController(passeioService, categoriaService, categoriaController, pagamentoController);
         PacoteController pacoteController = new PacoteController(pacoteTuristicoService, pagamentoController, categoriaController, categoriaService, passeioController, passeioService);
 
-        RoteiroController roteiroController = new RoteiroController(roteiroPersonalizadoService,passeioService,passeioController);
-        UsuarioController usuarioController = new UsuarioController(usuarioService,roteiroController, passeioController, pacoteController, cartaoController, pagamentoController);
+        RoteiroController roteiroController = new RoteiroController(roteiroPersonalizadoService, passeioService, passeioController);
+
+        UsuarioController usuarioController = new UsuarioController(usuarioService, roteiroController, passeioController, pacoteController, cartaoController, pagamentoController);
         AdmnistradorController admController = new AdmnistradorController(administradorService, pacoteController, passeioController, usuarioController, categoriaController);
 
-        Scanner sc = new Scanner(System.in);
-        int opcao;
+        MenuPrincipal menuPrincipal = new MenuPrincipal(usuarioController, admController);
 
-        do {
-            System.out.println("==SISTEMA DE TURISMO (NEW DESTINY)==");
-            System.out.println("===MENU PRINCIPAL===");
-            System.out.println("1 - Login Como Usuário");
-            System.out.println("2 - Cadastrar Como Usuário");
-            System.out.println("3 - Entrar Como Usuario");
-            System.out.println("4 - Entrar Como Administrador");
-            System.out.println("5 - Sair");
-            System.out.println("Informe A opção: ");
-            opcao = sc.nextInt();
+        menuPrincipal.mostrarMenuPrincipal();
 
-            switch (opcao) {
-                case 1:
-                    if(usuarioController.getUserLogged()!=null){
-                        System.out.println("Voce ja esta logado");
-                        usuarioController.menuUsuario();
-
-                    }else {
-                        usuarioController.menuLogin();
-                    }
-                    break;
-
-                case 2:
-                    usuarioController.menuCadastroUsuario();
-                    break;
-
-                case 3:
-
-                    usuarioController.menuUsuario();
-                    break;
-
-                case 4:
-                        admController.menuAdministrador();
-                    break;
-                default:
-                    System.out.println("Opcao Invalida");
-                    break;
-            }
-        }while (opcao !=5);
     }
 }

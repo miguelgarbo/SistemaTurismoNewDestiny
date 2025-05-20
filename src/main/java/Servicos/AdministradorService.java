@@ -1,6 +1,6 @@
 package Servicos;
 import Model.Entidades.AdministradorEntity;
-import Repositorio.AdministradorRepository;
+import Model.Repositorio.AdministradorRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 

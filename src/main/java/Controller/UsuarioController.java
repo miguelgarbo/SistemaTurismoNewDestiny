@@ -1,7 +1,10 @@
 package Controller;
 
+import Model.Entidades.AdministradorEntity;
 import Model.Entidades.UsuarioEntity;
 import Servicos.UsuarioService;
+import View.Main;
+import View.MenuPrincipal;
 
 import java.util.Scanner;
 
@@ -14,6 +17,7 @@ public class UsuarioController {
     private final CartaoController cartaoController;
     private final PagamentoController pagamentoController;
     private UsuarioEntity getUserLogged; // usuário logado
+
     private final Scanner sc = new Scanner(System.in);
 
     public UsuarioController(UsuarioService service, RoteiroController roteiroController, PasseioController passeioController, PacoteController pacoteController, CartaoController cartaoController, PagamentoController pagamentoController) {
@@ -23,7 +27,7 @@ public class UsuarioController {
         this.pacoteController = pacoteController;
         this.cartaoController = cartaoController;
         this.pagamentoController = pagamentoController;
-    }
+  }
 
     public UsuarioEntity getUserLogged() {
         return getUserLogged;
@@ -120,6 +124,7 @@ public class UsuarioController {
                     break;
                 case 3:
                     System.out.println("Voltando ao menu anterior...");
+                    menuUsuario();
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -148,7 +153,7 @@ public class UsuarioController {
                     roteiroController.exibirMeusRoteiros(getUserLogged);
                     break;
                 case 3:
-                    System.out.println("Voltando ao menu anterior...");
+                    menuUsuario();
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -190,10 +195,11 @@ public class UsuarioController {
                     System.out.println("Tchau "+ getUserLogged.getNome());
                     System.out.println("Saindo da Conta");
                     setgetUserLogged(null);
+                    Main main = new Main();
                     break;
                 case 6:
                     System.out.println("Voltando ao menu anterior...");
-                    break;
+                    return;
                 default:
                     System.out.println("Opção inválida.");
             }
@@ -256,7 +262,7 @@ public class UsuarioController {
                     menuContaUsuario();
                     break;
                 case 4:
-                    System.out.println("Saindo... Até logo!");
+                    System.out.println("Tchau..."+ getUserLogged().getNome());
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");

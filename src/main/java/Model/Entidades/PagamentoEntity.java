@@ -18,6 +18,7 @@ public class PagamentoEntity {
     private PedidoEntity pedido;
 
     private String metodoPagamento;
+
     private StatusPagamento statusPagamento;
     private LocalDate data;
 
@@ -46,13 +47,6 @@ public class PagamentoEntity {
         this.id = id;
     }
 
-    public PedidoEntity getpedido() {
-        return pedido;
-    }
-
-    public void setpedido(PedidoEntity pedido) {
-        this.pedido = pedido;
-    }
 
     public String getMetodoPagamento() {
         return metodoPagamento;

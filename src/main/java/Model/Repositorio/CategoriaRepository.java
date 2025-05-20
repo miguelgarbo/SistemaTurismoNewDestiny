@@ -1,4 +1,4 @@
-package Repositorio;
+package Model.Repositorio;
 
 import Model.Entidades.CategoriaEntity;
 import javax.persistence.EntityManager;

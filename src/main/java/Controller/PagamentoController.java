@@ -13,21 +13,19 @@ public class PagamentoController {
 
     private final CartaoService cartaoService;
 
-    private final  PasseioService passeioService;
+    private final PasseioService passeioService;
 
     private final PagamentoService pagamentoService;
 
-    private final UsuarioService usuarioService;
 
     private final PacoteTuristicoService pacoteTuristicoService;
 
-    public PagamentoController(CartaoController cartaoController, CartaoService cartaoService, PasseioService passeioService, PagamentoService pagamentoService, PacoteTuristicoService pacoteTuristicoService, UsuarioService usuarioService) {
+    public PagamentoController(CartaoController cartaoController, CartaoService cartaoService, PasseioService passeioService, PagamentoService pagamentoService, PacoteTuristicoService pacoteTuristicoService) {
         this.cartaoController = cartaoController;
         this.cartaoService = cartaoService;
         this.passeioService = passeioService;
         this.pagamentoService = pagamentoService;
         this.pacoteTuristicoService = pacoteTuristicoService;
-        this.usuarioService = usuarioService;
     }
 
     private final Scanner sc = new Scanner(System.in);
@@ -61,7 +59,7 @@ public class PagamentoController {
             pedidoNovo.setUsuario(usuario);
             pedidoNovo.setDataCompra(LocalDate.now());
             pedidoNovo.setPasseio(passeioEscolhido);
-            pedidoNovo.setQuantidadeIngressos(quantidadeIngresso); // caso tenha esse campo
+            pedidoNovo.setQuantidadeIngressos(quantidadeIngresso);
             pedidoNovo.setValorTotal(valorTotal);
             pedidoNovo.setStatusPagamento(StatusPagamento.PENDENTE);
 
@@ -103,7 +101,7 @@ public class PagamentoController {
 
                         pagamento.setMetodoPagamento(cartao.getmetodo());
                         pagamento.setStatusPagamento(StatusPagamento.APROVADO);
-                        pagamento.setpedido(pedidoNovo);
+                        pagamento.setPedido(pedidoNovo);
                         pagamento.setData(LocalDate.now());
                         pagamento.setUsuario(usuario);
                         pagamentoService.cadastrarPagamento(pagamento);
@@ -120,7 +118,7 @@ public class PagamentoController {
         }
 
         public void menuPagarPacote(UsuarioEntity usuario) {
-            System.out.println("Digite o ID do pacote!");
+            System.out.println("Digite o ID do pacote:");
             Long idInformado = sc.nextLong();
             PacoteTuristicoEntity pacote = pacoteTuristicoService.buscarPorId(idInformado);
             System.out.println("Valor: " + pacote.getPrecoTotal());
@@ -130,7 +128,7 @@ public class PagamentoController {
             pedidoNovo.setUsuario(usuario);
             LocalDate dataAtual = LocalDate.now();
             pedidoNovo.setDataCompra(dataAtual);
-            pedidoNovo.setpacoteTuristico(pacote);
+            pedidoNovo.setPacoteTuristico(pacote);
             pedidoNovo.setValorTotal(pacote.getPrecoTotal());
             pedidoNovo.setStatusPagamento(StatusPagamento.PENDENTE);
             usuario.addPedido(pedidoNovo);
@@ -171,7 +169,7 @@ public class PagamentoController {
 
                     pagamento.setMetodoPagamento(cartao.getmetodo());
                     pagamento.setStatusPagamento(StatusPagamento.APROVADO);
-                    pagamento.setpedido(pedidoNovo);
+                    pagamento.setPedido(pedidoNovo);
                     pagamento.setData(LocalDate.now());
                     pagamento.setUsuario(pedidoNovo.getUsuario());
                     usuario.addPagamento(pagamento);
@@ -185,20 +183,52 @@ public class PagamentoController {
             }
         }
 
-        public void exibirHistoricoPagamentos(UsuarioEntity usuario){
+    public void exibirHistoricoPagamentos(UsuarioEntity usuario) {
+        System.out.println("Número de pagamentos do usuário: " + usuario.getPagamentos().size());
+        if (usuario.getPagamentos() != null && !usuario.getPagamentos().isEmpty()) {
+            for (PagamentoEntity pagamento : usuario.getPagamentos()) {
+                System.out.println("ID do Pagamento: " + pagamento.getId() + ", Status: " + pagamento.getStatusPagamento());
+                if (pagamento.getStatusPagamento() == StatusPagamento.APROVADO) {
+                    System.out.println("Pedido: " + pagamento.getPedido().getId());
+                    System.out.println("Valor Total Pago: " + pagamento.getPedido().getValorTotal());
+                    System.out.println("Data Compra: " + pagamento.getPedido().getDataCompra());
+                    System.out.println("Conteúdo: ");
+                    exibirDetalhesPedido(pagamento.getPedido());
+                    System.out.println("////////////////////////////////////\n");
+                }
+            }
+        } else {
+            System.out.println("Você ainda não realizou nenhum pagamento.");
+        }
+    }
 
-            if(!usuario.getPagamentos().isEmpty() || usuario.getPagamentos() ==null){
+    public void exibirDetalhesPedido(PedidoEntity pedido){
 
-                for(PagamentoEntity pagamento: usuario.getPagamentos()){
-                    System.out.println("Pedido: "+ pagamento.getpedido());
-                    System.out.println("Valor Total Pago: "+ pagamento.getpedido().getValorTotal());
-                    System.out.println("Data Compra: "+ pagamento.getpedido().getDataCompra());
+            if(pedido != null) {
+
+                System.out.println("STATUS PEDIDO: " + pedido.getStatusPagamento());
+                System.out.println("VALOR TOTAL: "+ pedido.getValorTotal());
+                System.out.println("CONTEÚDO: ");
+                if (pedido.getPacoteTuristico() != null) {
+
+                    System.out.println("Pacote Turistico: " + pedido.getPacoteTuristico().getTitulo());
+                    for (PasseioEntity passeio : pedido.getPacoteTuristico().getPasseios()) {
+
+                        System.out.println("- " + passeio.getTitulo());
+                    }
                 }
 
-            }else {
+                if (pedido.getPasseio() != null) {
 
-                System.out.println("Voce ainda n realizou nenhum pagamento");
+                    System.out.println("Passeio: ");
+                    System.out.println("- " + pedido.getPasseio().getTitulo());
+                    System.out.println("Quantidade Ingressos: " + pedido.getQuantidadeIngressos());
+                }
+            }else{
+                System.out.println("Pedido não encontrado.");
+                return;
             }
+
         }
 
         public void exibirPedidosPendentes(UsuarioEntity usuario) {
@@ -208,7 +238,10 @@ public class PagamentoController {
                 if (pedido.getStatusPagamento() == StatusPagamento.PENDENTE) {
                     System.out.println("ID:" + pedido.getId());
                     System.out.println("Data Pedido:" + pedido.getDataCompra());
-                    System.out.println("Status: "+ pedido.getStatusPagamento());
+
+                    System.out.println("Contéudo: ");
+                    exibirDetalhesPedido(pedido);
+                    System.out.println("////////////////////////////////////\n");
                     encontrou = true;
                 }
             }
@@ -245,13 +278,13 @@ public class PagamentoController {
 
                     pagamento.setMetodoPagamento(cartaoSelecionado.getmetodo());
                     pagamento.setStatusPagamento(StatusPagamento.APROVADO);
-                    pagamento.setpedido(pedidoSelecionado);
+                    pagamento.setPedido(pedidoSelecionado);
                     pagamento.setData(LocalDate.now());
                     pagamento.setUsuario(usuario);
                     pagamentoService.cadastrarPagamento(pagamento);
 
                     usuario.addPagamento(pagamento);
-                    System.out.println("Pagamento Realizado com Secesso!");
+                    System.out.println("Pagamento Realizado com Sucess!");
                 } else {
                     System.out.println("Saindo...");
                 }

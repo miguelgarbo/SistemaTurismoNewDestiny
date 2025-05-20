@@ -50,10 +50,6 @@ public class PacoteTuristicoEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getTitulo() {
         return titulo;
     }
@@ -71,19 +67,19 @@ public class PacoteTuristicoEntity {
     }
 
 
-    public List<PasseioEntity> getpasseios() {
+    public List<PasseioEntity> getPasseios() {
         return passeios;
     }
 
-    public void setpasseios(List<PasseioEntity> passeios) {
+    public void setPasseios(List<PasseioEntity> passeios) {
         this.passeios = passeios;
     }
 
-    public List<PedidoEntity> getpedidos() {
+    public List<PedidoEntity> getPedidos() {
         return pedidos;
     }
 
-    public void setpedidos(List<PedidoEntity> pedidos) {
+    public void setPedidos(List<PedidoEntity> pedidos) {
         this.pedidos = pedidos;
     }
 
@@ -96,13 +92,6 @@ public class PacoteTuristicoEntity {
         this.categorias.add(categoria);
     }
 
-    public List<PasseioEntity> getPasseios() {
-        return passeios;
-    }
-
-    public void setPasseios(List<PasseioEntity> passeios) {
-        this.passeios = passeios;
-    }
 
     public List<CategoriaEntity> getCategorias() {
         return categorias;

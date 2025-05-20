@@ -1,7 +1,7 @@
 package Servicos;
 
 import Model.Entidades.CategoriaEntity;
-import Repositorio.CategoriaRepository;
+import Model.Repositorio.CategoriaRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 

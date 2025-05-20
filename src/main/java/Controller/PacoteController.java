@@ -72,9 +72,9 @@ public class PacoteController {
         System.out.printf("Título: %s\n", pacote.getTitulo());
         System.out.printf("Preço Total: R$ %.2f\n", pacote.getPrecoTotal());
 
-        if (pacote.getpasseios() != null || !pacote.getpasseios().isEmpty()) {
+        if (pacote.getPasseios() != null || !pacote.getPasseios().isEmpty()) {
             System.out.println("PASSEIOS INCLUSOS:");
-            for (PasseioEntity passeio : pacote.getpasseios()) {
+            for (PasseioEntity passeio : pacote.getPasseios()) {
                 System.out.println("ID PASSEIO: " + passeio.getId());
                 System.out.println("Título: " + passeio.getTitulo());
                 System.out.println("Descrição: " + passeio.getDescricao());
@@ -151,7 +151,7 @@ public class PacoteController {
 
         } while (continuar.equals("sim"));
 
-        pacoteNovo.setPrecoTotal(pacoteTuristicoService.somarValorPasseios(pacoteNovo.getpasseios()));
+        pacoteNovo.setPrecoTotal(pacoteTuristicoService.somarValorPasseios(pacoteNovo.getPasseios()));
 
         pacoteTuristicoService.cadastrar(pacoteNovo);
 

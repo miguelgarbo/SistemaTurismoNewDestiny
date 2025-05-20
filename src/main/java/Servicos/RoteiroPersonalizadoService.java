@@ -3,7 +3,7 @@ package Servicos;
 import Model.Entidades.DiaEntity;
 import Model.Entidades.PasseioEntity;
 import Model.Entidades.RoteiroPersonalizadoEntity;
-import Repositorio.RoteiroPersonalizadoRepository;
+import Model.Repositorio.RoteiroPersonalizadoRepository;
 
 import java.util.List;
 
