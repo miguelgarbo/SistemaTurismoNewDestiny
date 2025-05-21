@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Entidades.CategoriaEntity;
-import Servicos.CategoriaService;
+import Model.Servicos.CategoriaService;
 
 import java.util.Scanner;
 import java.util.List;

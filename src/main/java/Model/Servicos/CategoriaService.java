@@ -1,4 +1,4 @@
-package Servicos;
+package Model.Servicos;
 
 import Model.Entidades.CategoriaEntity;
 import Model.Repositorio.CategoriaRepository;

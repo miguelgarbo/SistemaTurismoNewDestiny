@@ -1,4 +1,4 @@
-package Servicos;
+package Model.Servicos;
 import Model.Entidades.AdministradorEntity;
 import Model.Repositorio.AdministradorRepository;
 import javax.transaction.Transactional;

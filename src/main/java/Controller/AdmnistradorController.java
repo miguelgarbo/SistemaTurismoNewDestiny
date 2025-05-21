@@ -2,7 +2,7 @@ package Controller;
 
 import Model.Entidades.AdministradorEntity;
 
-import Servicos.AdministradorService;
+import Model.Servicos.AdministradorService;
 
 import java.util.Scanner;
 

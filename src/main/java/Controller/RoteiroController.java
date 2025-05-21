@@ -4,8 +4,8 @@ import Model.Entidades.DiaEntity;
 import Model.Entidades.PasseioEntity;
 import Model.Entidades.RoteiroPersonalizadoEntity;
 import Model.Entidades.UsuarioEntity;
-import Servicos.PasseioService;
-import Servicos.RoteiroPersonalizadoService;
+import Model.Servicos.PasseioService;
+import Model.Servicos.RoteiroPersonalizadoService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,12 +13,9 @@ import java.util.Scanner;
 
 public class RoteiroController {
     
-       private final RoteiroPersonalizadoService roteiroPersonalizadoService;
-
+        private final RoteiroPersonalizadoService roteiroPersonalizadoService;
         private final PasseioService passeioService;
-
         private final PasseioController passeioController;
-
 
         private final Scanner sc = new Scanner(System.in);
 

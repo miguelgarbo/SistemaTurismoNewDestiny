@@ -4,7 +4,7 @@ import Model.Entidades.CartaoEntity;
 import Model.Entidades.EBandeirasCartao;
 import Model.Entidades.EMetodosPagamento;
 import Model.Entidades.UsuarioEntity;
-import Servicos.CartaoService;
+import Model.Servicos.CartaoService;
 
 import java.util.Scanner;
 

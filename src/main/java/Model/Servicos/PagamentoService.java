@@ -1,4 +1,4 @@
-package Servicos;
+package Model.Servicos;
 
 import Model.Repositorio.PagamentoRepository;
 import Model.Repositorio.PedidoRepository;

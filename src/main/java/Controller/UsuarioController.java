@@ -1,10 +1,8 @@
 package Controller;
 
-import Model.Entidades.AdministradorEntity;
 import Model.Entidades.UsuarioEntity;
-import Servicos.UsuarioService;
+import Model.Servicos.UsuarioService;
 import View.Main;
-import View.MenuPrincipal;
 
 import java.util.Scanner;
 

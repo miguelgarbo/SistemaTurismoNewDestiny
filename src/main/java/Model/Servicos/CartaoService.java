@@ -1,4 +1,4 @@
-package Servicos;
+package Model.Servicos;
 
 import Model.Entidades.*;
 import Model.Repositorio.CartaoRepositorio;

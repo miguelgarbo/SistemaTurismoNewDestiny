@@ -1,7 +1,10 @@
 package Controller;
 
 import Model.Entidades.*;
-import Servicos.*;
+import Model.Servicos.CartaoService;
+import Model.Servicos.PacoteTuristicoService;
+import Model.Servicos.PagamentoService;
+import Model.Servicos.PasseioService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

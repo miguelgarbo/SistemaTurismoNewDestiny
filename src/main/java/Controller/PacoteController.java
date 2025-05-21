@@ -4,9 +4,9 @@ import Model.Entidades.CategoriaEntity;
 import Model.Entidades.PacoteTuristicoEntity;
 import Model.Entidades.PasseioEntity;
 import Model.Entidades.UsuarioEntity;
-import Servicos.CategoriaService;
-import Servicos.PacoteTuristicoService;
-import Servicos.PasseioService;
+import Model.Servicos.CategoriaService;
+import Model.Servicos.PacoteTuristicoService;
+import Model.Servicos.PasseioService;
 
 import java.util.Scanner;
 

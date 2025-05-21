@@ -1,8 +1,8 @@
 package Controller;
 
 import Model.Entidades.*;
-import Servicos.CategoriaService;
-import Servicos.PasseioService;
+import Model.Servicos.CategoriaService;
+import Model.Servicos.PasseioService;
 
 import java.util.List;
 import java.util.Scanner;

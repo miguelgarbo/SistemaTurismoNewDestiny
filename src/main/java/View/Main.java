@@ -1,10 +1,9 @@
 package View;
 import Controller.*;
 import Model.Repositorio.*;
-import Servicos.*;
+import Model.Servicos.*;
 
 import javax.persistence.EntityManager;
-import java.util.Scanner;
 
 public class Main {
 
@@ -35,14 +34,12 @@ public class Main {
         UsuarioService usuarioService = new UsuarioService(usuarioRepository, roteiroPersonalizadoService);
         AdministradorService administradorService = new AdministradorService(administradorRepository);
 
-
         /// MVC COISAS NOVAS ABAIXO
         CartaoController cartaoController = new CartaoController(cartaoService);
         PagamentoController pagamentoController = new PagamentoController(cartaoController, cartaoService, passeioService, pagamentoService, pacoteTuristicoService);
         CategoriaController categoriaController = new CategoriaController(categoriaService);
         PasseioController passeioController = new PasseioController(passeioService, categoriaService, categoriaController, pagamentoController);
         PacoteController pacoteController = new PacoteController(pacoteTuristicoService, pagamentoController, categoriaController, categoriaService, passeioController, passeioService);
-
         RoteiroController roteiroController = new RoteiroController(roteiroPersonalizadoService, passeioService, passeioController);
 
         UsuarioController usuarioController = new UsuarioController(usuarioService, roteiroController, passeioController, pacoteController, cartaoController, pagamentoController);

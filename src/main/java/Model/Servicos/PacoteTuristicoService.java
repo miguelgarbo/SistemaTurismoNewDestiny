@@ -1,4 +1,4 @@
-package Servicos;
+package Model.Servicos;
 import Model.Entidades.PacoteTuristicoEntity;
 import Model.Entidades.PasseioEntity;
 import Model.Repositorio.PacoteTuristicoRepository;
