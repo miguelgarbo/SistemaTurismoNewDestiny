@@ -1,15 +1,24 @@
 package View;
 
+import Controller.UsuarioController;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.InputStream;
 import java.io.IOException;
 
 public class TelaCadastro extends JFrame {
+    
+    private UsuarioController usuarioController;
+    
+    public TelaCadastro(UsuarioController usuarioController){
+        this.usuarioController = usuarioController;
+    }
 
-    public TelaCadastro() {
-        // Configurações padrão da tela de login
-        setTitle("Tela de Login");
+    public void iniciarTela() {
+        setTitle("Tela de Cadastro");
         setSize(440, 920);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -68,25 +77,26 @@ public class TelaCadastro extends JFrame {
         containerTexts.setOpaque(false);
         containerTexts.setLayout(new BoxLayout(containerTexts, BoxLayout.Y_AXIS));
 
-        JLabel loginText = new JLabel("Cadastro");
+        JLabel cadastroText = new JLabel("Cadastro");
 
-        loginText.setFont(interFontBold.deriveFont(32f));
-        loginText.setForeground(Color.WHITE);
+        cadastroText.setFont(interFontBold.deriveFont(32f));
+        cadastroText.setForeground(Color.WHITE);
 
 
-        JLabel loginSubText = new JLabel("Junte-se a nós e aproveite !");
-        loginSubText.setFont(interFontBold);
-        loginSubText.setFont(interFontBold.deriveFont(16f));
+        JLabel cadastroSubText = new JLabel("Junte-se a nós e aproveite !");
+        cadastroSubText.setFont(interFontBold);
+        cadastroSubText.setFont(interFontBold.deriveFont(16f));
 
-        loginSubText.setForeground(Color.WHITE);
+        cadastroSubText.setForeground(Color.WHITE);
 
-        //alinhamentos
-        loginText.setAlignmentX(Component.LEFT_ALIGNMENT);
-        loginSubText.setAlignmentX(Component.LEFT_ALIGNMENT);
+         //alinhando
 
-        containerTexts.add(loginText);
+        cadastroText.setAlignmentX(Component.LEFT_ALIGNMENT);
+        cadastroSubText.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        containerTexts.add(cadastroText);
         containerTexts.add(Box.createVerticalStrut(10));
-        containerTexts.add(loginSubText);
+        containerTexts.add(cadastroSubText);
 
         /////////////////////////////////////////////////////////////
 
@@ -118,11 +128,29 @@ public class TelaCadastro extends JFrame {
         emailText.setAlignmentX(Component.LEFT_ALIGNMENT);
         fieldEmail.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
+
+        JLabel numeroText = new JLabel("Numero De Telefone: ");
+        numeroText.setFont(interFont.deriveFont(18f));
+        numeroText.setForeground(Color.WHITE);
+
+        JTextField fieldNumero = new JTextField( 15);
+        fieldNumero.setBackground(coresProjeto.corOpacaField);
+        fieldNumero.setOpaque(true);
+
+        fieldNumero.setForeground(Color.BLACK);
+        fieldNumero.setFont(interFontBold);
+        fieldNumero.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+
+        numeroText.setAlignmentX(Component.LEFT_ALIGNMENT);
+        fieldNumero.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
         JLabel senhaText = new JLabel("Senha");
         senhaText.setFont(interFont.deriveFont(18f));
         senhaText.setForeground(Color.WHITE);
 
-        JPasswordField fieldSenha = new JPasswordField( 15);
+        JTextField fieldSenha = new JTextField( 15);
         fieldSenha.setBackground(coresProjeto.corOpacaField);
         fieldSenha.setOpaque(true);
 
@@ -133,18 +161,61 @@ public class TelaCadastro extends JFrame {
         senhaText.setAlignmentX(Component.LEFT_ALIGNMENT);
         fieldSenha.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JButton buttonRegistrar = new JButton("Registrar");
 
-        JButton buttonLogin = new JButton("Entrar");
 
-        buttonLogin.setForeground(coresProjeto.corPrincipalAzul);
-        buttonLogin.setBackground(Color.WHITE);
+        JLabel mensagemStatus = new JLabel();
+        mensagemStatus.setForeground(Color.WHITE); // cor padrão
+        mensagemStatus.setFont(interFont.deriveFont(14f));
+        mensagemStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mensagemStatus.setVisible(false); // começa invisível
 
-        buttonLogin.setMaximumSize(new Dimension(250, 40));
+        buttonRegistrar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                String nomeInformado = fieldName.getText();
+                String emailInformado = fieldEmail.getText();
+                String senhaInformada = fieldSenha.getText();
+                String numeroInformado = fieldNumero.getText();
+                boolean cadastroOk = usuarioController.swingCadastro(nomeInformado, emailInformado,senhaInformada, numeroInformado);
+
+
+                if(cadastroOk){
+
+                    mensagemStatus.setText("Cadastro Realizado Com Sucesso");
+                    mensagemStatus.setForeground(Color.GREEN);
+                    mensagemStatus.setVisible(true);
+                    containerMain.revalidate();
+                    containerMain.repaint();
+                } else {
+                    mensagemStatus.setText("Dados Inválidos");
+                    mensagemStatus.setForeground(Color.RED);
+                    mensagemStatus.setVisible(true);
+                    containerMain.revalidate();
+                    containerMain.repaint();
+                }
+
+                // Timer para esconder após 3 segundos
+                new javax.swing.Timer(3000, event -> {
+                    mensagemStatus.setVisible(false);
+                    containerMain.revalidate();
+                    containerMain.repaint();
+                    ((javax.swing.Timer) event.getSource()).stop();
+                }).start();
+
+            }
+        });
+
+        buttonRegistrar.setForeground(coresProjeto.corPrincipalAzul);
+        buttonRegistrar.setBackground(Color.WHITE);
+
+        buttonRegistrar.setMaximumSize(new Dimension(250, 40));
 
         // Linha de adição na nossa div container main
         containerMain.add(containerTexts);
-        containerMain.add(Box.createVerticalStrut(100));
-
+        containerMain.add(Box.createVerticalStrut(70));
 
         containerMain.add(nameText);
         containerMain.add(fieldName);
@@ -153,6 +224,12 @@ public class TelaCadastro extends JFrame {
         containerMain.add(emailText);
         containerMain.add(Box.createVerticalStrut(5));
         containerMain.add(fieldEmail);
+        containerMain.add(Box.createVerticalStrut(40));
+
+
+        containerMain.add(numeroText);
+        containerMain.add(Box.createVerticalStrut(5));
+        containerMain.add(fieldNumero);
 
         containerMain.add(Box.createVerticalStrut(40));
         containerMain.add(senhaText);
@@ -160,7 +237,11 @@ public class TelaCadastro extends JFrame {
         containerMain.add(fieldSenha);
 
         containerMain.add(Box.createVerticalStrut(25));
-        containerMain.add(buttonLogin);
+        containerMain.add(buttonRegistrar);
+
+        containerMain.add(Box.createVerticalStrut(15));
+        containerMain.add(mensagemStatus);
+
 
         setContentPane(containerMain);
         setVisible(true);

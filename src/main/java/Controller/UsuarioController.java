@@ -53,6 +53,21 @@ public class UsuarioController {
         }
     }
 
+    public boolean loginSwing(String email, String senha) {
+        UsuarioEntity usuarioLogado = service.login(email, senha);
+
+        if (usuarioLogado != null) {
+            System.out.println("Login realizado com sucesso. Seja bem-vindo, " + usuarioLogado.getNome() + "!");
+            this.getUserLogged = usuarioLogado;
+            menuUsuario();
+            return true;  // login OK
+        } else {
+            System.out.println("Email ou senha incorretos.");
+            return false; // login falhou
+        }
+    }
+
+
     public void menuCadastroUsuario() {
         System.out.println("== CADASTRO DE USUÁRIO ==");
 
@@ -89,6 +104,37 @@ public class UsuarioController {
         } catch (IllegalArgumentException e) {
             System.out.println("Erro ao cadastrar: " + e.getMessage());
         }
+    }
+
+    public boolean swingEmailJaCadastrado(String email){
+        if (service.isEmailRegistrado(email)) {
+            System.out.println("Este email já está cadastrado!");
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public boolean swingCadastro(String nome, String email, String senha, String numeroTelefone){
+
+            try {
+                UsuarioEntity novoUsuario = new UsuarioEntity();
+                novoUsuario.setNome(nome);
+                novoUsuario.setEmail(email);
+                novoUsuario.setNumeroTelefone(numeroTelefone);
+                novoUsuario.setSenha(senha);
+
+                service.cadastrarUsuario(novoUsuario);
+
+                setgetUserLogged(novoUsuario);
+                System.out.println("Usuário cadastrado com sucesso! Seja bem-vindo(a), " + nome);
+                menuUsuario();
+                return true;
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro ao cadastrar: " + e.getMessage());
+                return false;
+            }
     }
 
     private void menuCompras(){

@@ -46,9 +46,14 @@ public class Main {
         AdmnistradorController admController = new AdmnistradorController(administradorService, pacoteController, passeioController, usuarioController, categoriaController);
 
         MenuPrincipal menuPrincipal = new MenuPrincipal(usuarioController, admController);
-//        new TelaCadastro();
-//         new TelaLogin();
-        menuPrincipal.mostrarMenuPrincipal();
+
+        TelaLogin telaLogin = new TelaLogin(usuarioController);
+        TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
+
+        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController);
+        telaVisualizacao.iniciarTela();
+
+//        menuPrincipal.mostrarMenuPrincipal();
 
     }
 }

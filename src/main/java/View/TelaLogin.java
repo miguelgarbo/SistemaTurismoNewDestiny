@@ -1,13 +1,22 @@
 package View;
 
+import Controller.UsuarioController;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.InputStream;
 import java.io.IOException;
 
 public class TelaLogin extends JFrame {
+    private UsuarioController usuarioController;
 
-    public TelaLogin() {
+    public TelaLogin(UsuarioController usuarioController) {
+        this.usuarioController = usuarioController;
+    }
+
+    public void iniciarTela() {
         // Configurações padrão da tela de login
         setTitle("Tela de Login");
         setSize(440, 920);
@@ -124,6 +133,49 @@ public class TelaLogin extends JFrame {
 
         JButton buttonLogin = new JButton("Entrar");
 
+        JLabel mensagemStatus = new JLabel();
+        mensagemStatus.setForeground(Color.WHITE); // cor padrão
+        mensagemStatus.setFont(interFont.deriveFont(14f));
+        mensagemStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mensagemStatus.setVisible(false); // começa invisível
+
+        buttonLogin.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.out.println(e);
+
+                String emailInformado = fieldEmail.getText();
+                var senhaInformada = new String(fieldSenha.getPassword());
+
+                boolean loginOk = usuarioController.loginSwing(emailInformado,senhaInformada);
+
+                if(loginOk){
+
+                    mensagemStatus.setText("Login Realizado Com Sucesso");
+                    mensagemStatus.setForeground(Color.GREEN);
+                    mensagemStatus.setVisible(true);
+                    containerMain.revalidate();
+                    containerMain.repaint();
+                } else {
+                    mensagemStatus.setText("Email ou Senha Inválidos");
+                    mensagemStatus.setForeground(Color.RED);
+                    mensagemStatus.setVisible(true);
+                    containerMain.revalidate();
+                    containerMain.repaint();
+                }
+
+                // Timer para esconder após 3 segundos
+                new javax.swing.Timer(3000, event -> {
+                    mensagemStatus.setVisible(false);
+                    containerMain.revalidate();
+                    containerMain.repaint();
+                    ((javax.swing.Timer) event.getSource()).stop();
+                }).start();
+
+            }
+        });
+
         buttonLogin.setForeground(coresProjeto.corPrincipalAzul);
         buttonLogin.setBackground(Color.WHITE);
 
@@ -144,6 +196,9 @@ public class TelaLogin extends JFrame {
 
         containerMain.add(Box.createVerticalStrut(25));
         containerMain.add(buttonLogin);
+        containerMain.add(Box.createVerticalStrut(15));
+        containerMain.add(mensagemStatus);
+
 
         setContentPane(containerMain);
         setVisible(true);
