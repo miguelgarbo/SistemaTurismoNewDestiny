@@ -144,7 +144,7 @@ public class TelaVisualizacao extends JFrame {
         filterRow.add(buttonFilterApply);
         filterRow.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JLabel text1 = new JLabel("Pacotes Disponiveis ! ");
+        JLabel text1 = new JLabel("<html><b>Pacotes Disponiveis !</b></html>");
         text1.setFont(interFontBold.deriveFont(20f));
         text1.setForeground(Color.WHITE);
 
@@ -179,7 +179,7 @@ public class TelaVisualizacao extends JFrame {
 
         //passeio section
 
-        JLabel text2 = new JLabel("Passeio Disponiveis ! ");
+        JLabel text2 = new JLabel("<html><b>Passeios Disponiveis !</b></html>");
         text2.setFont(interFontBold.deriveFont(20f));
         text2.setForeground(Color.WHITE);
         center.add(Box.createVerticalStrut(20));
