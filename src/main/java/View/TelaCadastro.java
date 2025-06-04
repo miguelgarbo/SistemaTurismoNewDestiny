@@ -77,7 +77,7 @@ public class TelaCadastro extends JFrame {
         containerTexts.setOpaque(false);
         containerTexts.setLayout(new BoxLayout(containerTexts, BoxLayout.Y_AXIS));
 
-        JLabel cadastroText = new JLabel("Cadastro");
+        JLabel cadastroText = new JLabel("<html><b>Cadastro</b></html>");
 
         cadastroText.setFont(interFontBold.deriveFont(32f));
         cadastroText.setForeground(Color.WHITE);
@@ -100,8 +100,8 @@ public class TelaCadastro extends JFrame {
 
         /////////////////////////////////////////////////////////////
 
-        JLabel nameText = new JLabel("Nome: ");
-        nameText.setFont(interFont.deriveFont(18f));
+        JLabel nameText = new JLabel("<html><b>Nome</b></html>");
+        nameText.setFont(interFont.deriveFont(16f));
         nameText.setForeground(Color.WHITE);
 
         JTextField fieldName = new JTextField(15);
@@ -111,9 +111,9 @@ public class TelaCadastro extends JFrame {
         nameText.setAlignmentX(Component.LEFT_ALIGNMENT);
         fieldName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel emailText = new JLabel("Email:");
+        JLabel emailText = new JLabel("<html><b>Email</b></html>");
         emailText.setForeground(Color.WHITE);
-        emailText.setFont(interFont.deriveFont(18f));
+        emailText.setFont(interFont.deriveFont(16f));
 
 
         JTextField fieldEmail = new JTextField(15);
@@ -130,8 +130,8 @@ public class TelaCadastro extends JFrame {
 
 
 
-        JLabel numeroText = new JLabel("Numero De Telefone: ");
-        numeroText.setFont(interFont.deriveFont(18f));
+        JLabel numeroText = new JLabel("<html><b>Numero Telefone</b></html>");
+        numeroText.setFont(interFont.deriveFont(16f));
         numeroText.setForeground(Color.WHITE);
 
         JTextField fieldNumero = new JTextField( 15);
@@ -146,8 +146,8 @@ public class TelaCadastro extends JFrame {
         fieldNumero.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
-        JLabel senhaText = new JLabel("Senha");
-        senhaText.setFont(interFont.deriveFont(18f));
+        JLabel senhaText = new JLabel("<html><b>Senha</b></html>");
+        senhaText.setFont(interFont.deriveFont(16f));
         senhaText.setForeground(Color.WHITE);
 
         JTextField fieldSenha = new JTextField( 15);
@@ -162,6 +162,16 @@ public class TelaCadastro extends JFrame {
         fieldSenha.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton buttonRegistrar = new JButton("Registrar");
+        buttonRegistrar.setForeground(new Color(0x1c9430));
+        buttonRegistrar.setBackground(Color.WHITE);
+
+        buttonRegistrar.setMaximumSize(new Dimension(250, 40));
+
+        JButton buttonLogin = new JButton("Login");
+        buttonLogin.setForeground(coresProjeto.corAzulSecundaria);
+        buttonLogin.setBackground(Color.WHITE);
+
+        buttonLogin.setMaximumSize(new Dimension(250, 40));
 
 
         JLabel mensagemStatus = new JLabel();
@@ -208,14 +218,20 @@ public class TelaCadastro extends JFrame {
             }
         });
 
-        buttonRegistrar.setForeground(coresProjeto.corPrincipalAzul);
-        buttonRegistrar.setBackground(Color.WHITE);
+        buttonLogin.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
 
-        buttonRegistrar.setMaximumSize(new Dimension(250, 40));
+                TelaCadastro.this.setVisible(false);
+                TelaLogin telaLogin = new TelaLogin(usuarioController);
+                telaLogin.iniciarTela();
+            }
+        });
 
         // Linha de adição na nossa div container main
         containerMain.add(containerTexts);
-        containerMain.add(Box.createVerticalStrut(70));
+        containerMain.add(Box.createVerticalStrut(50));
 
         containerMain.add(nameText);
         containerMain.add(fieldName);
@@ -238,6 +254,8 @@ public class TelaCadastro extends JFrame {
 
         containerMain.add(Box.createVerticalStrut(25));
         containerMain.add(buttonRegistrar);
+        containerMain.add(Box.createVerticalStrut(5));
+        containerMain.add(buttonLogin);
 
         containerMain.add(Box.createVerticalStrut(15));
         containerMain.add(mensagemStatus);

@@ -4,6 +4,7 @@ import Model.Repositorio.*;
 import Model.Servicos.*;
 
 import javax.persistence.EntityManager;
+import java.awt.font.TextLayout;
 
 public class Main {
 
@@ -48,10 +49,17 @@ public class Main {
         MenuPrincipal menuPrincipal = new MenuPrincipal(usuarioController, admController);
 
         TelaLogin telaLogin = new TelaLogin(usuarioController);
-        TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
+//        telaLogin.iniciarTela();
 
-        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController);
-        telaVisualizacao.iniciarTela();
+        TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
+//        telaCadastro.iniciarTela();
+
+        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado();
+        telaRoteiroSelecionado.iniciarTela();
+
+//        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController);
+//        telaVisualizacao.iniciarTela();
+
 
 //        TelaRoteiros telaRoteiros = new TelaRoteiros();
 //        telaRoteiros.inicarTela();

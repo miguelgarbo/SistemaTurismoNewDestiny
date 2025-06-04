@@ -77,7 +77,7 @@ public class TelaLogin extends JFrame {
         containerTexts.setOpaque(false);
         containerTexts.setLayout(new BoxLayout(containerTexts, BoxLayout.Y_AXIS));
 
-        JLabel loginText = new JLabel("Login");
+        JLabel loginText = new JLabel("<html><b>Login</b></html>");
 
         loginText.setFont(interFontBold.deriveFont(32f));
         loginText.setForeground(Color.WHITE);
@@ -99,7 +99,7 @@ public class TelaLogin extends JFrame {
 
         /////////////////////////////////////////////////////////////
 
-        JLabel emailText = new JLabel("Email:");
+        JLabel emailText = new JLabel("<html><b>Email</b></html>");
         emailText.setForeground(Color.WHITE);
         emailText.setFont(interFont.deriveFont(18f));
 
@@ -107,7 +107,6 @@ public class TelaLogin extends JFrame {
         JTextField fieldEmail = new JTextField(15);
 
         fieldEmail.setBackground(coresProjeto.corOpacaField);
-        fieldEmail.setOpaque(true);
 
         fieldEmail.setForeground(Color.BLACK);
         fieldEmail.setFont(interFontBold); // Aplicar a fonte
@@ -116,13 +115,12 @@ public class TelaLogin extends JFrame {
         emailText.setAlignmentX(Component.LEFT_ALIGNMENT);
         fieldEmail.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel senhaText = new JLabel("Senha");
+        JLabel senhaText = new JLabel("<html><b>Senha</b></html>");
         senhaText.setFont(interFont.deriveFont(18f));
         senhaText.setForeground(Color.WHITE);
 
         JPasswordField fieldSenha = new JPasswordField( 15);
         fieldSenha.setBackground(coresProjeto.corOpacaField);
-        fieldSenha.setOpaque(true);
 
         fieldSenha.setForeground(Color.BLACK);
         fieldSenha.setFont(interFontBold);
@@ -132,6 +130,14 @@ public class TelaLogin extends JFrame {
         fieldSenha.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton buttonLogin = new JButton("Entrar");
+        buttonLogin.setForeground(new Color(0x1c9430));
+        buttonLogin.setBackground(Color.WHITE);
+        buttonLogin.setMaximumSize(new Dimension(250, 40));
+
+        JButton buttonRegister = new JButton("Cadastrar-se");
+        buttonRegister.setForeground(coresProjeto.corAzulSecundaria);
+        buttonRegister.setBackground(Color.WHITE);
+        buttonRegister.setMaximumSize(new Dimension(250, 40));
 
         JLabel mensagemStatus = new JLabel();
         mensagemStatus.setForeground(Color.WHITE); // cor padrão
@@ -176,10 +182,16 @@ public class TelaLogin extends JFrame {
             }
         });
 
-        buttonLogin.setForeground(coresProjeto.corPrincipalAzul);
-        buttonLogin.setBackground(Color.WHITE);
+        buttonRegister.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaLogin.this.setVisible(false);
+                TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
+                telaCadastro.iniciarTela();
+            }
+        });
 
-        buttonLogin.setMaximumSize(new Dimension(250, 40));
 
         // Linha de adição na nossa div container main
         containerMain.add(containerTexts);
@@ -196,6 +208,8 @@ public class TelaLogin extends JFrame {
 
         containerMain.add(Box.createVerticalStrut(25));
         containerMain.add(buttonLogin);
+        containerMain.add(Box.createVerticalStrut(5));
+        containerMain.add(buttonRegister);
         containerMain.add(Box.createVerticalStrut(15));
         containerMain.add(mensagemStatus);
 

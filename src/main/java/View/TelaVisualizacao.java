@@ -148,7 +148,7 @@ public class TelaVisualizacao extends JFrame {
         text1.setFont(interFontBold.deriveFont(20f));
         text1.setForeground(Color.WHITE);
 
-        center.add(Box.createVerticalStrut(10));
+        center.add(Box.createVerticalStrut(15));
         center.add(filterRow);
 
         center.add(Box.createVerticalStrut(15));
@@ -160,12 +160,26 @@ public class TelaVisualizacao extends JFrame {
         pacotesRow.setLayout(new FlowLayout());
         pacotesRow.setOpaque(false);
 
-        for (int i = 1; i <= 6; i++) {
-            JButton pacoteBtn = new JButton("Pacote " + i);
-            pacoteBtn.setPreferredSize(new Dimension(180, 190));
-            pacotesRow.add(pacoteBtn);
+        for (int i = 1; i <= 10; i++) {
+            JPanel pacotePanel = new JPanel();
+            pacotePanel.setLayout(new BorderLayout());
+            pacotePanel.setOpaque(false);
+            pacotePanel.setPreferredSize(new Dimension(170, 200)); // um pouco mais alto pra caber o label
+
+            JButton pacoteBtn = new JButton();
+            pacoteBtn.setPreferredSize(new Dimension(170, 180)); // mantém o tamanho original
+            pacotePanel.add(pacoteBtn, BorderLayout.NORTH); // botão na parte de cima
+
+            JLabel labelPacote = new JLabel("Pacote " + i, SwingConstants.CENTER);
+            labelPacote.setForeground(Color.WHITE);
+            labelPacote.setHorizontalAlignment(SwingConstants.CENTER);
+            labelPacote.setFont(interFont);
+            pacotePanel.add(labelPacote, BorderLayout.SOUTH);
+
+            pacotesRow.add(pacotePanel);
             pacotesRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
+
 
         JScrollPane scrollHorizontal = new JScrollPane(pacotesRow);
         scrollHorizontal.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -182,18 +196,34 @@ public class TelaVisualizacao extends JFrame {
         JLabel text2 = new JLabel("<html><b>Passeios Disponiveis !</b></html>");
         text2.setFont(interFontBold.deriveFont(20f));
         text2.setForeground(Color.WHITE);
-        center.add(Box.createVerticalStrut(20));
+        center.add(Box.createVerticalStrut(5));
         center.add(text2);
 
         JPanel passeioRow = new JPanel(new FlowLayout());
         passeioRow.setOpaque(false);
 
         for (int i = 1; i <= 6; i++) {
-            JButton passeioBtn = new JButton("Passeio " + i);
-            passeioBtn.setPreferredSize(new Dimension(180, 190));
-            passeioRow.add(passeioBtn);
+            JPanel passeioPanel = new JPanel();
+            passeioPanel.setLayout(new BorderLayout());
+            passeioPanel.setOpaque(false);
+            passeioPanel.setPreferredSize(new Dimension(170, 200)); // espaço para o label
+
+            JButton passeioBtn = new JButton();
+            passeioBtn.setPreferredSize(new Dimension(170, 180)); // mantém tamanho original
+            passeioPanel.add(passeioBtn, BorderLayout.NORTH); // botão em cima
+
+            JLabel labelPasseio = new JLabel("Passeio " + i, SwingConstants.CENTER);
+            labelPasseio.setForeground(Color.WHITE);
+            labelPasseio.setHorizontalAlignment(SwingConstants.CENTER);
+             labelPasseio.setFont(interFont); // descomente se quiser aplicar a fonte
+            passeioPanel.add(labelPasseio, BorderLayout.SOUTH); // label embaixo
+
+            passeioRow.add(passeioPanel);
             passeioRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
+
+
+
 
         JScrollPane scrollHorizontal2 = new JScrollPane(passeioRow);
         scrollHorizontal2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -204,10 +234,31 @@ public class TelaVisualizacao extends JFrame {
         scrollHorizontal2.getViewport().setOpaque(false);
         center.add(scrollHorizontal2);
 
-        new JScrollPane(containerMain).setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        add(containerMain);
-        setContentPane(containerMain);
+        // Scroll total na tela
+        JScrollPane mainScroll = new JScrollPane(containerMain);
+        mainScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        mainScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        mainScroll.getViewport().setOpaque(false); // mantém o fundo transparente
+        mainScroll.setOpaque(false);
+        mainScroll.setBorder(null);
+
+        //tirando o roller da tela
+        scrollHorizontal.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
+        scrollHorizontal.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        scrollHorizontal.setWheelScrollingEnabled(true); // ainda permite rolagem com o mouse
+
+        scrollHorizontal2.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
+        scrollHorizontal2.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        scrollHorizontal2.setWheelScrollingEnabled(true);
+
+        mainScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        mainScroll.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
+        mainScroll.setWheelScrollingEnabled(true);
+        //
+
+        setContentPane(mainScroll);
         setVisible(true);
+
 
     }
 }
