@@ -4,16 +4,17 @@ import Controller.UsuarioController;
 import Model.Entidades.UsuarioEntity;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.io.InputStream;
-
+import java.net.URL;
 
 public class TelaVisualizacao extends JFrame {
 
     private UsuarioController usuarioController;
+    private Font interFont = null;
+    private Font interFontBold = null;
 
     public TelaVisualizacao(UsuarioController usuarioController) {
         this.usuarioController = usuarioController;
@@ -27,53 +28,23 @@ public class TelaVisualizacao extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Carregar a fonte inter
-        Font interFont = null;
-        Font interFontBold = null;
+        interFont = FontLoader.loadFont("/fontsNewDestiny/Inter.ttc", 16f);
+        interFontBold = FontLoader.loadFont("/fontsNewDestiny/InterVariable.ttf", 16f);
 
-        try {
-            InputStream fontStream = getClass().getResourceAsStream("/fontsNewDestiny/Inter.ttc");
-            if (fontStream != null) {
-                interFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(16f);
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                ge.registerFont(interFont);
-            } else {
-                System.err.println("Fonte não encontrada!");
-            }
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            InputStream fontStream = getClass().getResourceAsStream("/fontsNewDestiny/InterVariable.ttf");
-            if (fontStream != null) {
-                interFontBold = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(16f);
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                ge.registerFont(interFontBold);
-            } else {
-                System.err.println("Fonte não encontrada!");
-            }
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
-
-        JPanel containerMain = new JPanel() {
-            Image img = new ImageIcon(getClass().getResource("/photos/backgroundMain.png")).getImage();
-
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-
+        BackgroundPanel containerMain = new BackgroundPanel("/photos/backgroundMain.png");
         containerMain.setLayout(new BorderLayout());
         containerMain.setBorder(BorderFactory.createEmptyBorder(30, 6, 30, 2));
 
         JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
         header.setOpaque(false);
 
-        ImageIcon imgIconND = new ImageIcon(getClass().getResource("/photos/logo.png"));
+        ImageIcon imgIconND = null;
+        URL logoUrl = getClass().getResource("/photos/logo.png");
+        if (logoUrl != null) {
+            imgIconND = new ImageIcon(logoUrl);
+        } else {
+            System.err.println("Imagem do logo New Destiny não encontrada: /photos/logo.png");
+        }
         JLabel iconNewDestiny = new JLabel();
         iconNewDestiny.setIcon(imgIconND);
         iconNewDestiny.setSize(100, 50);
@@ -81,12 +52,17 @@ public class TelaVisualizacao extends JFrame {
         JTextArea searchBar = new JTextArea("Pesquise Aqui ", 1, 15);
         searchBar.setPreferredSize(new Dimension(220, 27));
 
-        ImageIcon imgButton = new ImageIcon(getClass().getResource("/photos/menu.png"));
-
-        Image img = imgButton.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+        ImageIcon imgButton = null;
+        URL menuIconUrl = getClass().getResource("/photos/menu.png");
+        if (menuIconUrl != null) {
+            Image img = new ImageIcon(menuIconUrl).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+            imgButton = new ImageIcon(img);
+        } else {
+            System.err.println("Imagem do botão de menu não encontrada: /photos/menu.png");
+        }
 
         JButton miniMenuButton = new JButton();
-        miniMenuButton.setIcon(new ImageIcon(img));
+        miniMenuButton.setIcon(imgButton);
 
         miniMenuButton.setBorderPainted(false);
         miniMenuButton.setContentAreaFilled(false);
@@ -97,12 +73,10 @@ public class TelaVisualizacao extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
                 ModalMenu modalMenu = new ModalMenu(usuarioController);
                 modalMenu.iniciarModal(TelaVisualizacao.this);
             }
         });
-
 
         header.add(iconNewDestiny);
         header.add(Box.createHorizontalStrut(10));
@@ -129,11 +103,8 @@ public class TelaVisualizacao extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
-                // aplicar filtro
             }
         });
-
 
         JPanel filterRow = new JPanel();
         filterRow.setLayout(new BoxLayout(filterRow, BoxLayout.X_AXIS));
@@ -155,7 +126,6 @@ public class TelaVisualizacao extends JFrame {
         center.add(text1);
         containerMain.add(center, BorderLayout.CENTER);
 
-        //pacotes section
         JPanel pacotesRow = new JPanel();
         pacotesRow.setLayout(new FlowLayout());
         pacotesRow.setOpaque(false);
@@ -164,11 +134,11 @@ public class TelaVisualizacao extends JFrame {
             JPanel pacotePanel = new JPanel();
             pacotePanel.setLayout(new BorderLayout());
             pacotePanel.setOpaque(false);
-            pacotePanel.setPreferredSize(new Dimension(170, 200)); // um pouco mais alto pra caber o label
+            pacotePanel.setPreferredSize(new Dimension(170, 200));
 
             JButton pacoteBtn = new JButton();
-            pacoteBtn.setPreferredSize(new Dimension(170, 180)); // mantém o tamanho original
-            pacotePanel.add(pacoteBtn, BorderLayout.NORTH); // botão na parte de cima
+            pacoteBtn.setPreferredSize(new Dimension(170, 180));
+            pacotePanel.add(pacoteBtn, BorderLayout.NORTH);
 
             JLabel labelPacote = new JLabel("Pacote " + i, SwingConstants.CENTER);
             labelPacote.setForeground(Color.WHITE);
@@ -180,18 +150,49 @@ public class TelaVisualizacao extends JFrame {
             pacotesRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
 
-
         JScrollPane scrollHorizontal = new JScrollPane(pacotesRow);
         scrollHorizontal.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollHorizontal.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollHorizontal.setPreferredSize(new Dimension(300, 0));
+        // Ajustado a altura para permitir a visualização e rolagem
+        scrollHorizontal.setPreferredSize(new Dimension(370, 210));
         scrollHorizontal.setBorder(null);
         scrollHorizontal.setOpaque(false);
         scrollHorizontal.getViewport().setOpaque(false);
 
-        center.add(scrollHorizontal);
+        // Personaliza a barra de rolagem horizontal
+        JScrollBar horizontalScrollBar1 = scrollHorizontal.getHorizontalScrollBar();
+        horizontalScrollBar1.setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = new Color(100, 100, 100, 255);
+                this.trackColor = new Color(50, 50, 50, 255);
+            }
 
-        //passeio section
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return createZeroButton();
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return createZeroButton();
+            }
+
+            private JButton createZeroButton() {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+
+            @Override
+            public Dimension getPreferredSize(JComponent c) {
+                return new Dimension(super.getPreferredSize(c).width, 5); // Define a altura para 5 pixels
+            }
+        });
+
+        center.add(scrollHorizontal);
 
         JLabel text2 = new JLabel("<html><b>Passeios Disponiveis !</b></html>");
         text2.setFont(interFontBold.deriveFont(20f));
@@ -206,59 +207,109 @@ public class TelaVisualizacao extends JFrame {
             JPanel passeioPanel = new JPanel();
             passeioPanel.setLayout(new BorderLayout());
             passeioPanel.setOpaque(false);
-            passeioPanel.setPreferredSize(new Dimension(170, 200)); // espaço para o label
+            passeioPanel.setPreferredSize(new Dimension(170, 200));
 
             JButton passeioBtn = new JButton();
-            passeioBtn.setPreferredSize(new Dimension(170, 180)); // mantém tamanho original
-            passeioPanel.add(passeioBtn, BorderLayout.NORTH); // botão em cima
+            passeioBtn.setPreferredSize(new Dimension(170, 180));
+            passeioPanel.add(passeioBtn, BorderLayout.NORTH);
 
             JLabel labelPasseio = new JLabel("Passeio " + i, SwingConstants.CENTER);
             labelPasseio.setForeground(Color.WHITE);
             labelPasseio.setHorizontalAlignment(SwingConstants.CENTER);
-             labelPasseio.setFont(interFont); // descomente se quiser aplicar a fonte
-            passeioPanel.add(labelPasseio, BorderLayout.SOUTH); // label embaixo
+            labelPasseio.setFont(interFont);
+            passeioPanel.add(labelPasseio, BorderLayout.SOUTH);
 
             passeioRow.add(passeioPanel);
             passeioRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
 
-
-
-
         JScrollPane scrollHorizontal2 = new JScrollPane(passeioRow);
         scrollHorizontal2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollHorizontal2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollHorizontal2.setPreferredSize(new Dimension(300, 5));
+        // Ajustado a altura para permitir a visualização e rolagem
+        scrollHorizontal2.setPreferredSize(new Dimension(370, 210));
         scrollHorizontal2.setBorder(null);
         scrollHorizontal2.setOpaque(false);
         scrollHorizontal2.getViewport().setOpaque(false);
+
+        // Personaliza a barra de rolagem horizontal
+        JScrollBar horizontalScrollBar2 = scrollHorizontal2.getHorizontalScrollBar();
+        horizontalScrollBar2.setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = new Color(100, 100, 100, 255);
+                this.trackColor = new Color(50, 50, 50, 255);
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return createZeroButton();
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return createZeroButton();
+            }
+
+            private JButton createZeroButton() {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+
+            @Override
+            public Dimension getPreferredSize(JComponent c) {
+                return new Dimension(super.getPreferredSize(c).width, 5); // Define a altura para 5 pixels
+            }
+        });
         center.add(scrollHorizontal2);
 
-        // Scroll total na tela
         JScrollPane mainScroll = new JScrollPane(containerMain);
         mainScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         mainScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        mainScroll.getViewport().setOpaque(false); // mantém o fundo transparente
+        mainScroll.getViewport().setOpaque(false);
         mainScroll.setOpaque(false);
         mainScroll.setBorder(null);
 
-        //tirando o roller da tela
-        scrollHorizontal.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
-        scrollHorizontal.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        scrollHorizontal.setWheelScrollingEnabled(true); // ainda permite rolagem com o mouse
+        JScrollBar verticalScrollBar = mainScroll.getVerticalScrollBar();
+        verticalScrollBar.setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = new Color(100, 100, 100, 255);
+                this.trackColor = new Color(50, 50, 50, 255);
+            }
 
-        scrollHorizontal2.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
-        scrollHorizontal2.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return createZeroButton();
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return createZeroButton();
+            }
+
+            private JButton createZeroButton() {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+
+            @Override
+            public Dimension getPreferredSize(JComponent c) {
+                return new Dimension(5, super.getPreferredSize(c).height);
+            }
+        });
+
+        scrollHorizontal.setWheelScrollingEnabled(true);
         scrollHorizontal2.setWheelScrollingEnabled(true);
-
-        mainScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        mainScroll.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
         mainScroll.setWheelScrollingEnabled(true);
-        //
 
         setContentPane(mainScroll);
         setVisible(true);
-
-
     }
 }

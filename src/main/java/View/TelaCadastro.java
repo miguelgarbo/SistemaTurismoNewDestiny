@@ -2,17 +2,20 @@ package View;
 
 import Controller.UsuarioController;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.InputStream;
-import java.io.IOException;
+
 
 public class TelaCadastro extends JFrame {
-    
+
     private UsuarioController usuarioController;
-    
+
+    private Font interFont = null;
+    private Font interFontBold = null;
+
     public TelaCadastro(UsuarioController usuarioController){
         this.usuarioController = usuarioController;
     }
@@ -24,54 +27,14 @@ public class TelaCadastro extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Carregar a fonte inter
-        Font interFont = null;
-        Font interFontBold = null;
+        interFont = FontLoader.loadFont("/fontsNewDestiny/Inter.ttc", 16f);
+        interFontBold = FontLoader.loadFont("/fontsNewDestiny/InterVariable.ttf", 16f);
 
-        try {
-            // Carregar a fonte do classpath
-            InputStream fontStream = getClass().getResourceAsStream("/fontsNewDestiny/Inter.ttc");
-            if (fontStream != null) {
-                interFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(16f);
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                ge.registerFont(interFont);
-            } else {
-                System.err.println("Fonte não encontrada!");
-            }
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            // Carregar a fonte do classpath
-            InputStream fontStream = getClass().getResourceAsStream("/fontsNewDestiny/InterVariable.ttf");
-            if (fontStream != null) {
-                interFontBold = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(16f);
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                ge.registerFont(interFontBold);
-            } else {
-                System.err.println("Fonte não encontrada!");
-            }
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
-
-
-        // Painel com imagem de fundo
-        JPanel containerMain = new JPanel() {
-            Image img = new ImageIcon(getClass().getResource("/photos/backgroundMain.png")).getImage();
-
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-
-        CoresProjeto coresProjeto = new CoresProjeto();
-
+        BackgroundPanel containerMain = new BackgroundPanel("/photos/backgroundMain.png");
         containerMain.setLayout(new BoxLayout(containerMain, BoxLayout.Y_AXIS));
         containerMain.setBorder(BorderFactory.createEmptyBorder(30, 90, 30, 90));
+
+        CoresProjeto coresProjeto = new CoresProjeto();
 
         JPanel containerTexts = new JPanel();
         containerTexts.setOpaque(false);
@@ -82,14 +45,9 @@ public class TelaCadastro extends JFrame {
         cadastroText.setFont(interFontBold.deriveFont(32f));
         cadastroText.setForeground(Color.WHITE);
 
-
         JLabel cadastroSubText = new JLabel("Junte-se a nós e aproveite !");
-        cadastroSubText.setFont(interFontBold);
-        cadastroSubText.setFont(interFontBold.deriveFont(16f));
-
+        cadastroSubText.setFont(interFontBold.deriveFont(16f)); // Use deriveFont para aplicar o tamanho
         cadastroSubText.setForeground(Color.WHITE);
-
-         //alinhando
 
         cadastroText.setAlignmentX(Component.LEFT_ALIGNMENT);
         cadastroSubText.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -98,8 +56,6 @@ public class TelaCadastro extends JFrame {
         containerTexts.add(Box.createVerticalStrut(10));
         containerTexts.add(cadastroSubText);
 
-        /////////////////////////////////////////////////////////////
-
         JLabel nameText = new JLabel("<html><b>Nome</b></html>");
         nameText.setFont(interFont.deriveFont(16f));
         nameText.setForeground(Color.WHITE);
@@ -107,6 +63,7 @@ public class TelaCadastro extends JFrame {
         JTextField fieldName = new JTextField(15);
         fieldName.setBackground(coresProjeto.corOpacaField);
         fieldName.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        fieldName.setFont(interFontBold); // Aplicar a fonte
 
         nameText.setAlignmentX(Component.LEFT_ALIGNMENT);
         fieldName.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -115,20 +72,17 @@ public class TelaCadastro extends JFrame {
         emailText.setForeground(Color.WHITE);
         emailText.setFont(interFont.deriveFont(16f));
 
-
         JTextField fieldEmail = new JTextField(15);
 
         fieldEmail.setBackground(coresProjeto.corOpacaField);
         fieldEmail.setOpaque(true);
 
         fieldEmail.setForeground(Color.BLACK);
-        fieldEmail.setFont(interFontBold); // Aplicar a fonte
+        fieldEmail.setFont(interFontBold);
         fieldEmail.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
         emailText.setAlignmentX(Component.LEFT_ALIGNMENT);
         fieldEmail.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-
 
         JLabel numeroText = new JLabel("<html><b>Numero Telefone</b></html>");
         numeroText.setFont(interFont.deriveFont(16f));
@@ -144,7 +98,6 @@ public class TelaCadastro extends JFrame {
 
         numeroText.setAlignmentX(Component.LEFT_ALIGNMENT);
         fieldNumero.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
         JLabel senhaText = new JLabel("<html><b>Senha</b></html>");
         senhaText.setFont(interFont.deriveFont(16f));
@@ -173,12 +126,11 @@ public class TelaCadastro extends JFrame {
 
         buttonLogin.setMaximumSize(new Dimension(250, 40));
 
-
         JLabel mensagemStatus = new JLabel();
-        mensagemStatus.setForeground(Color.WHITE); // cor padrão
+        mensagemStatus.setForeground(Color.WHITE);
         mensagemStatus.setFont(interFont.deriveFont(14f));
         mensagemStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mensagemStatus.setVisible(false); // começa invisível
+        mensagemStatus.setVisible(false);
 
         buttonRegistrar.addMouseListener(new MouseAdapter() {
             @Override
@@ -191,9 +143,7 @@ public class TelaCadastro extends JFrame {
                 String numeroInformado = fieldNumero.getText();
                 boolean cadastroOk = usuarioController.swingCadastro(nomeInformado, emailInformado,senhaInformada, numeroInformado);
 
-
                 if(cadastroOk){
-
                     mensagemStatus.setText("Cadastro Realizado Com Sucesso");
                     mensagemStatus.setForeground(Color.GREEN);
                     mensagemStatus.setVisible(true);
@@ -207,7 +157,6 @@ public class TelaCadastro extends JFrame {
                     containerMain.repaint();
                 }
 
-                // Timer para esconder após 3 segundos
                 new javax.swing.Timer(3000, event -> {
                     mensagemStatus.setVisible(false);
                     containerMain.revalidate();
@@ -229,7 +178,6 @@ public class TelaCadastro extends JFrame {
             }
         });
 
-        // Linha de adição na nossa div container main
         containerMain.add(containerTexts);
         containerMain.add(Box.createVerticalStrut(50));
 
@@ -241,7 +189,6 @@ public class TelaCadastro extends JFrame {
         containerMain.add(Box.createVerticalStrut(5));
         containerMain.add(fieldEmail);
         containerMain.add(Box.createVerticalStrut(40));
-
 
         containerMain.add(numeroText);
         containerMain.add(Box.createVerticalStrut(5));
@@ -259,7 +206,6 @@ public class TelaCadastro extends JFrame {
 
         containerMain.add(Box.createVerticalStrut(15));
         containerMain.add(mensagemStatus);
-
 
         setContentPane(containerMain);
         setVisible(true);
