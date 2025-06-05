@@ -106,14 +106,19 @@ public class TelaLogin extends JFrame {
                 var senhaInformada = new String(fieldSenha.getPassword());
 
                 boolean loginOk = usuarioController.loginSwing(emailInformado,senhaInformada);
+                System.out.println(loginOk);
 
-                if(loginOk){
+                if(Boolean.TRUE.equals(loginOk)){
                     mensagemStatus.setText("Login Realizado Com Sucesso");
                     mensagemStatus.setForeground(Color.GREEN);
                     mensagemStatus.setVisible(true);
                     containerMain.revalidate();
                     containerMain.repaint();
                     containerMain.setVisible(false);
+                    dispose();
+                    System.out.println("Chamando tela de perfil...");
+                    TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController);
+                    telaPerfilUsuario.iniciarPerfilUsuário();
                 } else {
                     mensagemStatus.setText("Email ou Senha Inválidos");
                     mensagemStatus.setForeground(Color.RED);

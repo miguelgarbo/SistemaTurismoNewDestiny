@@ -42,6 +42,8 @@ public class TelaPerfilUsuario extends JFrame {
         buttonBack.setContentAreaFilled(false);
         buttonBack.setFocusPainted(false);
         buttonBack.setOpaque(false);
+        buttonBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
 
 
         ImageIcon imgLogo = new ImageIcon(getClass().getResource("/photos/logo.png"));
