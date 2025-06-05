@@ -113,6 +113,7 @@ public class TelaLogin extends JFrame {
                     mensagemStatus.setVisible(true);
                     containerMain.revalidate();
                     containerMain.repaint();
+                    containerMain.setVisible(false);
                 } else {
                     mensagemStatus.setText("Email ou Senha Inválidos");
                     mensagemStatus.setForeground(Color.RED);

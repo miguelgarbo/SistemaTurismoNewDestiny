@@ -76,6 +76,8 @@ public class TelaRoteiros extends JFrame {
         buttonBack.setFocusPainted(false);
         buttonBack.setOpaque(false);
 
+
+
         ImageIcon imgLogo = new ImageIcon(getClass().getResource("/photos/logo.png"));
         JLabel logoNew = new JLabel(imgLogo);
         logoNew.setSize(100,50);
