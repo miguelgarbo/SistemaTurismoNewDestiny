@@ -54,15 +54,18 @@ public class Main {
 //        TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
 //        telaCadastro.iniciarTela();
 
-//        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado();
+//        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado(usuarioController, pacoteController, passeioController);
 //        telaRoteiroSelecionado.iniciarTela();
 
-        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController);
-        telaVisualizacao.iniciarTela();
+//
+//        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+//        telaVisualizacao.iniciarTela();
 
+//        TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController);
+//        telaCriarRoteiro.iniciarTela();
 
-//        TelaRoteiros telaRoteiros = new TelaRoteiros();
-//        telaRoteiros.inicarTela();
+        TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController);
+        telaRoteiros.inicarTela();
 
 //        menuPrincipal.mostrarMenuPrincipal();
 

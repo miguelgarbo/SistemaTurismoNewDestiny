@@ -76,7 +76,7 @@ public class ModalMenu {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 System.out.println(e);
-                modal.dispose(); // <- Fecha o modal antes de abrir a nova janela
+                modal.dispose();
                 TelaLogin telaLogin = new TelaLogin(usuarioController);
                 telaLogin.iniciarTela();
             }
@@ -92,13 +92,12 @@ public class ModalMenu {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                modal.dispose(); // <- Fecha o modal antes de abrir a nova janela
+                modal.dispose();
                 TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
                 telaCadastro.iniciarTela();
             }
         });
 
-        // Botão Fechar
         JButton buttonFechar = new JButton("Fechar");
         buttonFechar.setBounds(100, 130, 150, 30);
         buttonFechar.setForeground(coresProjeto.corVermelha);

@@ -1,14 +1,29 @@
 package View;
 
+import Controller.PacoteController;
+import Controller.PasseioController;
+import Controller.UsuarioController;
+
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI; // Importe BasicScrollBarUI
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 
 public class TelaRoteiroSelecionado extends JFrame {
 
+    private UsuarioController usuarioController;
+    private PasseioController passeioController;
+    private PacoteController pacoteController;
     private Font interFont = null;
     private Font interFontBold = null;
+
+    public TelaRoteiroSelecionado(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController){
+        this.usuarioController =usuarioController;
+        this.pacoteController = pacoteController;
+        this.passeioController = passeioController;
+    }
 
     public void iniciarTela(){
 
@@ -44,6 +59,18 @@ public class TelaRoteiroSelecionado extends JFrame {
         buttonBack.setFocusPainted(false);
         buttonBack.setOpaque(false);
 
+        buttonBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+
+        buttonBack.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController,pacoteController);
+                telaVisualizacao.iniciarTela();
+            }
+        });
+
         ImageIcon imgLogo = null;
         URL logoUrl = getClass().getResource("/photos/logo.png");
         if (logoUrl != null) {
@@ -57,7 +84,7 @@ public class TelaRoteiroSelecionado extends JFrame {
 
         header.setOpaque(false);
         header.add(buttonBack);
-        header.add(Box.createHorizontalStrut(75));
+        header.add(Box.createHorizontalStrut(75)); // Seu strut original
         header.add(logoNew);
 
 // fim da header
@@ -67,7 +94,6 @@ public class TelaRoteiroSelecionado extends JFrame {
         titleRoteiro.setFont(interFontBold != null ? interFontBold.deriveFont(20f) : new Font("SansSerif", Font.BOLD, 20)); // Fallback para fonte
         titleRoteiro.setForeground(Color.WHITE);
         titleRoteiro.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
         JPanel rowTitle = new JPanel();
         rowTitle.setOpaque(false);
@@ -88,7 +114,7 @@ public class TelaRoteiroSelecionado extends JFrame {
         center.add(Box.createVerticalStrut(20));
 
         //criação dos dias
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 3; i++) {
             JPanel blocoDiaWrapper = createDayBlock(i);
             center.add(blocoDiaWrapper);
             if (i < 10) {
@@ -149,10 +175,10 @@ public class TelaRoteiroSelecionado extends JFrame {
     private JPanel createDayBlock(int diaEntidade) {
         JPanel blockDia = new JPanel();
         blockDia.setLayout(new BorderLayout());
-        blockDia.setBackground(new Color(7, 91, 95));
+        blockDia.setBackground(new Color(0x13A8AD >> 16 & 0xFF, 0x13A8AD >> 8 & 0xFF, 0x13A8AD & 0xFF, 102));
 
         JPanel topoPanel = new JPanel(new BorderLayout());
-        topoPanel.setBackground(new Color(7, 91, 95));
+        topoPanel.setBackground(new Color(0x13A8AD >> 16 & 0xFF, 0x13A8AD >> 8 & 0xFF, 0x13A8AD & 0xFF, 102));
         topoPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
         JLabel diaLabel = new JLabel("<html><b>Dia " + diaEntidade + "</b></html>");
@@ -193,7 +219,7 @@ public class TelaRoteiroSelecionado extends JFrame {
 
         // Layout principal
         JPanel centroPanel = new JPanel();
-        centroPanel.setBackground(new Color(7, 91, 95));
+        centroPanel.setBackground(new Color(0x13A8AD));
         centroPanel.setOpaque(false);
         centroPanel.setLayout(new BoxLayout(centroPanel, BoxLayout.Y_AXIS));
 
