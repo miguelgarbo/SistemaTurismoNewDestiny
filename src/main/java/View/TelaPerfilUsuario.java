@@ -64,7 +64,9 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        JLabel saudacao = new JLabel("Olá, Pablo!");
+        String nomeUsuário = usuarioController.getUserLogged().getNome();//retorna o nome do usuário Logado
+        String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
+        JLabel saudacao = new JLabel("Olá, " + nomeFormatado );
         saudacao.setFont(interFontBold.deriveFont(22f));
         saudacao.setForeground(Color.WHITE);
         saudacao.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -110,7 +112,8 @@ public class TelaPerfilUsuario extends JFrame {
                         System.out.println("Roteiros");
                         break;
                     case "Comprar Pacotes Prontos":
-                        System.out.println("Pacotes Prontos");
+                        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController);
+                        telaVisualizacao.iniciarTela();
                         break;
                     case "Métodos de Pagamento":
                         System.out.println("Métodos pagamento");
