@@ -80,7 +80,7 @@ public class TelaVisualizacao extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                ModalMenu modalMenu = new ModalMenu(usuarioController);
+                ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
                 modalMenu.iniciarModal(TelaVisualizacao.this);
             }
         });

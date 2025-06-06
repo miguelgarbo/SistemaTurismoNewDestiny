@@ -59,7 +59,7 @@ public class UsuarioController {
         if (usuarioLogado != null) {
             System.out.println("Login realizado com sucesso. Seja bem-vindo, " + usuarioLogado.getNome() + "!");
             this.getUserLogged = usuarioLogado;
-            menuUsuario();
+            //menuUsuario();  //necessário deixar essa parte comentada pois o terminal estava travando as janelas.
             return true;  // login OK
         } else {
             System.out.println("Email ou senha incorretos.");

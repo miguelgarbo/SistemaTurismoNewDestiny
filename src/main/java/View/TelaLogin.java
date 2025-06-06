@@ -1,5 +1,7 @@
 package View;
 
+import Controller.PacoteController;
+import Controller.PasseioController;
 import Controller.UsuarioController;
 
 import javax.swing.*;
@@ -10,12 +12,16 @@ import java.net.URL;
 
 public class TelaLogin extends JFrame {
     private UsuarioController usuarioController;
-
     private Font interFont = null;
     private Font interFontBold = null;
+    private PasseioController passeioController;
+    private PacoteController pacoteController;
 
-    public TelaLogin(UsuarioController usuarioController) {
+
+    public TelaLogin(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
         this.usuarioController = usuarioController;
+        this.pacoteController = pacoteController;
+        this.passeioController = passeioController;
     }
 
     public void iniciarTela() {
@@ -106,13 +112,19 @@ public class TelaLogin extends JFrame {
                 var senhaInformada = new String(fieldSenha.getPassword());
 
                 boolean loginOk = usuarioController.loginSwing(emailInformado,senhaInformada);
+                System.out.println(loginOk);
 
-                if(loginOk){
+                if(Boolean.TRUE.equals(loginOk)){
                     mensagemStatus.setText("Login Realizado Com Sucesso");
                     mensagemStatus.setForeground(Color.GREEN);
                     mensagemStatus.setVisible(true);
                     containerMain.revalidate();
                     containerMain.repaint();
+                    containerMain.setVisible(false);
+                    dispose();
+                    System.out.println("Chamando tela de perfil...");
+                    TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+                    telaVisualizacao.iniciarTela();
                 } else {
                     mensagemStatus.setText("Email ou Senha Inválidos");
                     mensagemStatus.setForeground(Color.RED);
@@ -136,7 +148,7 @@ public class TelaLogin extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 TelaLogin.this.setVisible(false);
-                TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
+                TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController);
                 telaCadastro.iniciarTela();
             }
         });
