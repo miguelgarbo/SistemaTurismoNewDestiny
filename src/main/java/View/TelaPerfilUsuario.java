@@ -64,7 +64,7 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        JLabel saudacao = new JLabel("Olá, Pablo!"); // <- você pode tornar isso dinâmico
+        JLabel saudacao = new JLabel("Olá, Pablo!");
         saudacao.setFont(interFontBold.deriveFont(22f));
         saudacao.setForeground(Color.WHITE);
         saudacao.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -72,7 +72,6 @@ public class TelaPerfilUsuario extends JFrame {
         containerConteudo.add(Box.createVerticalStrut(20));
         containerConteudo.add(saudacao);
         containerConteudo.add(Box.createVerticalStrut(30));
-
 
         String[] opcoes = {
                 "Editar Perfil",
@@ -100,6 +99,7 @@ public class TelaPerfilUsuario extends JFrame {
                 TelaPerfilUsuario.this.setVisible(false);
                 switch (opcaoFinal) {
                     case "Editar Perfil":
+                        dispose();
                         EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController);
                         editarPerfilUsuário.editarPerfil();
                         break;
@@ -132,6 +132,8 @@ public class TelaPerfilUsuario extends JFrame {
                     super.mouseClicked(e);
                     System.out.println(e);// mostra no terminal que o botão foi acionado
                     TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
+                    TelaLogin telaLogin = new TelaLogin(usuarioController);
+                    telaLogin.iniciarTela();
                 }
             });
 
