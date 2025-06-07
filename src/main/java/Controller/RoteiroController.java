@@ -124,7 +124,6 @@ public class RoteiroController {
             roteiroPersonalizadoService.cadastrarRoteiro(roteiroNovo);
             usuario.getRoteirosCriados().add(roteiroNovo);
 
-
         System.out.println("Roteiro (" + roteiroNovo.getTitulo() + ") Cadastrado Com Sucesso !!");
         }
 

@@ -1,5 +1,7 @@
 package View;
 
+import Controller.PacoteController;
+import Controller.PasseioController;
 import Controller.UsuarioController;
 
 import javax.swing.*;
@@ -13,9 +15,13 @@ public class TelaPerfilUsuario extends JFrame {
     private Font interFont = null;
     private Font interFontBold = null;
     private UsuarioController usuarioController;
+    private PasseioController passeioController;
+    private PacoteController pacoteController;
 
-    public TelaPerfilUsuario(UsuarioController usuarioController) {
+    public TelaPerfilUsuario(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
         this.usuarioController = usuarioController;
+        this.pacoteController = pacoteController;
+        this.passeioController = passeioController;
     }
 
     public void iniciarPerfilUsuário() {
@@ -44,6 +50,15 @@ public class TelaPerfilUsuario extends JFrame {
         buttonBack.setOpaque(false);
         buttonBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        buttonBack.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+                telaVisualizacao.iniciarTela();
+            }
+        });
+
         ImageIcon imgLogo = new ImageIcon(getClass().getResource("/photos/logo.png"));
         JLabel logoNew = new JLabel(imgLogo);
         logoNew.setSize(100, 50);
@@ -64,7 +79,9 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        JLabel saudacao = new JLabel("Olá, Pablo!");
+        String nomeUsuário = "Miguel";//retorna o nome do usuário Logado
+        String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
+        JLabel saudacao = new JLabel("Olá, " + nomeFormatado);
         saudacao.setFont(interFontBold.deriveFont(22f));
         saudacao.setForeground(Color.WHITE);
         saudacao.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -75,9 +92,9 @@ public class TelaPerfilUsuario extends JFrame {
 
         String[] opcoes = {
                 "Editar Perfil",
-                "Meus Pacotes",
-                "Montar Roteiro Turístico",
-                "Comprar Pacotes Prontos",
+                "Minhas Compras",
+                "Criar Roteiro Personalizado",
+                "Meus Roteiros",
                 "Métodos de Pagamento",
                 "Ajuda / Suporte",
                 "Sair da Conta"
@@ -90,7 +107,7 @@ public class TelaPerfilUsuario extends JFrame {
             botao.setMaximumSize(new Dimension(300, 40));
             botao.setFont(interFontBold.deriveFont(16f));
             botao.setBackground(Color.WHITE);
-            botao.setForeground(new Color(0x1c9430));
+            botao.setForeground(new Color(0x208482));
             botao.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             containerConteudo.add(botao);
             containerConteudo.add(Box.createVerticalStrut(15));
@@ -100,17 +117,22 @@ public class TelaPerfilUsuario extends JFrame {
                 switch (opcaoFinal) {
                     case "Editar Perfil":
                         dispose();
-                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController);
-                        editarPerfilUsuário.editarPerfil();
+//                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController);
+//                        editarPerfilUsuário.editarPerfil();
                         break;
-                    case "Meus Pacotes":
+                    case "Minhas Compras":
                         System.out.println("Meus Pacotes");
                         break;
-                    case "Montar Roteiro Turístico":
+                    case "Criar Roteiro Personalizado":
                         System.out.println("Roteiros");
+                        TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController);
+                        telaCriarRoteiro.iniciarTela();
                         break;
-                    case "Comprar Pacotes Prontos":
-                        System.out.println("Pacotes Prontos");
+                    case "Meus Roteiros":
+//                        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController, pacoteController);
+//                        telaVisualizacao.iniciarTela();
+                        TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController);
+                        telaRoteiros.inicarTela();
                         break;
                     case "Métodos de Pagamento":
                         System.out.println("Métodos pagamento");
@@ -119,7 +141,7 @@ public class TelaPerfilUsuario extends JFrame {
                         System.out.println("Help!");
                         break;
                     case "Sair da Conta":
-                        new TelaLogin(usuarioController).iniciarTela();
+                        new TelaLogin(usuarioController, pacoteController, passeioController).iniciarTela();
                         break;
 
                 }
@@ -132,7 +154,7 @@ public class TelaPerfilUsuario extends JFrame {
                     super.mouseClicked(e);
                     System.out.println(e);// mostra no terminal que o botão foi acionado
                     TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
-                    TelaLogin telaLogin = new TelaLogin(usuarioController);
+                    TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController);
                     telaLogin.iniciarTela();
                 }
             });

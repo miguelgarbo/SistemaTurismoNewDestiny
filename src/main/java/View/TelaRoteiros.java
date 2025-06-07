@@ -1,10 +1,26 @@
 package View;
+import Controller.PacoteController;
+import Controller.PasseioController;
+import Controller.UsuarioController;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class TelaRoteiros extends JFrame {
+
+    private UsuarioController usuarioController;
+    private PacoteController pacoteController;
+    private PasseioController passeioController;
+
+    public TelaRoteiros(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController){
+        this.usuarioController =usuarioController;
+        this.pacoteController = pacoteController;
+        this.passeioController = passeioController;
+    }
 
     public void inicarTela(){
 
@@ -76,7 +92,16 @@ public class TelaRoteiros extends JFrame {
         buttonBack.setFocusPainted(false);
         buttonBack.setOpaque(false);
 
+        buttonBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        buttonBack.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                //TelaUsuario telaUsuario = new TelaUsuario();
+                //telaUsuario.iniciarTela();
+            }
+        });
 
         ImageIcon imgLogo = new ImageIcon(getClass().getResource("/photos/logo.png"));
         JLabel logoNew = new JLabel(imgLogo);
