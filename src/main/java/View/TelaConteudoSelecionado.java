@@ -4,6 +4,7 @@ import Controller.PasseioController;
 import Controller.UsuarioController;
 import Model.Entidades.PacoteTuristicoEntity;
 import Model.Entidades.MockRoteiro;
+import Model.Entidades.PasseioEntity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class TelaConteudoSelecionado extends JFrame {
     private UsuarioController usuarioController;
     private PacoteController pacoteController;
     private PasseioController passeioController;
-    private Object conteudoSelecionado; // Pode ser PacoteTuristicoEntity ou MockRoteiro
+    private Object conteudoSelecionado; // Pode ser PacoteTuristicoEntity ou PasseioEntity
 
     private Font interFont = null;
     private Font interFontBold = null;
@@ -101,9 +102,8 @@ public class TelaConteudoSelecionado extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                // Voltar para a tela anterior (TelaRoteiros)
-                TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController);
-                telaRoteiros.inicarTela();
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+                telaVisualizacao.iniciarTela();
                 dispose();
             }
         });
@@ -154,21 +154,24 @@ public class TelaConteudoSelecionado extends JFrame {
             }
             detailsArea.setText(pacoteDetails.toString());
 
-        } else if (conteudoSelecionado instanceof MockRoteiro) {
-            MockRoteiro roteiro = (MockRoteiro) conteudoSelecionado;
-            titleLabel.setText("<html><b>Roteiro: " + roteiro.getNome() + "</b></html>");
+        } else if (conteudoSelecionado instanceof PasseioEntity) {
+            PasseioEntity passeio = (PasseioEntity) conteudoSelecionado;
+            titleLabel.setText("<html><b>Passeio: " + passeio.getTitulo() + "</b></html>");
 
-            StringBuilder roteiroDetails = new StringBuilder();
-            roteiroDetails.append("Data Início: " + roteiro.getDataInicio().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\n\n");
-            roteiroDetails.append("Descrição: " + roteiro.getDescricao() + "\n\n");
+            StringBuilder passeioDetails = new StringBuilder();
 
-            if (roteiro.getPasseiosInclusos() != null && !roteiro.getPasseiosInclusos().isEmpty()) {
-                roteiroDetails.append("Passeios Inclusos:\n");
-                for (String passeio : roteiro.getPasseiosInclusos()) {
-                    roteiroDetails.append("- " + passeio + "\n");
+            if (passeio.getCategorias() != null && !passeio.getCategorias().isEmpty()) {
+                passeioDetails.append("\nCategorias:\n");
+                for (int i = 0; i < passeio.getCategorias().size(); i++) {
+                    passeioDetails.append(String.format("- %s\n", passeio.getCategorias().get(i).getNome()));
                 }
             }
-            detailsArea.setText(roteiroDetails.toString());
+            passeioDetails.append("Descrição: " + passeio.getDescricao() + "\n\n");
+            passeioDetails.append("Duração: " + passeio.getDuracao()+"\n\n");
+            passeioDetails.append("Localização: " + passeio.getLocalizacao() + "\n\n");
+            passeioDetails.append("Preço Ingresso: " + passeio.getPreco() + "\n\n");
+            passeioDetails.append("Horário: " + passeio.getHorarios() + "\n\n");
+            detailsArea.setText(passeioDetails.toString());
 
         } else {
             titleLabel.setText("<html><b>Conteúdo Não Encontrado</b></html>");

@@ -64,6 +64,10 @@ public class PasseioController {
         }
     }
 
+    public PasseioEntity findById(Long id){
+        return passeioService.buscarPorId(id);
+    }
+
     public void cadastrarPasseio() {
 
         String continuar;

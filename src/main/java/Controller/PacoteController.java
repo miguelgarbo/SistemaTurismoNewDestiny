@@ -8,6 +8,7 @@ import Model.Servicos.CategoriaService;
 import Model.Servicos.PacoteTuristicoService;
 import Model.Servicos.PasseioService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class PacoteController {
@@ -48,6 +49,9 @@ public class PacoteController {
 
     }
 
+    public List<PacoteTuristicoEntity> buscarTodos(){
+        return pacoteTuristicoService.buscarTodos();
+    }
 
     public void exibirPacotesDisponiveis() {
         System.out.println("==== Lista de Pacotes Turísticos ====");

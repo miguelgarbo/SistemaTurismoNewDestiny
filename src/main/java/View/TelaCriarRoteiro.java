@@ -36,7 +36,7 @@ public class TelaCriarRoteiro extends JFrame {
         interFontBold = FontLoader.loadFont("/fontsNewDestiny/InterVariable.ttf", 16f);
 
         BackgroundPanel containerMain = new BackgroundPanel("/photos/backgroundMain.png");
-        containerMain.setLayout(new BorderLayout());
+        containerMain.setLayout(new BorderLayout()); // Mantemos BorderLayout no containerMain
         containerMain.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
 
         // Header
@@ -64,6 +64,7 @@ public class TelaCriarRoteiro extends JFrame {
                 super.mouseClicked(e);
                 TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
                 telaVisualizacao.iniciarTela();
+                dispose(); // Fecha a tela atual
             }
         });
 
@@ -91,15 +92,16 @@ public class TelaCriarRoteiro extends JFrame {
         JLabel tituloLabel = new JLabel("Criando Seu Roteiro");
         tituloLabel.setFont(interFontBold.deriveFont(Font.BOLD, 22f));
         tituloLabel.setForeground(Color.WHITE);
-        tituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Garante a centralização
 
-        JTextField campoTitulo = criarCampoTexto("Título do Roteiro");
-        JTextField campoData = criarCampoTexto("Data De Início");
-        JTextField campoDias = criarCampoTexto("Quantidade de Dias");
+        JPanel campoTitulo = criarCampoTexto("Título do Roteiro");
+        JPanel campoData = criarCampoTexto("Data De Início");
+        JPanel campoDias = criarCampoTexto("Quantidade de Dias");
 
         JButton botaoProximo = new JButton("Próximo");
         botaoProximo.setFont(interFont.deriveFont(16f));
-        botaoProximo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botaoProximo.setForeground(coresProjeto.corPrincipalAzul);
+        botaoProximo.setAlignmentX(Component.CENTER_ALIGNMENT); // Garante a centralização
         botaoProximo.setBackground(Color.WHITE);
         botaoProximo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
@@ -113,19 +115,43 @@ public class TelaCriarRoteiro extends JFrame {
         formPanel.add(Box.createVerticalStrut(25));
         formPanel.add(botaoProximo);
 
+        // Novo painel para centralizar o formPanel
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setOpaque(false); // Torna o painel transparente para que o fundo seja visível
+        centerPanel.add(formPanel, BorderLayout.CENTER); // Adiciona o formPanel ao centro deste novo painel
+
         containerMain.add(header, BorderLayout.NORTH);
-        containerMain.add(formPanel, BorderLayout.CENTER);
+        containerMain.add(centerPanel, BorderLayout.CENTER); // Adiciona o centerPanel ao centro do containerMain
 
         setContentPane(containerMain);
         setVisible(true);
     }
 
-    private JTextField criarCampoTexto(String placeholder) {
+    private JPanel criarCampoTexto(String labelTexto) {
+        JPanel totalidade = new JPanel();
+        totalidade.setLayout(new BoxLayout(totalidade, BoxLayout.Y_AXIS));
+        totalidade.setOpaque(false);
+
+        JLabel textAboveCampo = new JLabel("<html><b>" + labelTexto + "</b></html>");
+        textAboveCampo.setForeground(Color.WHITE);
+        textAboveCampo.setFont(interFont.deriveFont(18f));
+        textAboveCampo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        textAboveCampo.setMaximumSize(new Dimension(250, 35)); // Largura máxima para centralizar
+        textAboveCampo.setPreferredSize(new Dimension(250, 35));
+
         JTextField campo = new JTextField();
-        campo.setMaximumSize(new Dimension(300, 40));
-        campo.setFont(interFont);
+        campo.setBackground(coresProjeto.corOpacaField);
         campo.setForeground(Color.BLACK);
-        campo.setBorder(BorderFactory.createTitledBorder(placeholder));
-        return campo;
+        campo.setFont(interFontBold.deriveFont(16f));
+        campo.setMaximumSize(new Dimension(250, 35)); // Largura máxima para centralizar
+        campo.setPreferredSize(new Dimension(250, 35));
+        campo.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza o campo de texto
+        campo.setBorder(BorderFactory.createEmptyBorder(5, 8, 5, 8)); // padding interno
+
+        totalidade.add(textAboveCampo);
+        totalidade.add(Box.createVerticalStrut(5));
+        totalidade.add(campo);
+
+        return totalidade;
     }
 }

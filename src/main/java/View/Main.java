@@ -70,6 +70,9 @@ public class Main {
           TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController , passeioController);
           telaCriarRoteiro.iniciarTela();
 
+//        TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController, pacoteController, passeioController, passeioController.findById(9l));
+//        telaConteudoSelecionado.iniciarTela();
+
 //        menuPrincipal.mostrarMenuPrincipal();
 
     }
