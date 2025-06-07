@@ -54,7 +54,7 @@ public class Main {
 //        TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
 //        telaCadastro.iniciarTela();
 
-//        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado();
+//        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado(usuarioController,pacoteController,passeioController);
 //        telaRoteiroSelecionado.iniciarTela();
 
    //   TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController);
@@ -67,11 +67,17 @@ public class Main {
 //         TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController);
 //         telaPerfilUsuario.iniciarPerfilUsuário();
 
-          TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController , passeioController);
-          telaCriarRoteiro.iniciarTela();
+//          TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController , passeioController);
+//          telaCriarRoteiro.iniciarTela();
+//
+//        TelaCriarRoteiro2Etapa telaCriarRoteiro2Etapa = new TelaCriarRoteiro2Etapa(usuarioController, pacoteController , passeioController);
+//        telaCriarRoteiro2Etapa.iniciarTela();
 
-//        TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController, pacoteController, passeioController, passeioController.findById(9l));
-//        telaConteudoSelecionado.iniciarTela();
+//        TelaCriarRoteiro3Etapa telaCriarRoteiro3Etapa = new TelaCriarRoteiro3Etapa(usuarioController, pacoteController , passeioController);
+//        telaCriarRoteiro3Etapa.iniciarTela();
+
+        TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController, pacoteController, passeioController, passeioController.findById(3l));
+        telaConteudoSelecionado.iniciarTela();
 
 //        menuPrincipal.mostrarMenuPrincipal();
 

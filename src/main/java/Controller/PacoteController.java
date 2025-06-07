@@ -31,6 +31,8 @@ public class PacoteController {
         this.passeioService = passeioService;
     }
 
+
+
     public void exibirPacotesDisponiveis(UsuarioEntity usuario) {
         System.out.println("==== Lista de Pacotes Turísticos ====");
 
@@ -70,6 +72,9 @@ public class PacoteController {
 
     }
 
+    public PacoteTuristicoEntity findById(Long id){
+        return pacoteTuristicoService.buscarPorId(id);
+    }
 
     private void exibirDetalhesPacote(PacoteTuristicoEntity pacote) {
         System.out.printf("ID PACOTE: %d\n", pacote.getId());

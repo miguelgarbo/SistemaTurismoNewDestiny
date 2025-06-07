@@ -105,6 +105,15 @@ public class TelaCriarRoteiro extends JFrame {
         botaoProximo.setBackground(Color.WHITE);
         botaoProximo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        botaoProximo.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaCriarRoteiro2Etapa telaCriarRoteiro2Etapa = new TelaCriarRoteiro2Etapa(usuarioController,pacoteController,passeioController);
+                telaCriarRoteiro2Etapa.iniciarTela();
+            }
+        });
+
         formPanel.add(tituloLabel);
         formPanel.add(Box.createVerticalStrut(30));
         formPanel.add(campoTitulo);
