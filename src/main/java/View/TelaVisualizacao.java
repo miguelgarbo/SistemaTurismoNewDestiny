@@ -325,7 +325,7 @@ public class TelaVisualizacao extends JFrame {
     }
 
     public JPanel criarPacoteCard(){
-        ///começa o card
+        ////começa o card
         JPanel cardPanel = new JPanel();
         cardPanel.setPreferredSize(new Dimension(300, 200));
         cardPanel.setLayout(new OverlayLayout(cardPanel));

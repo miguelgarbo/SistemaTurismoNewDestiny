@@ -76,8 +76,10 @@ public class Main {
 //        TelaCriarRoteiro3Etapa telaCriarRoteiro3Etapa = new TelaCriarRoteiro3Etapa(usuarioController, pacoteController , passeioController);
 //        telaCriarRoteiro3Etapa.iniciarTela();
 
-        TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController, pacoteController, passeioController, passeioController.findById(3l));
+        TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController, passeioController, pacoteController, passeioController.findById(3l));
         telaConteudoSelecionado.iniciarTela();
+
+
 
 //        menuPrincipal.mostrarMenuPrincipal();
 
