@@ -117,8 +117,8 @@ public class TelaPerfilUsuario extends JFrame {
                 switch (opcaoFinal) {
                     case "Editar Perfil":
                         dispose();
-//                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController);
-//                        editarPerfilUsuário.editarPerfil();
+                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController, pacoteController, passeioController);
+                        editarPerfilUsuário.editarPerfil();
                         break;
                     case "Minhas Compras":
                         System.out.println("Meus Pacotes");
