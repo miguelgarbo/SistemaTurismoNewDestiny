@@ -1,5 +1,7 @@
 package View;
 
+import Controller.PacoteController;
+import Controller.PasseioController;
 import Controller.UsuarioController;
 
 
@@ -12,12 +14,18 @@ import java.awt.event.MouseEvent;
 public class TelaCadastro extends JFrame {
 
     private UsuarioController usuarioController;
+    private PasseioController passeioController;
+    private PacoteController pacoteController;
+
 
     private Font interFont = null;
     private Font interFontBold = null;
 
-    public TelaCadastro(UsuarioController usuarioController){
+    public TelaCadastro(UsuarioController usuarioController, PasseioController passeioController, PacoteController pacoteController){
         this.usuarioController = usuarioController;
+        this.pacoteController = pacoteController;
+        this.passeioController = passeioController;
+
     }
 
     public void iniciarTela() {
@@ -173,7 +181,7 @@ public class TelaCadastro extends JFrame {
                 super.mouseClicked(e);
 
                 TelaCadastro.this.setVisible(false);
-                TelaLogin telaLogin = new TelaLogin(usuarioController);
+                TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController );
                 telaLogin.iniciarTela();
             }
         });

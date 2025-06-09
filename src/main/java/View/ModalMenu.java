@@ -1,5 +1,7 @@
 package View;
 
+import Controller.PacoteController;
+import Controller.PasseioController;
 import Controller.UsuarioController;
 import Model.Entidades.UsuarioEntity;
 
@@ -11,9 +13,13 @@ import java.awt.event.MouseEvent;
 public class ModalMenu {
 
     private UsuarioController usuarioController;
+    private PacoteController pacoteController;
+    private PasseioController passeioController;
 
-    public ModalMenu(UsuarioController usuarioController) {
+    public ModalMenu(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
         this.usuarioController = usuarioController;
+        this.passeioController = passeioController;
+        this.pacoteController = pacoteController;
     }
 
     public void iniciarModal(JFrame frame, UsuarioEntity userLogged){
@@ -76,8 +82,8 @@ public class ModalMenu {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 System.out.println(e);
-                modal.dispose(); // <- Fecha o modal antes de abrir a nova janela
-                TelaLogin telaLogin = new TelaLogin(usuarioController);
+                modal.dispose();
+                TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController);
                 telaLogin.iniciarTela();
             }
         });
@@ -92,13 +98,12 @@ public class ModalMenu {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                modal.dispose(); // <- Fecha o modal antes de abrir a nova janela
-                TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
+                modal.dispose();
+                TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController);
                 telaCadastro.iniciarTela();
             }
         });
 
-        // Botão Fechar
         JButton buttonFechar = new JButton("Fechar");
         buttonFechar.setBounds(100, 130, 150, 30);
         buttonFechar.setForeground(coresProjeto.corVermelha);

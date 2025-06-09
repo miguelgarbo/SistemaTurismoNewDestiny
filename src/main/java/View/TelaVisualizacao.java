@@ -1,6 +1,9 @@
 package View;
 
+import Controller.PacoteController;
+import Controller.PasseioController;
 import Controller.UsuarioController;
+import Model.Entidades.PacoteTuristicoEntity;
 import Model.Entidades.UsuarioEntity;
 
 import javax.swing.*;
@@ -13,11 +16,15 @@ import java.net.URL;
 public class TelaVisualizacao extends JFrame {
 
     private UsuarioController usuarioController;
+    private PasseioController passeioController;
+    private PacoteController pacoteController;
     private Font interFont = null;
     private Font interFontBold = null;
 
-    public TelaVisualizacao(UsuarioController usuarioController) {
+    public TelaVisualizacao(UsuarioController usuarioController, PasseioController passeioController, PacoteController pacoteController) {
         this.usuarioController = usuarioController;
+        this.pacoteController = pacoteController;
+        this.passeioController = passeioController;
     }
 
     public void iniciarTela() {
@@ -33,7 +40,7 @@ public class TelaVisualizacao extends JFrame {
 
         BackgroundPanel containerMain = new BackgroundPanel("/photos/backgroundMain.png");
         containerMain.setLayout(new BorderLayout());
-        containerMain.setBorder(BorderFactory.createEmptyBorder(30, 6, 30, 2));
+        containerMain.setBorder(BorderFactory.createEmptyBorder(20, 6, 20, 2));
 
         JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
         header.setOpaque(false);
@@ -73,7 +80,7 @@ public class TelaVisualizacao extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                ModalMenu modalMenu = new ModalMenu(usuarioController);
+                ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
                 modalMenu.iniciarModal(TelaVisualizacao.this);
             }
         });
@@ -131,22 +138,8 @@ public class TelaVisualizacao extends JFrame {
         pacotesRow.setOpaque(false);
 
         for (int i = 1; i <= 10; i++) {
-            JPanel pacotePanel = new JPanel();
-            pacotePanel.setLayout(new BorderLayout());
-            pacotePanel.setOpaque(false);
-            pacotePanel.setPreferredSize(new Dimension(170, 200));
-
-            JButton pacoteBtn = new JButton();
-            pacoteBtn.setPreferredSize(new Dimension(170, 180));
-            pacotePanel.add(pacoteBtn, BorderLayout.NORTH);
-
-            JLabel labelPacote = new JLabel("Pacote " + i, SwingConstants.CENTER);
-            labelPacote.setForeground(Color.WHITE);
-            labelPacote.setHorizontalAlignment(SwingConstants.CENTER);
-            labelPacote.setFont(interFont);
-            pacotePanel.add(labelPacote, BorderLayout.SOUTH);
-
-            pacotesRow.add(pacotePanel);
+            JPanel pacoteCard = criarPacoteCard();
+            pacotesRow.add(pacoteCard);
             pacotesRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
 
@@ -167,17 +160,14 @@ public class TelaVisualizacao extends JFrame {
                 this.thumbColor = new Color(100, 100, 100, 255);
                 this.trackColor = new Color(50, 50, 50, 255);
             }
-
             @Override
             protected JButton createDecreaseButton(int orientation) {
                 return createZeroButton();
             }
-
             @Override
             protected JButton createIncreaseButton(int orientation) {
                 return createZeroButton();
             }
-
             private JButton createZeroButton() {
                 JButton button = new JButton();
                 button.setPreferredSize(new Dimension(0, 0));
@@ -204,22 +194,8 @@ public class TelaVisualizacao extends JFrame {
         passeioRow.setOpaque(false);
 
         for (int i = 1; i <= 6; i++) {
-            JPanel passeioPanel = new JPanel();
-            passeioPanel.setLayout(new BorderLayout());
-            passeioPanel.setOpaque(false);
-            passeioPanel.setPreferredSize(new Dimension(170, 200));
-
-            JButton passeioBtn = new JButton();
-            passeioBtn.setPreferredSize(new Dimension(170, 180));
-            passeioPanel.add(passeioBtn, BorderLayout.NORTH);
-
-            JLabel labelPasseio = new JLabel("Passeio " + i, SwingConstants.CENTER);
-            labelPasseio.setForeground(Color.WHITE);
-            labelPasseio.setHorizontalAlignment(SwingConstants.CENTER);
-            labelPasseio.setFont(interFont);
-            passeioPanel.add(labelPasseio, BorderLayout.SOUTH);
-
-            passeioRow.add(passeioPanel);
+            JPanel passeioCard = criarPasseioCard();
+            passeioRow.add(passeioCard);
             passeioRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
 
@@ -312,4 +288,75 @@ public class TelaVisualizacao extends JFrame {
         setContentPane(mainScroll);
         setVisible(true);
     }
+
+    public JPanel criarPasseioCard(){
+        ///começa o card
+        JPanel cardPanel = new JPanel();
+        cardPanel.setPreferredSize(new Dimension(300, 200));
+        cardPanel.setLayout(new OverlayLayout(cardPanel));
+
+        String caminhoImagem = "caminho/para/sua/imagem.jpg";
+        ImageIcon icon = new ImageIcon(caminhoImagem);
+
+        JLabel imageLabel = new JLabel(icon);
+
+        imageLabel.setPreferredSize(new Dimension(300, 200));
+
+        imageLabel.setAlignmentX(0.5f);
+        imageLabel.setAlignmentY(0.5f);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(0, 0, 0, 150));
+        titlePanel.setPreferredSize(new Dimension(300, 50));
+        titlePanel.setMaximumSize(new Dimension(300, 50));
+        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
+
+        JLabel titlePasseio = new JLabel("Passeio");
+        titlePasseio.setForeground(Color.WHITE);
+        titlePasseio.setFont(interFont.deriveFont(16f));
+        titlePanel.add(titlePasseio);
+
+        titlePanel.setAlignmentX(0.5f);
+        titlePanel.setAlignmentY(1.0f);
+
+        cardPanel.add(titlePanel);
+        cardPanel.add(imageLabel);
+        return cardPanel;
+    }
+
+    public JPanel criarPacoteCard(){
+        ////começa o card
+        JPanel cardPanel = new JPanel();
+        cardPanel.setPreferredSize(new Dimension(300, 200));
+        cardPanel.setLayout(new OverlayLayout(cardPanel));
+
+        String caminhoImagem = "caminho/para/sua/imagem.jpg";
+        ImageIcon icon = new ImageIcon(caminhoImagem);
+
+        JLabel imageLabel = new JLabel(icon);
+
+        imageLabel.setPreferredSize(new Dimension(300, 200));
+
+        imageLabel.setAlignmentX(0.5f);
+        imageLabel.setAlignmentY(0.5f);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(0, 0, 0, 150));
+        titlePanel.setPreferredSize(new Dimension(300, 50));
+        titlePanel.setMaximumSize(new Dimension(300, 50));
+        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
+
+        JLabel titlePacote = new JLabel("Pacote");
+        titlePacote.setForeground(Color.WHITE);
+        titlePacote.setFont(interFont.deriveFont(16f));
+        titlePanel.add(titlePacote);
+
+        titlePanel.setAlignmentX(0.5f);
+        titlePanel.setAlignmentY(1.0f);
+
+        cardPanel.add(titlePanel);
+        cardPanel.add(imageLabel);
+        return cardPanel;
+    }
+
 }

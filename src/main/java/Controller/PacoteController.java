@@ -8,6 +8,7 @@ import Model.Servicos.CategoriaService;
 import Model.Servicos.PacoteTuristicoService;
 import Model.Servicos.PasseioService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class PacoteController {
@@ -30,6 +31,8 @@ public class PacoteController {
         this.passeioService = passeioService;
     }
 
+
+
     public void exibirPacotesDisponiveis(UsuarioEntity usuario) {
         System.out.println("==== Lista de Pacotes Turísticos ====");
 
@@ -48,6 +51,9 @@ public class PacoteController {
 
     }
 
+    public List<PacoteTuristicoEntity> buscarTodos(){
+        return pacoteTuristicoService.buscarTodos();
+    }
 
     public void exibirPacotesDisponiveis() {
         System.out.println("==== Lista de Pacotes Turísticos ====");
@@ -66,6 +72,9 @@ public class PacoteController {
 
     }
 
+    public PacoteTuristicoEntity findById(Long id){
+        return pacoteTuristicoService.buscarPorId(id);
+    }
 
     private void exibirDetalhesPacote(PacoteTuristicoEntity pacote) {
         System.out.printf("ID PACOTE: %d\n", pacote.getId());
