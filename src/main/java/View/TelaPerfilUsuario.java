@@ -143,7 +143,8 @@ public class TelaPerfilUsuario extends JFrame {
                         System.out.println("Help!");
                         break;
                     case "Sair da Conta":
-                        new TelaLogin(usuarioController, pacoteController, passeioController).iniciarTela();
+                        usuarioController.setgetUserLogged(null);
+                        new TelaVisualizacao(usuarioController,passeioController,pacoteController).iniciarTela();
                         break;
 
                 }

@@ -15,8 +15,11 @@ public class UsuarioController {
     private final CartaoController cartaoController;
     private final PagamentoController pagamentoController;
     private UsuarioEntity getUserLogged; // usuário logado
+    private UsuarioEntity userLogged;
+
 
     private final Scanner sc = new Scanner(System.in);
+
 
     public UsuarioController(UsuarioService service, RoteiroController roteiroController, PasseioController passeioController, PacoteController pacoteController, CartaoController cartaoController, PagamentoController pagamentoController) {
         this.service = service;
@@ -30,6 +33,9 @@ public class UsuarioController {
     public UsuarioEntity getUserLogged() {
         return getUserLogged;
     }
+
+
+
 
     public void setgetUserLogged(UsuarioEntity getUserLogged) {
         this.getUserLogged = getUserLogged;

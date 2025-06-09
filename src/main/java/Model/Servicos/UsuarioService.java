@@ -87,6 +87,7 @@ public class UsuarioService {
         atualizarUsuario(usuarioLogado);
     }
 
+
     public List<UsuarioEntity> buscarTodos() {
         return usuarioRepository.buscarTodos();
     }
