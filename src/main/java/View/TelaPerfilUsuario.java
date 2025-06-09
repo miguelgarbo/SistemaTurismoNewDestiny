@@ -3,6 +3,7 @@ package View;
 import Controller.PacoteController;
 import Controller.PasseioController;
 import Controller.UsuarioController;
+import Model.Entidades.UsuarioEntity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,7 +80,8 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        String nomeUsuário = "Miguel";//retorna o nome do usuário Logado
+        UsuarioEntity usuarioLogado = usuarioController.getUserLogged();//retorna o nome do usuário Logado
+        String nomeUsuário = usuarioLogado.getNome();
         String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
         JLabel saudacao = new JLabel("Olá, " + nomeFormatado);
         saudacao.setFont(interFontBold.deriveFont(22f));
@@ -154,8 +156,8 @@ public class TelaPerfilUsuario extends JFrame {
                     super.mouseClicked(e);
                     System.out.println(e);// mostra no terminal que o botão foi acionado
                     TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
-                    TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController);
-                    telaLogin.iniciarTela();
+                    TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController);
+                    telaVisualizacao.iniciarTela();
                 }
             });
 

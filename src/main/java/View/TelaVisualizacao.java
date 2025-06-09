@@ -76,14 +76,25 @@ public class TelaVisualizacao extends JFrame {
         miniMenuButton.setFocusPainted(false);
         miniMenuButton.setOpaque(false);
 
-        miniMenuButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
-                modalMenu.iniciarModal(TelaVisualizacao.this);
-            }
-        });
+        if (usuarioController.getUserLogged() == null) {
+            miniMenuButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
+                    modalMenu.iniciarModal(TelaVisualizacao.this);
+                }
+            });
+        }else {
+            miniMenuButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
+                    modalMenu.iniciarModalLogado(TelaVisualizacao.this,usuarioController.getUserLogged());
+                }
+            });
+        }
 
         header.add(iconNewDestiny);
         header.add(Box.createHorizontalStrut(10));

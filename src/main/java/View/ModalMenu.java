@@ -22,7 +22,7 @@ public class ModalMenu {
         this.pacoteController = pacoteController;
     }
 
-    public void iniciarModal(JFrame frame, UsuarioEntity userLogged){
+    public void iniciarModalLogado(JFrame frame, UsuarioEntity userLogged){
 
         CoresProjeto coresProjeto = new CoresProjeto();
 
@@ -39,8 +39,10 @@ public class ModalMenu {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //TelaUsuario telaUsuario = new TelaUsuario();
-                //telaUsuario.iniciarTela(userLogged);
+                modal.dispose();      // Fecha o menu modal
+                frame.dispose();      // Fecha a janela principal
+                TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController,passeioController);
+                telaPerfilUsuario.iniciarPerfilUsuário();
             }
         });
 
@@ -104,6 +106,7 @@ public class ModalMenu {
             }
         });
 
+        //Botão Fechar
         JButton buttonFechar = new JButton("Fechar");
         buttonFechar.setBounds(100, 130, 150, 30);
         buttonFechar.setForeground(coresProjeto.corVermelha);
