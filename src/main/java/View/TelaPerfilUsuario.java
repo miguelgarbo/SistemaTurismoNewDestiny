@@ -1,6 +1,7 @@
 package View;
 
 import Controller.UsuarioController;
+import Model.Entidades.UsuarioEntity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,16 +65,29 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        String nomeUsuário = usuarioController.getUserLogged().getNome();//retorna o nome do usuário Logado
-        String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
-        JLabel saudacao = new JLabel("Olá, " + nomeFormatado );
-        saudacao.setFont(interFontBold.deriveFont(22f));
-        saudacao.setForeground(Color.WHITE);
-        saudacao.setAlignmentX(Component.CENTER_ALIGNMENT);
+        UsuarioEntity usuárioLogado = usuarioController.getUserLogged();//retorna o nome do usuário Logado
+        String nomeUsuário = (usuárioLogado != null) ? usuárioLogado.getNome() : null;
 
-        containerConteudo.add(Box.createVerticalStrut(20));
-        containerConteudo.add(saudacao);
-        containerConteudo.add(Box.createVerticalStrut(30));
+        if (nomeUsuário == null || nomeUsuário.isEmpty()){
+            JLabel saudacao = new JLabel("Realize seu cadastro!" );
+            saudacao.setFont(interFontBold.deriveFont(22f));
+            saudacao.setForeground(Color.WHITE);
+            saudacao.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            containerConteudo.add(Box.createVerticalStrut(20));
+            containerConteudo.add(saudacao);
+            containerConteudo.add(Box.createVerticalStrut(30));
+        }else {
+            String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
+            JLabel saudacao = new JLabel("Olá, " + nomeFormatado);
+            saudacao.setFont(interFontBold.deriveFont(22f));
+            saudacao.setForeground(Color.WHITE);
+            saudacao.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            containerConteudo.add(Box.createVerticalStrut(20));
+            containerConteudo.add(saudacao);
+            containerConteudo.add(Box.createVerticalStrut(30));
+        }
 
         String[] opcoes = {
                 "Editar Perfil",
