@@ -4,7 +4,7 @@ import Controller.PacoteController;
 import Controller.PasseioController;
 import Controller.UsuarioController;
 import Model.Entidades.PacoteTuristicoEntity;
-import Model.Entidades.UsuarioEntity;
+import Model.Entidades.PasseioEntity;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -40,7 +40,7 @@ public class TelaVisualizacao extends JFrame {
 
         BackgroundPanel containerMain = new BackgroundPanel("/photos/backgroundMain.png");
         containerMain.setLayout(new BorderLayout());
-        containerMain.setBorder(BorderFactory.createEmptyBorder(20, 6, 20, 2));
+        containerMain.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
 
         JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
         header.setOpaque(false);
@@ -76,7 +76,7 @@ public class TelaVisualizacao extends JFrame {
         miniMenuButton.setFocusPainted(false);
         miniMenuButton.setOpaque(false);
 
-        if (usuarioController.getUserLogged() == null) {
+        if(usuarioController.getUserLogged()==null){
             miniMenuButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -85,15 +85,17 @@ public class TelaVisualizacao extends JFrame {
                     modalMenu.iniciarModal(TelaVisualizacao.this);
                 }
             });
-        }else {
+        }else{
+
             miniMenuButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
                     ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
-                    modalMenu.iniciarModalLogado(TelaVisualizacao.this,usuarioController.getUserLogged());
+                    modalMenu.iniciarModal(TelaVisualizacao.this, usuarioController.getUserLogged());
                 }
             });
+
         }
 
         header.add(iconNewDestiny);
@@ -148,11 +150,14 @@ public class TelaVisualizacao extends JFrame {
         pacotesRow.setLayout(new FlowLayout());
         pacotesRow.setOpaque(false);
 
-        for (int i = 1; i <= 10; i++) {
-            JPanel pacoteCard = criarPacoteCard();
+
+        for(PacoteTuristicoEntity pacoteTuristico : pacoteController.buscarTodos()){
+
+            JPanel pacoteCard = criarPacoteCard(pacoteTuristico);
             pacotesRow.add(pacoteCard);
             pacotesRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
+
 
         JScrollPane scrollHorizontal = new JScrollPane(pacotesRow);
         scrollHorizontal.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -204,8 +209,8 @@ public class TelaVisualizacao extends JFrame {
         JPanel passeioRow = new JPanel(new FlowLayout());
         passeioRow.setOpaque(false);
 
-        for (int i = 1; i <= 6; i++) {
-            JPanel passeioCard = criarPasseioCard();
+        for(PasseioEntity passeio: passeioController.listaPasseiosCadastrados()){
+            JPanel passeioCard = criarPasseioCard(passeio);
             passeioRow.add(passeioCard);
             passeioRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
@@ -300,74 +305,148 @@ public class TelaVisualizacao extends JFrame {
         setVisible(true);
     }
 
-    public JPanel criarPasseioCard(){
-        ///começa o card
+    public JPanel criarPasseioCard(PasseioEntity passeio) {
         JPanel cardPanel = new JPanel();
         cardPanel.setPreferredSize(new Dimension(300, 200));
         cardPanel.setLayout(new OverlayLayout(cardPanel));
 
-        String caminhoImagem = "caminho/para/sua/imagem.jpg";
-        ImageIcon icon = new ImageIcon(caminhoImagem);
+        try {
+            // Carregar e redimensionar imagem
+            String urlImagem = passeio.getListaFotos().get(0).getUrl();
+            URL url = new URL(urlImagem);
+            ImageIcon imgIcon = new ImageIcon(url);
+            Image imagem = imgIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+            JLabel imageLabel = new JLabel(new ImageIcon(imagem));
+            imageLabel.setPreferredSize(new Dimension(300, 200));
+            imageLabel.setAlignmentX(0.0f);
+            imageLabel.setAlignmentY(0.0f);
 
-        JLabel imageLabel = new JLabel(icon);
+            // Painel de título (fundo preto transparente)
+            JPanel titlePanel = new JPanel();
+            titlePanel.setOpaque(true);
+            titlePanel.setBackground(new Color(0, 0, 0, 150));
+            titlePanel.setPreferredSize(new Dimension(300, 50));
+            titlePanel.setMaximumSize(new Dimension(300, 50));
+            titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
 
-        imageLabel.setPreferredSize(new Dimension(300, 200));
+            JLabel titleLabel = new JLabel(passeio.getTitulo());
+            titleLabel.setForeground(Color.WHITE);
+            titleLabel.setFont(interFont.deriveFont(16f));
+            titlePanel.add(titleLabel);
 
-        imageLabel.setAlignmentX(0.5f);
-        imageLabel.setAlignmentY(0.5f);
+            // Container Y para empurrar o título pra baixo
+            JPanel container = new JPanel();
+            container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+            container.setOpaque(false);
+            container.setPreferredSize(new Dimension(300, 200));
+            container.setMaximumSize(new Dimension(300, 200));
+            container.setAlignmentX(0.0f);
+            container.setAlignmentY(0.0f);
 
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(0, 0, 0, 150));
-        titlePanel.setPreferredSize(new Dimension(300, 50));
-        titlePanel.setMaximumSize(new Dimension(300, 50));
-        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
+            container.add(Box.createVerticalGlue()); // empurra pra baixo
+            container.add(titlePanel);
 
-        JLabel titlePasseio = new JLabel("Passeio");
-        titlePasseio.setForeground(Color.WHITE);
-        titlePasseio.setFont(interFont.deriveFont(16f));
-        titlePanel.add(titlePasseio);
+            // Adiciona primeiro a imagem, depois o container com o título
+            cardPanel.add(container);    // título por cima
+            cardPanel.add(imageLabel);   // imagem no fundo
 
-        titlePanel.setAlignmentX(0.5f);
-        titlePanel.setAlignmentY(1.0f);
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar imagem: " + e.getMessage());
+            cardPanel.add(new JLabel("Imagem indisponível"));
+        }
 
-        cardPanel.add(titlePanel);
-        cardPanel.add(imageLabel);
+        // Clique no card
+        cardPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
+                        usuarioController, passeioController, pacoteController, passeio
+                );
+                tela.iniciarTela();
+            }
+        });
+
+        cardPanel.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(Color.GRAY, 1, true), // true = arredondado
+                        BorderFactory.createEmptyBorder(5, 5, 5, 5) // espaço interno
+                )
+        );
+
+
         return cardPanel;
     }
 
-    public JPanel criarPacoteCard(){
-        ////começa o card
+
+
+    public JPanel criarPacoteCard(PacoteTuristicoEntity pacoteTuristico) {
         JPanel cardPanel = new JPanel();
         cardPanel.setPreferredSize(new Dimension(300, 200));
         cardPanel.setLayout(new OverlayLayout(cardPanel));
 
-        String caminhoImagem = "caminho/para/sua/imagem.jpg";
-        ImageIcon icon = new ImageIcon(caminhoImagem);
+        try {
+            String caminhoImagem = pacoteTuristico.getPasseios().get(0).getListaFotos().get(0).getUrl();
+            URL url = new URL(caminhoImagem);
+            ImageIcon imgIcon = new ImageIcon(url);
+            Image imagem = imgIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+            JLabel imageLabel = new JLabel(new ImageIcon(imagem));
+            imageLabel.setPreferredSize(new Dimension(300, 200));
+            imageLabel.setAlignmentX(0.0f);
+            imageLabel.setAlignmentY(0.0f);
 
-        JLabel imageLabel = new JLabel(icon);
+            JPanel titlePanel = new JPanel();
+            titlePanel.setOpaque(true);
+            titlePanel.setBackground(new Color(0, 0, 0, 150));
+            titlePanel.setPreferredSize(new Dimension(300, 50));
+            titlePanel.setMaximumSize(new Dimension(300, 50));
+            titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
 
-        imageLabel.setPreferredSize(new Dimension(300, 200));
+            JLabel titleLabel = new JLabel(pacoteTuristico.getTitulo());
+            titleLabel.setForeground(Color.WHITE);
+            titleLabel.setFont(interFont.deriveFont(16f));
+            titlePanel.add(titleLabel);
 
-        imageLabel.setAlignmentX(0.5f);
-        imageLabel.setAlignmentY(0.5f);
+            JPanel container = new JPanel();
+            container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+            container.setOpaque(false);
+            container.setPreferredSize(new Dimension(300, 200));
+            container.setMaximumSize(new Dimension(300, 200));
+            container.setAlignmentX(0.0f);
+            container.setAlignmentY(0.0f);
 
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(0, 0, 0, 150));
-        titlePanel.setPreferredSize(new Dimension(300, 50));
-        titlePanel.setMaximumSize(new Dimension(300, 50));
-        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
+            container.add(Box.createVerticalGlue());
+            container.add(titlePanel);
 
-        JLabel titlePacote = new JLabel("Pacote");
-        titlePacote.setForeground(Color.WHITE);
-        titlePacote.setFont(interFont.deriveFont(16f));
-        titlePanel.add(titlePacote);
+            cardPanel.add(container);
+            cardPanel.add(imageLabel);
 
-        titlePanel.setAlignmentX(0.5f);
-        titlePanel.setAlignmentY(1.0f);
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar imagem do pacote: " + e.getMessage());
+            cardPanel.add(new JLabel("Imagem indisponível"));
+        }
 
-        cardPanel.add(titlePanel);
-        cardPanel.add(imageLabel);
+        cardPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(
+                        usuarioController, passeioController, pacoteController, pacoteTuristico
+                );
+                telaConteudoSelecionado.iniciarTela();
+            }
+        });
+
+        cardPanel.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(Color.GRAY, 1, true), // true = arredondado
+                        BorderFactory.createEmptyBorder(5, 5, 5, 5) // espaço interno
+                )
+        );
+
+
         return cardPanel;
     }
+
 
 }

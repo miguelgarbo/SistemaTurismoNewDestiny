@@ -57,9 +57,8 @@ public class Main {
 //        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado();
 //        telaRoteiroSelecionado.iniciarTela();
 
-      TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController);
-      telaVisualizacao.iniciarTela();
-
+          TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController);
+          telaVisualizacao.iniciarTela();
 
 //        TelaRoteiros telaRoteiros = new TelaRoteiros();
 //        telaRoteiros.inicarTela();
