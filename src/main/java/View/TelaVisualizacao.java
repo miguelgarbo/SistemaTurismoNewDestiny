@@ -4,6 +4,7 @@ import Controller.PacoteController;
 import Controller.PasseioController;
 import Controller.UsuarioController;
 import Model.Entidades.PacoteTuristicoEntity;
+import Model.Entidades.PasseioEntity;
 import Model.Entidades.UsuarioEntity;
 
 import javax.swing.*;
@@ -40,7 +41,7 @@ public class TelaVisualizacao extends JFrame {
 
         BackgroundPanel containerMain = new BackgroundPanel("/photos/backgroundMain.png");
         containerMain.setLayout(new BorderLayout());
-        containerMain.setBorder(BorderFactory.createEmptyBorder(20, 6, 20, 2));
+        containerMain.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
 
         JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
         header.setOpaque(false);
@@ -76,14 +77,27 @@ public class TelaVisualizacao extends JFrame {
         miniMenuButton.setFocusPainted(false);
         miniMenuButton.setOpaque(false);
 
-        miniMenuButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
-                modalMenu.iniciarModal(TelaVisualizacao.this);
-            }
-        });
+        if(usuarioController.getUserLogged()==null){
+            miniMenuButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
+                    modalMenu.iniciarModal(TelaVisualizacao.this);
+                }
+            });
+        }else{
+
+            miniMenuButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
+                    modalMenu.iniciarModal(TelaVisualizacao.this, usuarioController.getUserLogged());
+                }
+            });
+
+        }
 
         header.add(iconNewDestiny);
         header.add(Box.createHorizontalStrut(10));
@@ -137,11 +151,14 @@ public class TelaVisualizacao extends JFrame {
         pacotesRow.setLayout(new FlowLayout());
         pacotesRow.setOpaque(false);
 
-        for (int i = 1; i <= 10; i++) {
-            JPanel pacoteCard = criarPacoteCard();
+
+        for(PacoteTuristicoEntity pacoteTuristico : pacoteController.buscarTodos()){
+
+            JPanel pacoteCard = criarPacoteCard(pacoteTuristico);
             pacotesRow.add(pacoteCard);
             pacotesRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
+
 
         JScrollPane scrollHorizontal = new JScrollPane(pacotesRow);
         scrollHorizontal.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -193,8 +210,8 @@ public class TelaVisualizacao extends JFrame {
         JPanel passeioRow = new JPanel(new FlowLayout());
         passeioRow.setOpaque(false);
 
-        for (int i = 1; i <= 6; i++) {
-            JPanel passeioCard = criarPasseioCard();
+        for(PasseioEntity passeio: passeioController.listaPasseiosCadastrados()){
+            JPanel passeioCard = criarPasseioCard(passeio);
             passeioRow.add(passeioCard);
             passeioRow.add(Box.createRigidArea(new Dimension(15, 0)));
         }
@@ -289,7 +306,7 @@ public class TelaVisualizacao extends JFrame {
         setVisible(true);
     }
 
-    public JPanel criarPasseioCard(){
+    public JPanel criarPasseioCard(PasseioEntity passeio){
         ///começa o card
         JPanel cardPanel = new JPanel();
         cardPanel.setPreferredSize(new Dimension(300, 200));
@@ -311,7 +328,7 @@ public class TelaVisualizacao extends JFrame {
         titlePanel.setMaximumSize(new Dimension(300, 50));
         titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
 
-        JLabel titlePasseio = new JLabel("Passeio");
+        JLabel titlePasseio = new JLabel(passeio.getTitulo());
         titlePasseio.setForeground(Color.WHITE);
         titlePasseio.setFont(interFont.deriveFont(16f));
         titlePanel.add(titlePasseio);
@@ -321,10 +338,22 @@ public class TelaVisualizacao extends JFrame {
 
         cardPanel.add(titlePanel);
         cardPanel.add(imageLabel);
+
+        cardPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController,passeioController,pacoteController, passeio);
+                telaConteudoSelecionado.iniciarTela();
+
+            }
+        });
+
+
         return cardPanel;
     }
 
-    public JPanel criarPacoteCard(){
+    public JPanel criarPacoteCard(PacoteTuristicoEntity pacoteTuristico){
         ////começa o card
         JPanel cardPanel = new JPanel();
         cardPanel.setPreferredSize(new Dimension(300, 200));
@@ -346,7 +375,7 @@ public class TelaVisualizacao extends JFrame {
         titlePanel.setMaximumSize(new Dimension(300, 50));
         titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
 
-        JLabel titlePacote = new JLabel("Pacote");
+        JLabel titlePacote = new JLabel(pacoteTuristico.getTitulo());
         titlePacote.setForeground(Color.WHITE);
         titlePacote.setFont(interFont.deriveFont(16f));
         titlePanel.add(titlePacote);
@@ -356,6 +385,16 @@ public class TelaVisualizacao extends JFrame {
 
         cardPanel.add(titlePanel);
         cardPanel.add(imageLabel);
+
+        cardPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController,passeioController,pacoteController, pacoteTuristico);
+                telaConteudoSelecionado.iniciarTela();
+            }
+        });
+
         return cardPanel;
     }
 

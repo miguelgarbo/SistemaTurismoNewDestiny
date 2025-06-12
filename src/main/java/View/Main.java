@@ -57,8 +57,9 @@ public class Main {
 //        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado(usuarioController,pacoteController,passeioController);
 //        telaRoteiroSelecionado.iniciarTela();
 
-   //   TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController);
-    //  telaVisualizacao.iniciarTela();
+
+//      TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+//      telaVisualizacao.iniciarTela();
 
 
 //        TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController);
@@ -76,10 +77,8 @@ public class Main {
 //        TelaCriarRoteiro3Etapa telaCriarRoteiro3Etapa = new TelaCriarRoteiro3Etapa(usuarioController, pacoteController , passeioController);
 //        telaCriarRoteiro3Etapa.iniciarTela();
 
-        TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController, passeioController, pacoteController, passeioController.findById(3l));
+        TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController, passeioController, pacoteController, pacoteController.findById(11l));
         telaConteudoSelecionado.iniciarTela();
-
-
 
 //        menuPrincipal.mostrarMenuPrincipal();
 

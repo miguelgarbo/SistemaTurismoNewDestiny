@@ -81,7 +81,6 @@ public class TelaRoteiroSelecionado extends JFrame {
         JLabel logoNew = new JLabel(imgLogo);
         logoNew.setSize(100,50);
 
-
         header.setOpaque(false);
         header.add(buttonBack);
         header.add(Box.createHorizontalStrut(75)); // Seu strut original
@@ -100,7 +99,6 @@ public class TelaRoteiroSelecionado extends JFrame {
         rowTitle.setLayout(new BoxLayout(rowTitle, BoxLayout.X_AXIS));
         rowTitle.add(titleRoteiro);
         rowTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
         JPanel center = new JPanel();
         center.setOpaque(false);

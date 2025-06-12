@@ -18,6 +18,8 @@ public class FotoEntity {
         this.passeio = passeio;
         this.url = url;
     }
+    public FotoEntity() {
+    }
 
     public Long getId() {
         return id;

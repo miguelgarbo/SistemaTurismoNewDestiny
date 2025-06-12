@@ -79,7 +79,7 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        String nomeUsuário = "Miguel";//retorna o nome do usuário Logado
+        String nomeUsuário = usuarioController.getUserLogged().getNome();
         String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
         JLabel saudacao = new JLabel("Olá, " + nomeFormatado);
         saudacao.setFont(interFontBold.deriveFont(22f));

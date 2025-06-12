@@ -39,8 +39,9 @@ public class ModalMenu {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //TelaUsuario telaUsuario = new TelaUsuario();
-                //telaUsuario.iniciarTela(userLogged);
+                modal.dispose();
+                TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController);
+                telaPerfilUsuario.iniciarPerfilUsuário();
             }
         });
 
@@ -88,7 +89,6 @@ public class ModalMenu {
             }
         });
 
-        // Botão Cadastrar
         JButton buttonRegister = new JButton("Cadastrar");
         buttonRegister.setBounds(100, 80, 150, 30);
         buttonRegister.setForeground(coresProjeto.corAzulSecundaria);

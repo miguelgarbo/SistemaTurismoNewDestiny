@@ -98,8 +98,8 @@ public class TelaRoteiros extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //TelaUsuario telaUsuario = new TelaUsuario();
-                //telaUsuario.iniciarTela();
+                TelaPerfilUsuario telaUsuario = new TelaPerfilUsuario(usuarioController,pacoteController,passeioController);
+                telaUsuario.iniciarPerfilUsuário();
             }
         });
 
