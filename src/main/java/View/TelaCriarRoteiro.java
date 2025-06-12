@@ -62,8 +62,8 @@ public class TelaCriarRoteiro extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
-                telaVisualizacao.iniciarTela();
+                TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController, passeioController);
+                telaPerfilUsuario.iniciarPerfilUsuário();
                 dispose(); // Fecha a tela atual
             }
         });

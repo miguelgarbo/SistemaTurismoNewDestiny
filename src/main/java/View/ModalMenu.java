@@ -85,6 +85,7 @@ public class ModalMenu {
                 super.mouseClicked(e);
                 System.out.println(e);
                 modal.dispose();
+                frame.dispose();
                 TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController);
                 telaLogin.iniciarTela();
             }

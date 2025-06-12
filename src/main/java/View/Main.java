@@ -46,7 +46,7 @@ public class Main {
         UsuarioController usuarioController = new UsuarioController(usuarioService, roteiroController, passeioController, pacoteController, cartaoController, pagamentoController);
         AdmnistradorController admController = new AdmnistradorController(administradorService, pacoteController, passeioController, usuarioController, categoriaController);
 
-        MenuPrincipal menuPrincipal = new MenuPrincipal(usuarioController, admController);
+        //MenuPrincipal menuPrincipal = new MenuPrincipal(usuarioController, admController);
 
         //TelaLogin telaLogin = new TelaLogin(usuarioController,pacoteController,passeioController);
         //telaLogin.iniciarTela();

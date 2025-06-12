@@ -151,6 +151,16 @@ public class TelaRoteiros extends JFrame {
         setContentPane(containerMain);
         setVisible(true);
 
+        buttonCriarRoteiro.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                dispose();
+                TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController);
+                telaCriarRoteiro.iniciarTela();
+            }
+        });
+
     }
 
 
