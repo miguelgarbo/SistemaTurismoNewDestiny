@@ -3,6 +3,9 @@ package View;
 import Controller.PacoteController;
 import Controller.PasseioController;
 import Controller.UsuarioController;
+import Model.Entidades.UsuarioEntity;
+import Model.Repositorio.CartaoRepositorio;
+import Model.Servicos.CartaoService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +20,7 @@ public class TelaPerfilUsuario extends JFrame {
     private UsuarioController usuarioController;
     private PasseioController passeioController;
     private PacoteController pacoteController;
+    private CartaoRepositorio cartaoRepositorio;
 
     public TelaPerfilUsuario(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
         this.usuarioController = usuarioController;
@@ -50,15 +54,6 @@ public class TelaPerfilUsuario extends JFrame {
         buttonBack.setOpaque(false);
         buttonBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        buttonBack.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
-                telaVisualizacao.iniciarTela();
-            }
-        });
-
         ImageIcon imgLogo = new ImageIcon(getClass().getResource("/photos/logo.png"));
         JLabel logoNew = new JLabel(imgLogo);
         logoNew.setSize(100, 50);
@@ -79,7 +74,8 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        String nomeUsuário = usuarioController.getUserLogged().getNome();
+        UsuarioEntity usuarioLogado = usuarioController.getUserLogged();//retorna o nome do usuário Logado
+        String nomeUsuário = usuarioLogado.getNome();
         String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
         JLabel saudacao = new JLabel("Olá, " + nomeFormatado);
         saudacao.setFont(interFontBold.deriveFont(22f));
@@ -93,12 +89,13 @@ public class TelaPerfilUsuario extends JFrame {
         String[] opcoes = {
                 "Editar Perfil",
                 "Minhas Compras",
-                "Criar Roteiro Personalizado",
                 "Meus Roteiros",
                 "Métodos de Pagamento",
                 "Ajuda / Suporte",
                 "Sair da Conta"
         };
+
+        JButton ultimoBotao = null;
 
         for (String opcao : opcoes) {  // lista dos Botões
             final String opcaoFinal = opcao;
@@ -111,54 +108,42 @@ public class TelaPerfilUsuario extends JFrame {
             botao.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             containerConteudo.add(botao);
             containerConteudo.add(Box.createVerticalStrut(15));
+            ultimoBotao = botao;
 
             botao.addActionListener(e -> {
                 TelaPerfilUsuario.this.setVisible(false);
                 switch (opcaoFinal) {
                     case "Editar Perfil":
                         dispose();
-//                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController);
-//                        editarPerfilUsuário.editarPerfil();
+                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController, pacoteController, passeioController);
+                        editarPerfilUsuário.editarPerfil();
                         break;
                     case "Minhas Compras":
+                        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController);
+                        telaVisualizacao.iniciarTela();
                         System.out.println("Meus Pacotes");
                         break;
-                    case "Criar Roteiro Personalizado":
-                        System.out.println("Roteiros");
-                        TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController);
-                        telaCriarRoteiro.iniciarTela();
-                        break;
                     case "Meus Roteiros":
-//                        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController, pacoteController);
-//                        telaVisualizacao.iniciarTela();
                         TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController);
                         telaRoteiros.inicarTela();
                         break;
                     case "Métodos de Pagamento":
+                        CadastrarMetodoPagamento cadastrarMetodoPagamento = new CadastrarMetodoPagamento(usuarioController,pacoteController,passeioController);
+                        cadastrarMetodoPagamento.gerenciadorCartão(usuarioLogado);
                         System.out.println("Métodos pagamento");
                         break;
                     case "Ajuda / Suporte":
                         System.out.println("Help!");
                         break;
                     case "Sair da Conta":
-                        new TelaLogin(usuarioController, pacoteController, passeioController).iniciarTela();
+                        usuarioController.setgetUserLogged(null);
+                        new TelaVisualizacao(usuarioController,passeioController,pacoteController).iniciarTela();
                         break;
 
                 }
+
             });
             containerMain.add(containerConteudo, BorderLayout.CENTER);
-
-            buttonBack.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                    System.out.println(e);// mostra no terminal que o botão foi acionado
-                    TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
-                    TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController);
-                    telaLogin.iniciarTela();
-                }
-            });
-
 
             // Configurações da janela para parecer um celular
             setTitle("Perfil do Usuário");
@@ -167,6 +152,20 @@ public class TelaPerfilUsuario extends JFrame {
             setResizable(false);
             setLocationRelativeTo(null);
             setVisible(true);
+        }
+        buttonBack.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.out.println(e);// mostra no terminal que o botão foi acionado
+                TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController);
+                telaVisualizacao.iniciarTela();
+            }
+        });
+
+        if (ultimoBotao != null) {
+            ultimoBotao.setForeground(coresProjeto.corVermelha);
         }
     }
 }

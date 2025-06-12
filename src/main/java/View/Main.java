@@ -46,41 +46,28 @@ public class Main {
         UsuarioController usuarioController = new UsuarioController(usuarioService, roteiroController, passeioController, pacoteController, cartaoController, pagamentoController);
         AdmnistradorController admController = new AdmnistradorController(administradorService, pacoteController, passeioController, usuarioController, categoriaController);
 
-        MenuPrincipal menuPrincipal = new MenuPrincipal(usuarioController, admController);
+        //MenuPrincipal menuPrincipal = new MenuPrincipal(usuarioController, admController);
 
-//        TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController);
-//        telaLogin.iniciarTela();
+        //TelaLogin telaLogin = new TelaLogin(usuarioController,pacoteController,passeioController);
+        //telaLogin.iniciarTela();
 
-//        TelaCadastro telaCadastro = new TelaCadastro(usuarioController);
-//        telaCadastro.iniciarTela();
+   //     TelaCadastro telaCadastro = new TelaCadastro(usuarioController,passeioController,pacoteController);
+   //     telaCadastro.iniciarTela();
 
-//        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado(usuarioController,pacoteController,passeioController);
+//        TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado();
 //        telaRoteiroSelecionado.iniciarTela();
 
+      TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController);
+      telaVisualizacao.iniciarTela();
 
-//      TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
-//      telaVisualizacao.iniciarTela();
 
-
-//        TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController);
+//        TelaRoteiros telaRoteiros = new TelaRoteiros();
 //        telaRoteiros.inicarTela();
-//
-//         TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController);
-//         telaPerfilUsuario.iniciarPerfilUsuário();
 
-//          TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController , passeioController);
-//          telaCriarRoteiro.iniciarTela();
-//
-//        TelaCriarRoteiro2Etapa telaCriarRoteiro2Etapa = new TelaCriarRoteiro2Etapa(usuarioController, pacoteController , passeioController);
-//        telaCriarRoteiro2Etapa.iniciarTela();
+        // TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController,passeioController);
+         //telaPerfilUsuario.iniciarPerfilUsuário();
 
-//        TelaCriarRoteiro3Etapa telaCriarRoteiro3Etapa = new TelaCriarRoteiro3Etapa(usuarioController, pacoteController , passeioController);
-//        telaCriarRoteiro3Etapa.iniciarTela();
-
-        TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(usuarioController, passeioController, pacoteController, pacoteController.findById(11l));
-        telaConteudoSelecionado.iniciarTela();
-
-//        menuPrincipal.mostrarMenuPrincipal();
+       //menuPrincipal.mostrarMenuPrincipal();
 
     }
 }

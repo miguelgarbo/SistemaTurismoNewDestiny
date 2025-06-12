@@ -98,8 +98,8 @@ public class TelaRoteiros extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                TelaPerfilUsuario telaUsuario = new TelaPerfilUsuario(usuarioController,pacoteController,passeioController);
-                telaUsuario.iniciarPerfilUsuário();
+                TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController,passeioController);
+                telaPerfilUsuario.iniciarPerfilUsuário();
             }
         });
 
@@ -150,6 +150,16 @@ public class TelaRoteiros extends JFrame {
 
         setContentPane(containerMain);
         setVisible(true);
+
+        buttonCriarRoteiro.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                dispose();
+                TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController);
+                telaCriarRoteiro.iniciarTela();
+            }
+        });
 
     }
 
