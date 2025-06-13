@@ -2,7 +2,11 @@ package View;
 
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
+import Model.Entidades.DiaEntity;
+import Model.Entidades.PasseioEntity;
+import Model.Entidades.RoteiroPersonalizadoEntity;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -16,16 +20,18 @@ public class TelaRoteiroSelecionado extends JFrame {
     private UsuarioController usuarioController;
     private PasseioController passeioController;
     private PacoteController pacoteController;
+    private RoteiroController roteiroController;
     private Font interFont = null;
     private Font interFontBold = null;
 
-    public TelaRoteiroSelecionado(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController){
+    public TelaRoteiroSelecionado(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController){
         this.usuarioController =usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
+        this.roteiroController = roteiroController;
     }
 
-    public void iniciarTela(){
+    public void iniciarTela(RoteiroPersonalizadoEntity roteiro){
 
         // Configurações padrão da tela de login
         setTitle("Roteiros Selecionado");
@@ -66,7 +72,7 @@ public class TelaRoteiroSelecionado extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController,pacoteController);
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController,pacoteController,roteiroController);
                 telaVisualizacao.iniciarTela();
             }
         });
@@ -89,8 +95,8 @@ public class TelaRoteiroSelecionado extends JFrame {
 // fim da header
 
         // Título
-        JLabel titleRoteiro = new JLabel("<html><b>'Nome Roteiro'</b></html>");
-        titleRoteiro.setFont(interFontBold != null ? interFontBold.deriveFont(20f) : new Font("SansSerif", Font.BOLD, 20)); // Fallback para fonte
+        JLabel titleRoteiro = new JLabel("<html><b>"+ roteiro.getTitulo()+"</b></html>");
+        titleRoteiro.setFont(interFontBold != null ? interFontBold.deriveFont(20f) : new Font("SansSerif", Font.BOLD, 20));
         titleRoteiro.setForeground(Color.WHITE);
         titleRoteiro.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -111,13 +117,15 @@ public class TelaRoteiroSelecionado extends JFrame {
         center.add(rowTitle);
         center.add(Box.createVerticalStrut(20));
 
-        //criação dos dias
-        for (int i = 1; i <= 3; i++) {
-            JPanel blocoDiaWrapper = createDayBlock(i);
-            center.add(blocoDiaWrapper);
-            if (i < 10) {
-                center.add(Box.createVerticalStrut(15));
+
+        if(roteiro.getDias()!=null && !roteiro.getDias().isEmpty()){
+
+            for(DiaEntity dia : roteiro.getDias()){
+                JPanel blocoDiaWrapper = createDayBlock(dia);
+                center.add(blocoDiaWrapper);
+                center.add(Box.createVerticalStrut(10));
             }
+
         }
 
         JScrollPane scrollPane = new JScrollPane(center);
@@ -170,7 +178,7 @@ public class TelaRoteiroSelecionado extends JFrame {
     }
 
 
-    private JPanel createDayBlock(int diaEntidade) {
+    private JPanel createDayBlock(DiaEntity dia) {
         JPanel blockDia = new JPanel();
         blockDia.setLayout(new BorderLayout());
         blockDia.setBackground(new Color(0x13A8AD >> 16 & 0xFF, 0x13A8AD >> 8 & 0xFF, 0x13A8AD & 0xFF, 102));
@@ -179,32 +187,17 @@ public class TelaRoteiroSelecionado extends JFrame {
         topoPanel.setBackground(new Color(0x13A8AD >> 16 & 0xFF, 0x13A8AD >> 8 & 0xFF, 0x13A8AD & 0xFF, 102));
         topoPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        JLabel diaLabel = new JLabel("<html><b>Dia " + diaEntidade + "</b></html>");
+        JLabel diaLabel = new JLabel("<html><b>Dia " + dia.getNumeroDoDia() + "</b></html>");
         diaLabel.setForeground(Color.WHITE);
         diaLabel.setFont(interFont.deriveFont(16f));
 
-        JLabel dataLabel = new JLabel("<html><b>xx/xx/xxxx</b></html>");
+        JLabel dataLabel = new JLabel("<html><b>"+dia.getdataReal()+"</b></html>");
         dataLabel.setForeground(Color.WHITE);
         dataLabel.setFont(interFont.deriveFont(16f));
 
         topoPanel.add(diaLabel, BorderLayout.WEST);
         topoPanel.add(dataLabel, BorderLayout.EAST);
 
-        BackgroundPanel passeioPanel = new BackgroundPanel("/photos/backgroundPasseio.png");
-        passeioPanel.setOpaque(false);
-        passeioPanel.setLayout(new BorderLayout());
-        passeioPanel.setPreferredSize(new Dimension(350, 50));
-        passeioPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-
-        JLabel nomePasseio = new JLabel("<html><b>'Nome Passeio'</b></html>");
-        nomePasseio.setForeground(Color.WHITE);
-        nomePasseio.setFont(interFont.deriveFont(18f));
-        JLabel horario = new JLabel("<html><b>12:30</b></html>");
-        horario.setForeground(Color.WHITE);
-        horario.setFont(interFont.deriveFont(18f));
-
-        passeioPanel.add(nomePasseio, BorderLayout.WEST);
-        passeioPanel.add(horario, BorderLayout.EAST);
 
         JButton addButton = new JButton("Add Passeio");
 
@@ -221,8 +214,17 @@ public class TelaRoteiroSelecionado extends JFrame {
         centroPanel.setOpaque(false);
         centroPanel.setLayout(new BoxLayout(centroPanel, BoxLayout.Y_AXIS));
 
-        centroPanel.add(passeioPanel);
-        centroPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Alterado de 0 para 5 pixels
+        centroPanel.setMinimumSize(new Dimension(350, 75));  // largura fixa e altura mínima
+        centroPanel.setPreferredSize(new Dimension(350, 75));
+
+
+        for(PasseioEntity passeio : dia.getPasseios()){
+
+            JPanel passeioPanel = criarPasseioDentroDia(passeio);
+            centroPanel.add(passeioPanel);
+            centroPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Alterado de 0 para 5 pixels
+        }
+
         centroPanel.add(addButton);
         centroPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Top/Bottom de 5 pixels
 
@@ -235,4 +237,26 @@ public class TelaRoteiroSelecionado extends JFrame {
 
         return blocoDiaPanelCentralizado;
     }
+
+    public JPanel criarPasseioDentroDia(PasseioEntity passeio){
+
+        JPanel passeioPanel = new JPanel();
+        passeioPanel.setOpaque(false);
+        passeioPanel.setLayout(new BorderLayout());
+        passeioPanel.setPreferredSize(new Dimension(350, 50));
+        passeioPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        JLabel nomePasseio = new JLabel("<html><b>"+passeio.getTitulo()+"</b></html>");
+        nomePasseio.setForeground(Color.WHITE);
+        nomePasseio.setFont(interFont.deriveFont(18f));
+        JLabel horario = new JLabel("<html><b>"+passeio.getHorarios()+"</b></html>");
+        horario.setForeground(Color.WHITE);
+        horario.setFont(interFont.deriveFont(18f));
+
+        passeioPanel.add(nomePasseio, BorderLayout.WEST);
+        passeioPanel.add(horario, BorderLayout.EAST);
+
+        return passeioPanel;
+    }
+
 }

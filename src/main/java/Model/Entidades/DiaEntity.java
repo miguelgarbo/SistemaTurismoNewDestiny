@@ -24,7 +24,7 @@ public class DiaEntity{
             joinColumns = @JoinColumn(name = "dia_id"),
             inverseJoinColumns = @JoinColumn(name = "passeio_id")
     )
-    private List<PasseioEntity> passeios;
+    private List<PasseioEntity> passeios = new ArrayList<>();
 
 
     // Métodos para adicionar passeios ao dia

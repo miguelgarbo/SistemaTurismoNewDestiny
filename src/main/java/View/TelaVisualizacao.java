@@ -2,13 +2,17 @@ package View;
 
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
+import Model.Entidades.CategoriaEntity;
 import Model.Entidades.PacoteTuristicoEntity;
 import Model.Entidades.PasseioEntity;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.util.List;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
@@ -18,13 +22,15 @@ public class TelaVisualizacao extends JFrame {
     private UsuarioController usuarioController;
     private PasseioController passeioController;
     private PacoteController pacoteController;
+    private RoteiroController roteiroController;
     private Font interFont = null;
     private Font interFontBold = null;
 
-    public TelaVisualizacao(UsuarioController usuarioController, PasseioController passeioController, PacoteController pacoteController) {
+    public TelaVisualizacao(UsuarioController usuarioController, PasseioController passeioController, PacoteController pacoteController, RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
+        this.roteiroController =roteiroController;
     }
 
     public void iniciarTela() {
@@ -81,7 +87,7 @@ public class TelaVisualizacao extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
-                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
+                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController, roteiroController);
                     modalMenu.iniciarModal(TelaVisualizacao.this);
                 }
             });
@@ -91,7 +97,7 @@ public class TelaVisualizacao extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
-                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController);
+                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController, roteiroController);
                     modalMenu.iniciarModal(TelaVisualizacao.this, usuarioController.getUserLogged());
                 }
             });
@@ -109,8 +115,19 @@ public class TelaVisualizacao extends JFrame {
         center.setOpaque(false);
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
-        String[] categorias = {"Todos", "Aventura", "Romântico", "Cultural"};
-        JComboBox<String> filter = new JComboBox<>(categorias);
+        List<CategoriaEntity> categoriasBD = passeioController.categoriaService().buscarTodos();
+
+        String[] nomesCategoriasSemTodos = categoriasBD.stream()
+                .map(CategoriaEntity::getNome)
+                .toArray(String[]::new);
+
+        String[] nomesCategoriasComTodos = new String[nomesCategoriasSemTodos.length + 1];
+        nomesCategoriasComTodos[0] = "Todos";
+
+        System.arraycopy(nomesCategoriasSemTodos, 0, nomesCategoriasComTodos, 1, nomesCategoriasSemTodos.length);
+
+
+        JComboBox<String> filter = new JComboBox<>(nomesCategoriasComTodos);
         filter.setMaximumSize(new Dimension(130, 30));
         filter.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -361,8 +378,7 @@ public class TelaVisualizacao extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
-                        usuarioController, passeioController, pacoteController, passeio
-                );
+                        usuarioController, passeioController, pacoteController, passeio, roteiroController);
                 tela.iniciarTela();
             }
         });
@@ -431,8 +447,7 @@ public class TelaVisualizacao extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(
-                        usuarioController, passeioController, pacoteController, pacoteTuristico
-                );
+                        usuarioController, passeioController, pacoteController, pacoteTuristico, roteiroController);
                 telaConteudoSelecionado.iniciarTela();
             }
         });

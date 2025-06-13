@@ -2,7 +2,11 @@ package View;
 
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
+import Model.Entidades.DiaEntity;
+import Model.Entidades.PasseioEntity;
+import Model.Entidades.RoteiroPersonalizadoEntity;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -16,17 +20,20 @@ public class TelaCriarRoteiro2Etapa extends JFrame {
     private UsuarioController usuarioController;
     private PasseioController passeioController;
     private PacoteController pacoteController;
+    private RoteiroController roteiroController;
+
     private Font interFont;
     private Font interFontBold;
     private CoresProjeto coresProjeto = new CoresProjeto();
 
-    public TelaCriarRoteiro2Etapa(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
+    public TelaCriarRoteiro2Etapa(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
+        this.roteiroController = roteiroController;
     }
 
-    public void iniciarTela() {
+    public void iniciarTela(RoteiroPersonalizadoEntity roteiroNovo) {
         setTitle("Criando Seu Roteiro 2");
         setSize(440, 920);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,7 +68,7 @@ public class TelaCriarRoteiro2Etapa extends JFrame {
         buttonBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
                 dispose();
             }
@@ -96,9 +103,10 @@ public class TelaCriarRoteiro2Etapa extends JFrame {
         contentPanelForScroll.add(tituloLabel);
         contentPanelForScroll.add(Box.createVerticalStrut(30));
 
-        for (int i = 0; i < 7; i++) {
-            contentPanelForScroll.add(createDayBlock(i + 1));
-            contentPanelForScroll.add(Box.createVerticalStrut(20));
+        for(DiaEntity dia : roteiroNovo.getDias()){
+            contentPanelForScroll.add(createDayBlock(dia));
+            contentPanelForScroll.add(Box.createVerticalStrut(10));
+
         }
 
         JButton botaoProximo = new JButton("Pronto");
@@ -113,7 +121,7 @@ public class TelaCriarRoteiro2Etapa extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 JOptionPane.showMessageDialog(null, "Roteiro Criado com Sucesso");
-                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
             }
         });
@@ -169,7 +177,7 @@ public class TelaCriarRoteiro2Etapa extends JFrame {
         setVisible(true);
     }
 
-    private JPanel createDayBlock(int diaEntidade) {
+    private JPanel createDayBlock(DiaEntity dia) {
         JPanel blockDia = new JPanel();
         blockDia.setLayout(new BorderLayout());
         blockDia.setBackground(new Color(0x13A8AD >> 16 & 0xFF, 0x13A8AD >> 8 & 0xFF, 0x13A8AD & 0xFF, 102));
@@ -178,69 +186,101 @@ public class TelaCriarRoteiro2Etapa extends JFrame {
         topoPanel.setBackground(new Color(0x13A8AD >> 16 & 0xFF, 0x13A8AD >> 8 & 0xFF, 0x13A8AD & 0xFF, 102));
         topoPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        JLabel diaLabel = new JLabel("<html><b>Dia " + diaEntidade + "</b></html>");
+        JLabel diaLabel = new JLabel("<html><b>Dia " + dia.getNumeroDoDia() + "</b></html>");
         diaLabel.setForeground(Color.WHITE);
         diaLabel.setFont(interFont.deriveFont(16f));
 
-        JLabel dataLabel = new JLabel("<html><b>xx/xx/xxxx</b></html>");
+        JLabel dataLabel = new JLabel("<html><b>"+dia.getdataReal()+"</b></html>");
         dataLabel.setForeground(Color.WHITE);
         dataLabel.setFont(interFont.deriveFont(16f));
 
         topoPanel.add(diaLabel, BorderLayout.WEST);
         topoPanel.add(dataLabel, BorderLayout.EAST);
 
-        BackgroundPanel passeioPanel = new BackgroundPanel("/photos/backgroundPasseio.png");
-        passeioPanel.setOpaque(false);
-        passeioPanel.setLayout(new BorderLayout());
-        passeioPanel.setPreferredSize(new Dimension(300, 50));
-        passeioPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-
-        JLabel nomePasseio = new JLabel("<html><b>'Nome Passeio'</b></html>");
-        nomePasseio.setForeground(Color.WHITE);
-        nomePasseio.setFont(interFont.deriveFont(18f));
-        JLabel horario = new JLabel("<html><b>12:30</b></html>");
-        horario.setForeground(Color.WHITE);
-        horario.setFont(interFont.deriveFont(18f));
-
-        passeioPanel.add(nomePasseio, BorderLayout.WEST);
-        passeioPanel.add(horario, BorderLayout.EAST);
 
         JButton addButton = new JButton("Add Passeio");
+
         addButton.setPreferredSize(new Dimension(120, 30));
         addButton.setForeground(new Color(0x208482));
         addButton.setBackground(Color.WHITE);
         addButton.setFocusPainted(false);
         addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        addButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                TelaCriarRoteiro3Etapa  telaCriarRoteiro3Etapa = new TelaCriarRoteiro3Etapa(usuarioController, pacoteController,passeioController);
-                telaCriarRoteiro3Etapa.iniciarTela();
-            }
-        });
 
+        // Layout principal
         JPanel centroPanel = new JPanel();
         centroPanel.setBackground(new Color(0x13A8AD));
         centroPanel.setOpaque(false);
         centroPanel.setLayout(new BoxLayout(centroPanel, BoxLayout.Y_AXIS));
-        passeioPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centroPanel.setMinimumSize(new Dimension(350, 75));  // largura fixa e altura mínima
+        centroPanel.setPreferredSize(new Dimension(350, 75));
 
-        centroPanel.add(passeioPanel);
-        centroPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+
+        for(PasseioEntity passeio : dia.getPasseios()){
+
+            JPanel passeioPanel = criarPasseioDentroDia(passeio);
+            centroPanel.add(passeioPanel);
+            centroPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Alterado de 0 para 5 pixels
+        }
+
         centroPanel.add(addButton);
-        centroPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        centroPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Top/Bottom de 5 pixels
 
         blockDia.add(topoPanel, BorderLayout.NORTH);
         blockDia.add(centroPanel, BorderLayout.CENTER);
 
         JPanel blocoDiaPanelCentralizado = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         blocoDiaPanelCentralizado.setOpaque(false);
-        blockDia.setPreferredSize(new Dimension(370, 120));
         blocoDiaPanelCentralizado.add(blockDia);
 
         return blocoDiaPanelCentralizado;
     }
+
+    public JPanel criarPasseioDentroDia(PasseioEntity passeio) {
+        JPanel passeioPanel = new JPanel();
+        passeioPanel.setOpaque(false);
+        passeioPanel.setLayout(new BorderLayout());
+        passeioPanel.setPreferredSize(new Dimension(350, 70)); // um pouco maior pra imagem caber bem
+        passeioPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        // Painel para texto (titulo + horário)
+        JPanel textoPanel = new JPanel();
+        textoPanel.setOpaque(false);
+        textoPanel.setLayout(new BoxLayout(textoPanel, BoxLayout.Y_AXIS));
+
+        JLabel nomePasseio = new JLabel("<html><b>" + passeio.getTitulo() + "</b></html>");
+        nomePasseio.setForeground(Color.WHITE);
+        nomePasseio.setFont(interFont.deriveFont(18f));
+
+        JLabel horario = new JLabel("<html><b>" + passeio.getHorarios() + "</b></html>");
+        horario.setForeground(Color.WHITE);
+        horario.setFont(interFont.deriveFont(16f));
+
+        textoPanel.add(nomePasseio);
+        textoPanel.add(horario);
+
+        // Carregar imagem como na criarPasseioCard
+        JLabel imagemLabel = new JLabel();
+        try {
+            String urlImagem = passeio.getListaFotos().get(0).getUrl();
+            URL url = new URL(urlImagem);
+            ImageIcon imgIcon = new ImageIcon(url);
+            Image imagem = imgIcon.getImage().getScaledInstance(80, 70, Image.SCALE_SMOOTH);
+            imagemLabel.setIcon(new ImageIcon(imagem));
+            imagemLabel.setPreferredSize(new Dimension(80, 70));
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar imagem do passeio: " + e.getMessage());
+            imagemLabel.setText("Imagem indisponível");
+            imagemLabel.setForeground(Color.WHITE);
+            imagemLabel.setPreferredSize(new Dimension(80, 70));
+            imagemLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            imagemLabel.setVerticalAlignment(SwingConstants.CENTER);
+        }
+
+        passeioPanel.add(imagemLabel, BorderLayout.WEST);
+        passeioPanel.add(textoPanel, BorderLayout.CENTER);
+
+        return passeioPanel;
+    }
+
 }

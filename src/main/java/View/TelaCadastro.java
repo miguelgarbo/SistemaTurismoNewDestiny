@@ -2,6 +2,7 @@ package View;
 
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
 
 
@@ -16,15 +17,18 @@ public class TelaCadastro extends JFrame {
     private UsuarioController usuarioController;
     private PasseioController passeioController;
     private PacoteController pacoteController;
+    private RoteiroController roteiroController;
+
 
 
     private Font interFont = null;
     private Font interFontBold = null;
 
-    public TelaCadastro(UsuarioController usuarioController, PasseioController passeioController, PacoteController pacoteController){
+    public TelaCadastro(UsuarioController usuarioController, PasseioController passeioController, PacoteController pacoteController, RoteiroController roteiroController){
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
+        this.roteiroController = roteiroController;
 
     }
 
@@ -181,7 +185,7 @@ public class TelaCadastro extends JFrame {
                 super.mouseClicked(e);
 
                 TelaCadastro.this.setVisible(false);
-                TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController );
+                TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController, roteiroController );
                 telaLogin.iniciarTela();
             }
         });

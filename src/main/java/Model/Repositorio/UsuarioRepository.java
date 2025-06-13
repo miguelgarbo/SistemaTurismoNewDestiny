@@ -21,12 +21,14 @@ public class UsuarioRepository {
     }
 
 
-    public void cadastrar(UsuarioEntity usuario){
-
-        em.getTransaction().begin();
+    public void cadastrar(UsuarioEntity usuario) {
+        if (!em.getTransaction().isActive()) {
+            em.getTransaction().begin();
+        }
         em.persist(usuario);
         em.getTransaction().commit();
     }
+
 
     public List<UsuarioEntity> buscarTodos(){
         return em.createQuery("SELECT u FROM Usuario u", UsuarioEntity.class).getResultList();

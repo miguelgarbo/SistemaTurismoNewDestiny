@@ -68,6 +68,10 @@ public class PasseioController {
         return passeioService.buscarPorId(id);
     }
 
+    public CategoriaService categoriaService(){
+        return  categoriaService;
+    }
+
     public void cadastrarPasseio() {
 
         String continuar;

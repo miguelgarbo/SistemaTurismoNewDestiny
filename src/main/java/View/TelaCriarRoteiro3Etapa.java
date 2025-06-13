@@ -2,6 +2,7 @@ package View;
 
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
 
 import javax.swing.*;
@@ -17,14 +18,17 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
     private UsuarioController usuarioController;
     private PasseioController passeioController;
     private PacoteController pacoteController;
+    private RoteiroController roteiroController;
+
     private Font interFont;
     private Font interFontBold;
     private CoresProjeto coresProjeto = new CoresProjeto(); // Correção: CoresProjeto
 
-    public TelaCriarRoteiro3Etapa(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
+    public TelaCriarRoteiro3Etapa(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
+        this.roteiroController = roteiroController;
     }
 
     public void iniciarTela() {
@@ -64,7 +68,7 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
                 dispose();
             }

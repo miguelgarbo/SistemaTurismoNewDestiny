@@ -2,6 +2,7 @@ package View;
 
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
 import Model.Entidades.UsuarioEntity;
 
@@ -15,11 +16,13 @@ public class ModalMenu {
     private UsuarioController usuarioController;
     private PacoteController pacoteController;
     private PasseioController passeioController;
+    private RoteiroController roteiroController;
 
-    public ModalMenu(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
+    public ModalMenu(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
         this.passeioController = passeioController;
         this.pacoteController = pacoteController;
+        this.roteiroController = roteiroController;
     }
 
     public void iniciarModal(JFrame frame, UsuarioEntity userLogged){
@@ -40,7 +43,7 @@ public class ModalMenu {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 modal.dispose();
-                TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController);
+                TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
                 telaPerfilUsuario.iniciarPerfilUsuário();
             }
         });
@@ -84,7 +87,7 @@ public class ModalMenu {
                 super.mouseClicked(e);
                 System.out.println(e);
                 modal.dispose();
-                TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController);
+                TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController,roteiroController);
                 telaLogin.iniciarTela();
             }
         });
@@ -99,7 +102,7 @@ public class ModalMenu {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 modal.dispose();
-                TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController);
+                TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController, roteiroController);
                 telaCadastro.iniciarTela();
             }
         });

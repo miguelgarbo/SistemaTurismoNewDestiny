@@ -55,17 +55,20 @@ public class PasseioService {
         return passeioRepository.buscarTodos();
     }
 
-    public void removerPasseioRoteiroPorId(Long idPasseio, RoteiroPersonalizadoEntity roteiroPersonalizado) {
+    public boolean removerPasseioRoteiroPorId(Long idPasseio, RoteiroPersonalizadoEntity roteiroPersonalizado) {
         if (idPasseio != null) {
             PasseioEntity passeio = passeioRepository.findById(idPasseio);
             if (passeio != null) {
-                roteiroPersonalizado.getPasseios().remove(passeio);
+                boolean removidoDoRoteiro = roteiroPersonalizado.getPasseios().remove(passeio);
                 if (roteiroPersonalizado.getDias() != null) {
                     for (DiaEntity dia : roteiroPersonalizado.getDias()) {
                         dia.getPasseios().remove(passeio);
                     }
                 }
+                return removidoDoRoteiro;
             }
         }
+        return false;
     }
+
 }

@@ -197,10 +197,10 @@ public class UsuarioController {
 
             switch (opcao) {
                 case 1:
-                    roteiroController.menuCadastro(getUserLogged);
+//                    roteiroController.menuCadastro(getUserLogged);
                     break;
                 case 2:
-                    roteiroController.exibirMeusRoteiros(getUserLogged);
+//                    roteiroController.exibirMeusRoteiros(getUserLogged);
                     break;
                 case 3:
                     menuUsuario();
@@ -353,7 +353,7 @@ public class UsuarioController {
             System.out.println("Nome: " + usuario.getNome());
             System.out.println("Email: " + usuario.getEmail());
             System.out.println("Número Telefone: " + usuario.getNumeroTelefone());
-            roteiroController.exibirMeusRoteiros(usuario);
+//            roteiroController.exibirMeusRoteiros(usuario);
         }
     }
 }

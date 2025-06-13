@@ -1,6 +1,7 @@
 package View;
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
 import Model.Entidades.CartaoEntity;
 import Model.Entidades.UsuarioEntity;
@@ -17,12 +18,14 @@ public class CadastrarMetodoPagamento extends JFrame {
     private UsuarioController usuarioController;
     private PacoteController pacoteController;
     private PasseioController passeioController;
+    private RoteiroController roteiroController;
     private UsuarioEntity usuarioEntity;
 
-    public CadastrarMetodoPagamento(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
+    public CadastrarMetodoPagamento(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
+        this.roteiroController = roteiroController;
     }
 
     public void gerenciadorCartão(UsuarioEntity usuario){
@@ -53,7 +56,7 @@ public class CadastrarMetodoPagamento extends JFrame {
         buttonBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         buttonBack.addActionListener(e -> {
-            TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController);
+            TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
             telaPerfilUsuario.iniciarPerfilUsuário();
         });
 
@@ -114,7 +117,7 @@ public class CadastrarMetodoPagamento extends JFrame {
             // Aqui você pode validar os dados e salvar no banco
             JOptionPane.showMessageDialog(null, "Cartão cadastrado com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
             dispose();
-            TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController);
+            TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
             telaPerfilUsuario.iniciarPerfilUsuário();
         });
 

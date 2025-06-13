@@ -2,6 +2,7 @@ package View;
 
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
 
 import javax.swing.*;
@@ -16,12 +17,15 @@ public class TelaLogin extends JFrame {
     private Font interFontBold = null;
     private PasseioController passeioController;
     private PacoteController pacoteController;
+    private RoteiroController roteiroController;
 
 
-    public TelaLogin(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
+
+    public TelaLogin(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
+        this.roteiroController = roteiroController;
     }
 
     public void iniciarTela() {
@@ -123,7 +127,7 @@ public class TelaLogin extends JFrame {
                     containerMain.setVisible(false);
                     dispose();
                     System.out.println("Chamando tela de perfil...");
-                    TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController);
+                    TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController, roteiroController);
                     telaVisualizacao.iniciarTela();
                 } else {
                     mensagemStatus.setText("Email ou Senha Inválidos");
@@ -148,7 +152,7 @@ public class TelaLogin extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 TelaLogin.this.setVisible(false);
-                TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController);
+                TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController, roteiroController);
                 telaCadastro.iniciarTela();
             }
         });

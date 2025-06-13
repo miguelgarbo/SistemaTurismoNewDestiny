@@ -1,6 +1,7 @@
 package Model.Repositorio;
 
 import Model.Entidades.PasseioEntity;
+import Model.Servicos.CategoriaService;
 
 
 import javax.persistence.EntityManager;
@@ -25,6 +26,7 @@ public class PasseioRepository {
         em.persist(passeio);
         em.getTransaction().commit();
     }
+
 
     public void atualizar (PasseioEntity passeio){
 

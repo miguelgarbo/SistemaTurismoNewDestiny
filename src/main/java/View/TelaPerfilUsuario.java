@@ -2,6 +2,7 @@ package View;
 
 import Controller.PacoteController;
 import Controller.PasseioController;
+import Controller.RoteiroController;
 import Controller.UsuarioController;
 import Model.Entidades.UsuarioEntity;
 import Model.Repositorio.CartaoRepositorio;
@@ -20,12 +21,14 @@ public class TelaPerfilUsuario extends JFrame {
     private UsuarioController usuarioController;
     private PasseioController passeioController;
     private PacoteController pacoteController;
+    private RoteiroController roteiroController;
     private CartaoRepositorio cartaoRepositorio;
 
-    public TelaPerfilUsuario(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController) {
+    public TelaPerfilUsuario(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
+        this.roteiroController = roteiroController;
     }
 
     public void iniciarPerfilUsuário() {
@@ -120,16 +123,16 @@ public class TelaPerfilUsuario extends JFrame {
 //                        editarPerfilUsuário.editarPerfil();
                         break;
                     case "Minhas Compras":
-                        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController);
+                        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController);
                         telaVisualizacao.iniciarTela();
                         System.out.println("Meus Pacotes");
                         break;
                     case "Meus Roteiros":
-                        TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController);
-                        telaRoteiros.inicarTela();
+                        TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController, roteiroController);
+                        telaRoteiros.inicarTela(usuarioLogado);
                         break;
                     case "Métodos de Pagamento":
-                        CadastrarMetodoPagamento cadastrarMetodoPagamento = new CadastrarMetodoPagamento(usuarioController,pacoteController,passeioController);
+                        CadastrarMetodoPagamento cadastrarMetodoPagamento = new CadastrarMetodoPagamento(usuarioController,pacoteController,passeioController, roteiroController);
                         cadastrarMetodoPagamento.gerenciadorCartão(usuarioLogado);
                         System.out.println("Métodos pagamento");
                         break;
@@ -138,7 +141,7 @@ public class TelaPerfilUsuario extends JFrame {
                         break;
                     case "Sair da Conta":
                         usuarioController.setgetUserLogged(null);
-                        new TelaVisualizacao(usuarioController,passeioController,pacoteController).iniciarTela();
+                        new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController).iniciarTela();
                         break;
 
                 }
@@ -160,7 +163,7 @@ public class TelaPerfilUsuario extends JFrame {
                 super.mouseClicked(e);
                 System.out.println(e);// mostra no terminal que o botão foi acionado
                 TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
-                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController);
+                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
             }
         });
