@@ -177,6 +177,7 @@ public class TelaRoteiros extends JFrame {
                 dispose();
                 TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController, roteiroController);
                 telaCriarRoteiro.iniciarTela();
+                dispose();
             }
         });
 

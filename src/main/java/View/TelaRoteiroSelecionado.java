@@ -72,8 +72,10 @@ public class TelaRoteiroSelecionado extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController,pacoteController,roteiroController);
-                telaVisualizacao.iniciarTela();
+//
+                TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController, roteiroController);
+                telaRoteiros.inicarTela(usuarioController.getUserLogged());
+                dispose();
             }
         });
 
@@ -198,7 +200,6 @@ public class TelaRoteiroSelecionado extends JFrame {
         topoPanel.add(diaLabel, BorderLayout.WEST);
         topoPanel.add(dataLabel, BorderLayout.EAST);
 
-
         JButton addButton = new JButton("Add Passeio");
 
         addButton.setPreferredSize(new Dimension(120, 30));
@@ -207,25 +208,41 @@ public class TelaRoteiroSelecionado extends JFrame {
         addButton.setFocusPainted(false);
         addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        addButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
 
-        // Layout principal
+                TelaCriarRoteiro3Etapa telaCriarRoteiro3Etapa = new TelaCriarRoteiro3Etapa(usuarioController, pacoteController, passeioController, roteiroController,dia);
+                telaCriarRoteiro3Etapa.iniciarTela();
+                dispose();
+            }
+        });
+
         JPanel centroPanel = new JPanel();
         centroPanel.setBackground(new Color(0x13A8AD));
         centroPanel.setOpaque(false);
         centroPanel.setLayout(new BoxLayout(centroPanel, BoxLayout.Y_AXIS));
 
-        centroPanel.setMinimumSize(new Dimension(350, 75));  // largura fixa e altura mínima
-        centroPanel.setPreferredSize(new Dimension(350, 75));
+        int alturaMinima = dia.getPasseios().isEmpty() ? 50 : dia.getPasseios().size() * 60;
+
+        centroPanel.setMinimumSize(new Dimension(350, alturaMinima));
+        centroPanel.setPreferredSize(new Dimension(350, alturaMinima));
+        centroPanel.setMaximumSize(new Dimension(350, Integer.MAX_VALUE));
+        centroPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
 
         for(PasseioEntity passeio : dia.getPasseios()){
-
             JPanel passeioPanel = criarPasseioDentroDia(passeio);
             centroPanel.add(passeioPanel);
             centroPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Alterado de 0 para 5 pixels
         }
 
         centroPanel.add(addButton);
+        centroPanel.revalidate();
+        centroPanel.repaint();
+
         centroPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Top/Bottom de 5 pixels
 
         blockDia.add(topoPanel, BorderLayout.NORTH);

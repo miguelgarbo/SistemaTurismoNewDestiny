@@ -24,6 +24,7 @@ public class Main {
         CartaoService cartaoService = new CartaoService(cartaoRepositorio);
         PedidoRepository pedidoRepository = new PedidoRepository(em);
         CategoriaRepository categoriaRepository = new CategoriaRepository(em);
+        DiaRepository diaRepository = new DiaRepository(em);
         //servicos das entidades
 
 
@@ -39,7 +40,7 @@ public class Main {
         CartaoController cartaoController = new CartaoController(cartaoService);
         PagamentoController pagamentoController = new PagamentoController(cartaoController, cartaoService, passeioService, pagamentoService, pacoteTuristicoService);
         CategoriaController categoriaController = new CategoriaController(categoriaService);
-        PasseioController passeioController = new PasseioController(passeioService, categoriaService, categoriaController, pagamentoController);
+        PasseioController passeioController = new PasseioController(passeioService, categoriaService, categoriaController, pagamentoController, diaRepository);
         PacoteController pacoteController = new PacoteController(pacoteTuristicoService, pagamentoController, categoriaController, categoriaService, passeioController, passeioService);
         RoteiroController roteiroController = new RoteiroController(roteiroPersonalizadoService, passeioService, passeioController);
 

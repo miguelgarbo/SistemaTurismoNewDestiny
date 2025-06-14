@@ -27,7 +27,7 @@ public class PasseioEntity {
     private List<FotoEntity> listaFotos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "passeios")
-    private List<DiaEntity> dias;
+    private List<DiaEntity> dias = new ArrayList<>();;
 
     @ManyToMany
     @JoinTable(

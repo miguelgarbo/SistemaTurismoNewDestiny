@@ -187,6 +187,8 @@ public class TelaCadastro extends JFrame {
                 TelaCadastro.this.setVisible(false);
                 TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController, roteiroController );
                 telaLogin.iniciarTela();
+                dispose();
+
             }
         });
 

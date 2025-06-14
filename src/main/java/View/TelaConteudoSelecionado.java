@@ -300,6 +300,8 @@ public class TelaConteudoSelecionado extends JFrame{
                 TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, passeio, roteiroController);
                 tela.iniciarTela();
+                dispose();
+
             }
         });
 

@@ -104,6 +104,7 @@ public class ModalMenu {
                 modal.dispose();
                 TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController, roteiroController);
                 telaCadastro.iniciarTela();
+
             }
         });
 

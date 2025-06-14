@@ -4,6 +4,8 @@ import Controller.PacoteController;
 import Controller.PasseioController;
 import Controller.RoteiroController;
 import Controller.UsuarioController;
+import Model.Entidades.DiaEntity;
+import Model.Entidades.PasseioEntity;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -19,16 +21,18 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
     private PasseioController passeioController;
     private PacoteController pacoteController;
     private RoteiroController roteiroController;
+    private DiaEntity dia;
 
     private Font interFont;
     private Font interFontBold;
     private CoresProjeto coresProjeto = new CoresProjeto(); // Correção: CoresProjeto
 
-    public TelaCriarRoteiro3Etapa(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController) {
+    public TelaCriarRoteiro3Etapa(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController, DiaEntity dia) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
         this.roteiroController = roteiroController;
+        this.dia = dia;
     }
 
     public void iniciarTela() {
@@ -89,35 +93,27 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
         header.add(Box.createHorizontalStrut(75));
         header.add(logoNew);
 
-        // --- Painel para o Conteúdo Central (Título Fixo + Subtítulo + Botão "Próximo" + ScrollPane de Cards) ---
         JPanel centralContentWrapper = new JPanel();
         centralContentWrapper.setOpaque(false);
         centralContentWrapper.setLayout(new BoxLayout(centralContentWrapper, BoxLayout.Y_AXIS));
 
-        JLabel tituloLabel = new JLabel("Criando Seu Roteiro");
+        JLabel tituloLabel = new JLabel("Adicionando Passeios Ao Dia");
         tituloLabel.setFont(interFontBold.deriveFont(Font.BOLD, 22f));
         tituloLabel.setForeground(Color.WHITE);
         tituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Painel para o subtítulo e o botão "Próximo"
         JPanel subtitleAndButtonPanel = new JPanel(new BorderLayout());
         subtitleAndButtonPanel.setOpaque(false);
-        // Padding lateral para este painel, alinhado com o padding dos cards
         subtitleAndButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
 
-        JLabel subtituloLabel = new JLabel("<html>Selecione Os Passeios<br>Para Dia: xx/xx/xxxx</html>");
+        JLabel subtituloLabel = new JLabel("<html>Selecione Os Passeios<br>Para Dia "+dia.getNumeroDoDia() +": "+dia.getdataReal()+"</html>");
         subtituloLabel.setFont(interFont.deriveFont(16f));
         subtituloLabel.setForeground(Color.WHITE);
-        // Remover setAlignmentX pois o BorderLayout vai gerenciar o posicionamento
-        // subtituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        // Nao precisa de setHorizontalAlignment aqui se ele estiver no CENTER do BorderLayout
-        // subtituloLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
 
         JButton botaoProximo = new JButton("Próximo");
         botaoProximo.setFont(interFont.deriveFont(16f));
         botaoProximo.setForeground(coresProjeto.corPrincipalAzul);
-        // Remover setAlignmentX pois o BorderLayout vai gerenciar o posicionamento
-        // botaoProximo.setAlignmentX(Component.CENTER_ALIGNMENT);
         botaoProximo.setBackground(Color.WHITE);
         botaoProximo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
@@ -125,12 +121,15 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                // Adicione a lógica para a próxima tela aqui, se houver
+
+                TelaRoteiroSelecionado telaAnterior = new TelaRoteiroSelecionado(usuarioController, pacoteController, passeioController, roteiroController);
+                telaAnterior.iniciarTela(dia.getRoteiro());
+                dispose();
             }
         });
 
-        subtitleAndButtonPanel.add(subtituloLabel, BorderLayout.WEST); // Subtítulo à esquerda
-        subtitleAndButtonPanel.add(botaoProximo, BorderLayout.EAST);   // Botão à direita
+        subtitleAndButtonPanel.add(subtituloLabel, BorderLayout.WEST);
+        subtitleAndButtonPanel.add(botaoProximo, BorderLayout.EAST);
 
         centralContentWrapper.add(Box.createVerticalStrut(30));
         centralContentWrapper.add(tituloLabel);
@@ -138,22 +137,20 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
         centralContentWrapper.add(subtitleAndButtonPanel); // Adiciona o novo painel
         centralContentWrapper.add(Box.createVerticalStrut(30)); // Espaço depois do subtítulo/botão e antes dos cards
 
-        // Painel que conterá os cards de passeio para rolagem
         JPanel cardsPanel = new JPanel();
         cardsPanel.setOpaque(false);
         cardsPanel.setLayout(new BoxLayout(cardsPanel, BoxLayout.Y_AXIS));
         cardsPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40)); // Padding horizontal para os cards
 
-        for (int i = 0; i < 5; i++) { // Exemplo: 5 cards
-            JPanel card = criarPasseioCard();
-            card.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza cada card horizontalmente
+        for(PasseioEntity passeio : passeioController.listaPasseiosCadastrados()){
+
+            JPanel card = criarPasseioCard(passeio);
+            card.setAlignmentX(Component.CENTER_ALIGNMENT);
             cardsPanel.add(card);
-            if (i < 4) { // Adiciona espaço entre os cards, exceto após o último
-                cardsPanel.add(Box.createVerticalStrut(20)); // Espaço entre os cards
-            }
+            cardsPanel.add(Box.createVerticalStrut(5));
         }
 
-        // JScrollPane para os cards
+
         JScrollPane scrollPane = new JScrollPane(cardsPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -161,7 +158,6 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
         scrollPane.getViewport().setOpaque(false);
         scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Remover borda padrão do JScrollPane
 
-        // Estilo da barra de rolagem
         JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
         verticalScrollBar.setUI(new BasicScrollBarUI() {
             @Override
@@ -203,36 +199,75 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
         setVisible(true);
     }
 
-    public JPanel criarPasseioCard() {
+    public JPanel criarPasseioCard(PasseioEntity passeio) {
         JPanel cardPanel = new JPanel();
-        cardPanel.setPreferredSize(new Dimension(360, 200));
-        cardPanel.setMaximumSize(new Dimension(360, 200));
-
+        cardPanel.setPreferredSize(new Dimension(300, 200));
         cardPanel.setLayout(new OverlayLayout(cardPanel));
 
-        String caminhoImagem = "caminho/para/sua/imagem.jpg"; // Este caminho deve ser válido para a imagem aparecer
-        ImageIcon icon = new ImageIcon(caminhoImagem);
+        try {
+            // Carregar e redimensionar imagem
+            String urlImagem = passeio.getListaFotos().get(0).getUrl();
+            URL url = new URL(urlImagem);
+            ImageIcon imgIcon = new ImageIcon(url);
+            Image imagem = imgIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+            JLabel imageLabel = new JLabel(new ImageIcon(imagem));
+            imageLabel.setPreferredSize(new Dimension(300, 200));
+            imageLabel.setAlignmentX(0.0f);
+            imageLabel.setAlignmentY(0.0f);
 
-        JLabel imageLabel = new JLabel(icon);
-        imageLabel.setAlignmentX(0.5f);
-        imageLabel.setAlignmentY(0.5f);
+            // Painel de título (fundo preto transparente)
+            JPanel titlePanel = new JPanel();
+            titlePanel.setOpaque(true);
+            titlePanel.setBackground(new Color(0, 0, 0, 150));
+            titlePanel.setPreferredSize(new Dimension(300, 50));
+            titlePanel.setMaximumSize(new Dimension(300, 50));
+            titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
 
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(0, 0, 0, 150));
-        titlePanel.setPreferredSize(new Dimension(360, 50));
-        titlePanel.setMaximumSize(new Dimension(360, 50));
-        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
+            JLabel titleLabel = new JLabel(passeio.getTitulo());
+            titleLabel.setForeground(Color.WHITE);
+            titleLabel.setFont(interFont.deriveFont(16f));
+            titlePanel.add(titleLabel);
 
-        JLabel titlePasseio = new JLabel("Passeio");
-        titlePasseio.setForeground(Color.WHITE);
-        titlePasseio.setFont(interFont.deriveFont(16f));
-        titlePanel.add(titlePasseio);
+            // Container Y para empurrar o título pra baixo
+            JPanel container = new JPanel();
+            container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+            container.setOpaque(false);
+            container.setPreferredSize(new Dimension(300, 200));
+            container.setMaximumSize(new Dimension(300, 200));
+            container.setAlignmentX(0.0f);
+            container.setAlignmentY(0.0f);
 
-        titlePanel.setAlignmentX(0.5f);
-        titlePanel.setAlignmentY(1.0f);
+            container.add(Box.createVerticalGlue()); // empurra pra baixo
+            container.add(titlePanel);
 
-        cardPanel.add(titlePanel);
-        cardPanel.add(imageLabel);
+            // Adiciona primeiro a imagem, depois o container com o título
+            cardPanel.add(container);    // título por cima
+            cardPanel.add(imageLabel);   // imagem no fundo
+
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar imagem: " + e.getMessage());
+            cardPanel.add(new JLabel("Imagem indisponível"));
+        }
+
+        cardPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                dia.addPasseio(passeio);
+                passeioController.diaRepository().atualizar(dia);
+                JOptionPane.showMessageDialog(null, passeio.getTitulo()+" adicionado ao Dia "+ dia.getNumeroDoDia()+": "+dia.getdataReal());
+            }
+        });
+
+        cardPanel.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(Color.GRAY, 1, true), // true = arredondado
+                        BorderFactory.createEmptyBorder(5, 5, 5, 5) // espaço interno
+                )
+        );
+
+
         return cardPanel;
     }
 }

@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Entidades.*;
+import Model.Repositorio.DiaRepository;
 import Model.Servicos.CategoriaService;
 import Model.Servicos.PasseioService;
 
@@ -13,13 +14,15 @@ public class PasseioController {
     private final CategoriaService categoriaService;
     private final CategoriaController categoriaController;
     private final PagamentoController pagamentoController;
+    private final DiaRepository diaRepository;
     private final Scanner sc = new Scanner(System.in);
 
-    public PasseioController(PasseioService passeioService, CategoriaService categoriaService, CategoriaController categoriaController, PagamentoController pagamentoController) {
+    public PasseioController(PasseioService passeioService, CategoriaService categoriaService, CategoriaController categoriaController, PagamentoController pagamentoController, DiaRepository diaRepository) {
         this.passeioService = passeioService;
         this.categoriaService = categoriaService;
         this.categoriaController = categoriaController;
         this.pagamentoController = pagamentoController;
+        this.diaRepository = diaRepository;
     }
 
     public void exibirTodosPasseios(UsuarioEntity usuario) {
@@ -70,6 +73,10 @@ public class PasseioController {
 
     public CategoriaService categoriaService(){
         return  categoriaService;
+    }
+
+    public DiaRepository diaRepository(){
+        return  diaRepository;
     }
 
     public void cadastrarPasseio() {

@@ -165,6 +165,7 @@ public class TelaPerfilUsuario extends JFrame {
                 TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
                 TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
+                dispose();
             }
         });
 

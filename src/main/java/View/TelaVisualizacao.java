@@ -235,13 +235,11 @@ public class TelaVisualizacao extends JFrame {
         JScrollPane scrollHorizontal2 = new JScrollPane(passeioRow);
         scrollHorizontal2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollHorizontal2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        // Ajustado a altura para permitir a visualização e rolagem
         scrollHorizontal2.setPreferredSize(new Dimension(370, 210));
         scrollHorizontal2.setBorder(null);
         scrollHorizontal2.setOpaque(false);
         scrollHorizontal2.getViewport().setOpaque(false);
 
-        // Personaliza a barra de rolagem horizontal
         JScrollBar horizontalScrollBar2 = scrollHorizontal2.getHorizontalScrollBar();
         horizontalScrollBar2.setUI(new BasicScrollBarUI() {
             @Override
@@ -360,12 +358,11 @@ public class TelaVisualizacao extends JFrame {
             container.setAlignmentX(0.0f);
             container.setAlignmentY(0.0f);
 
-            container.add(Box.createVerticalGlue()); // empurra pra baixo
+            container.add(Box.createVerticalGlue());
             container.add(titlePanel);
 
-            // Adiciona primeiro a imagem, depois o container com o título
-            cardPanel.add(container);    // título por cima
-            cardPanel.add(imageLabel);   // imagem no fundo
+            cardPanel.add(container);
+            cardPanel.add(imageLabel);
 
         } catch (Exception e) {
             System.out.println("Erro ao carregar imagem: " + e.getMessage());
@@ -380,6 +377,8 @@ public class TelaVisualizacao extends JFrame {
                 TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, passeio, roteiroController);
                 tela.iniciarTela();
+                dispose();
+
             }
         });
 
@@ -449,6 +448,8 @@ public class TelaVisualizacao extends JFrame {
                 TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, pacoteTuristico, roteiroController);
                 telaConteudoSelecionado.iniciarTela();
+                dispose();
+
             }
         });
 
