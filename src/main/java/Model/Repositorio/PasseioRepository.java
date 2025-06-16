@@ -48,6 +48,8 @@ public class PasseioRepository {
                 .setParameter("prefixo", prefixo+"%").getResultList();
     }
 
+
+
     public List<PasseioEntity> buscarTodos(){
         return em.createQuery("SELECT p FROM Passeio p", PasseioEntity.class).getResultList();
     }

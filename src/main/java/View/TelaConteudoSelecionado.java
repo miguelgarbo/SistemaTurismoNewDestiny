@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class TelaConteudoSelecionado extends JFrame{
 
@@ -101,6 +102,7 @@ public class TelaConteudoSelecionado extends JFrame{
         titleContent.setForeground(Color.WHITE);
         titleContent.setFont(interFont.deriveFont(18f));
         titleContent.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleContent.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 2));
 
         //detalhes conteudo
         JLabel detailsContentPasseio = new JLabel();
@@ -110,7 +112,6 @@ public class TelaConteudoSelecionado extends JFrame{
         detailsContentPasseio.setHorizontalAlignment(SwingConstants.LEFT);
         detailsContentPasseio.setAlignmentX(Component.CENTER_ALIGNMENT);
         detailsContentPasseio.setMaximumSize(new Dimension(370, 180));
-        detailsContentPasseio.setPreferredSize(new Dimension(370, 180));
         detailsContentPasseio.setOpaque(false);
         detailsContentPasseio.setVerticalTextPosition(JLabel.TOP);
 
@@ -122,6 +123,8 @@ public class TelaConteudoSelecionado extends JFrame{
         detailsContentPacote.setAlignmentX(Component.CENTER_ALIGNMENT);
         detailsContentPacote.setOpaque(false);
         detailsContentPacote.setVerticalTextPosition(JLabel.TOP);
+        detailsContentPacote.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 2));
+
 
         JScrollPane scrollHorizontal = new JScrollPane();
         scrollHorizontal.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -131,20 +134,71 @@ public class TelaConteudoSelecionado extends JFrame{
         scrollHorizontal.setOpaque(false);
         scrollHorizontal.getViewport().setOpaque(false);
 
+        //painel botoes
+
+        // Painel de botões
+        JPanel botoesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        botoesPanel.setOpaque(false);
+        botoesPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE,45));
+        botoesPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+
+
+// Botão Comprar
+        JButton buttonComprar = new JButton("Comprar");
+        buttonComprar.setPreferredSize(new Dimension(150, 35));
+        buttonComprar.setForeground(Color.WHITE);
+        buttonComprar.setBackground(new Color(0x13A8AD));
+        buttonComprar.setFont(interFont.deriveFont(15f));
+        buttonComprar.setFocusPainted(false);
+        buttonComprar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        if(usuarioController.getUserLogged()!= null){
+
+            buttonComprar.addActionListener(e -> JOptionPane.showMessageDialog(null, "Compra realizada!"));
+
+        }else{
+                ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController, roteiroController);
+                modalMenu.iniciarModal(TelaConteudoSelecionado.this);
+                dispose();
+        }
+
+// Botão Adicionar ao Carrinho
+        JButton buttonAddCarrinho = new JButton("Add Carrinho");
+        buttonAddCarrinho.setPreferredSize(new Dimension(180, 35));
+        buttonAddCarrinho.setForeground(Color.WHITE);
+        buttonAddCarrinho.setBackground(new Color(0xFFA500));
+        buttonAddCarrinho.setFont(interFont.deriveFont(15f));
+        buttonAddCarrinho.setFocusPainted(false);
+        buttonAddCarrinho.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        botoesPanel.add(buttonAddCarrinho);
+        botoesPanel.add(buttonComprar);
+
+        //fim painel botoes
+
+
         JPanel passeioRow = new JPanel(new FlowLayout());
         passeioRow.setOpaque(false);
 
         if (conteudo instanceof PacoteTuristicoEntity pacote) {
             titleContent.setText("<html><b>Pacote: " + pacote.getTitulo() + "</b>");
             StringBuilder pacoteDetails = new StringBuilder("<html>");
-            pacoteDetails.append(String.format("Preço Total: R$ %.2f<br>", pacote.getPrecoTotal()));
 
             if (pacote.getCategorias() != null && !pacote.getCategorias().isEmpty()) {
                 pacoteDetails.append("<b>Categoria:</b><br>");
                 for (CategoriaEntity categoria : pacote.getCategorias()) {
-                    pacoteDetails.append("- ").append(categoria.getNome()).append("<br>");
+                    System.out.println("Categoria encontrada: " + categoria.getNome());
+
+                    pacoteDetails.append(categoria.getNome()).append(", ");
                 }
+                pacoteDetails.append("<br><br>");
+            }else{
+
+                System.out.println("Categoria nao encontrada");
             }
+
+            pacoteDetails.append(String.format("<b>Preço Total:</b> R$ %.2f<br>", pacote.getPrecoTotal()));
+
+
             if (pacote.getPasseios() != null && !pacote.getPasseios().isEmpty()) {
                 pacoteDetails.append("<b>Passeios Inclusos:</b>");
                 for (PasseioEntity passeio : pacote.getPasseios()) {
@@ -158,23 +212,45 @@ public class TelaConteudoSelecionado extends JFrame{
             pacoteDetails.append("</html>");
             detailsContentPacote.setText(pacoteDetails.toString());
 
+            //logica add carrinho pacote
+            buttonAddCarrinho.addActionListener(e -> {
+
+
+            if(usuarioController.getUserLogged()!=null){
+
+                JOptionPane.showMessageDialog(null, "Adicionado ao carrinho!");
+
+                usuarioController.carrinhoService().adicionarItemAoCarrinho(usuarioController.getUserLogged(), "Pacote", pacote.getId(), pacote.getTitulo(), pacote.getPrecoTotal());
+            }else{
+                ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController,passeioController,roteiroController);
+                modalMenu.iniciarModal(TelaConteudoSelecionado.this);
+                dispose();
+                }
+            });
+
+            //fim logica
+
         } else if (conteudo instanceof PasseioEntity passeio) {
             titleContent.setText("<html><b>Passeio: " + passeio.getTitulo() + "</b></html>");
             StringBuilder passeioDetails = new StringBuilder("<html>");
+
+            if (passeio.getCategorias() != null && !passeio.getCategorias().isEmpty()) {
+                passeioDetails.append("<b>Categoria:</b><br>");
+                for (CategoriaEntity categoria : passeio.getCategorias()) {
+                    System.out.println("Categoria encontrada: " + categoria.getNome());
+
+                    passeioDetails.append(categoria.getNome()).append(", ");
+                }
+                passeioDetails.append("<br><br>");
+            }else{
+                System.out.println("Sem categorias");
+            }
             passeioDetails.append("<b>Descrição:</b> ").append(passeio.getDescricao()).append("<br><br>");
             passeioDetails.append("<b>Duração:</b> ").append(passeio.getDuracao()).append("<br><br>");
             passeioDetails.append("<b>Preço Ingresso:</b> R$ ").append(passeio.getPreco()).append("<br><br>");
             passeioDetails.append("<b>Localização:</b> ").append(passeio.getLocalizacao()).append("<br><br>");
             passeioDetails.append("<b>Horários:</b> ").append(passeio.getHorarios()).append("<br><br>");
 
-            if (passeio.getCategorias() != null && !passeio.getCategorias().isEmpty()) {
-                passeioDetails.append("<b>Categorias:</b><br>");
-                for (CategoriaEntity categoria : passeio.getCategorias()) {
-                    passeioDetails.append("- ").append(categoria.getNome()).append("<br>");
-                }
-            }else{
-                System.out.println("Sem categorias");
-            }
 
             JScrollPane fotosScroll;
             if(passeio.getListaFotos() != null && !passeio.getListaFotos().isEmpty()){
@@ -185,11 +261,33 @@ public class TelaConteudoSelecionado extends JFrame{
 
             passeioDetails.append("</html>");
             detailsContentPasseio.setText(passeioDetails.toString());
+            //logica do botao add carrinho
+
+            buttonAddCarrinho.addActionListener(e -> {
+
+                JOptionPane.showMessageDialog(null, "Adicionado ao carrinho!");
+
+                if(usuarioController.getUserLogged()!=null){
+
+                    usuarioController.carrinhoService().adicionarItemAoCarrinho(usuarioController.getUserLogged(), "Passeio", passeio.getId(), passeio.getTitulo(), passeio.getPreco());
+
+                }else{
+                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController,passeioController,roteiroController);
+                    modalMenu.iniciarModal(TelaConteudoSelecionado.this);
+                    dispose();
+                }
+
+            });
+
+
         } else {
             titleContent.setText("<html><b>Conteúdo Não Encontrado</b></html>");
             detailsContentPasseio.setText("Não foi possível carregar os detalhes do conteúdo selecionado.");
         }
 
+        //botao
+
+        //fim botoes
 
         center.add(Box.createVerticalStrut(10));
         center.add(titleContent);
@@ -202,6 +300,11 @@ public class TelaConteudoSelecionado extends JFrame{
         }else{
             center.add(detailsContentPacote);
         }
+
+        center.add(Box.createVerticalStrut(20));
+        center.add(botoesPanel);
+
+
         center.add(Box.createVerticalStrut(10));
         center.add(scrollHorizontal);
 
@@ -300,6 +403,8 @@ public class TelaConteudoSelecionado extends JFrame{
                 TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, passeio, roteiroController);
                 tela.iniciarTela();
+                dispose();
+
             }
         });
 
@@ -313,5 +418,6 @@ public class TelaConteudoSelecionado extends JFrame{
 
         return cardPanel;
     }
+
 
 }

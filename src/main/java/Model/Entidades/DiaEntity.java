@@ -26,16 +26,20 @@ public class DiaEntity{
     )
     private List<PasseioEntity> passeios = new ArrayList<>();
 
-
-    // Métodos para adicionar passeios ao dia
-
     public void addPasseio(PasseioEntity passeio) {
-        if (this.getPasseios() == null) {
+        if (this.passeios == null) {
             this.passeios = new ArrayList<>();
         }
-        this.getPasseios().add(passeio);
+        if (!this.passeios.contains(passeio)) {
+            this.passeios.add(passeio);
+            if (passeio.getDias() == null) {
+                passeio.setDias(new ArrayList<>());
+            }
+            if (!passeio.getDias().contains(this)) {
+                passeio.getDias().add(this);
+            }
+        }
     }
-
 
     public List<PasseioEntity> getPasseios() {
         return passeios;

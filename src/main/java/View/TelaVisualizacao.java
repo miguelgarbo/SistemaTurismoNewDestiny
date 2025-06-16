@@ -11,6 +11,9 @@ import Model.Entidades.PasseioEntity;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.awt.event.MouseAdapter;
@@ -25,6 +28,7 @@ public class TelaVisualizacao extends JFrame {
     private RoteiroController roteiroController;
     private Font interFont = null;
     private Font interFontBold = null;
+    private CoresProjeto coresProjeto = new CoresProjeto();
 
     public TelaVisualizacao(UsuarioController usuarioController, PasseioController passeioController, PacoteController pacoteController, RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
@@ -46,7 +50,7 @@ public class TelaVisualizacao extends JFrame {
 
         BackgroundPanel containerMain = new BackgroundPanel("/photos/backgroundMain.png");
         containerMain.setLayout(new BorderLayout());
-        containerMain.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
+        containerMain.setBorder(BorderFactory.createEmptyBorder(15, 0, 30, 0));
 
         JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
         header.setOpaque(false);
@@ -62,8 +66,28 @@ public class TelaVisualizacao extends JFrame {
         iconNewDestiny.setIcon(imgIconND);
         iconNewDestiny.setSize(100, 50);
 
-        JTextArea searchBar = new JTextArea("Pesquise Aqui ", 1, 15);
+
+        JTextArea searchBar = new JTextArea("Pesquise aqui", 1, 15);
+        searchBar.setLineWrap(false); // impede quebra de linha
+        searchBar.setWrapStyleWord(false);
         searchBar.setPreferredSize(new Dimension(220, 27));
+        searchBar.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "none");
+
+        searchBar.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    e.consume();
+                    String termo = searchBar.getText().trim();
+                    if (!termo.isEmpty()) {
+                        buscarPasseios(termo);
+                    }
+
+                }
+            }
+        });
+
 
         ImageIcon imgButton = null;
         URL menuIconUrl = getClass().getResource("/photos/menu.png");
@@ -181,6 +205,8 @@ public class TelaVisualizacao extends JFrame {
         scrollHorizontal.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         // Ajustado a altura para permitir a visualização e rolagem
         scrollHorizontal.setPreferredSize(new Dimension(370, 210));
+        scrollHorizontal.setMaximumSize(new Dimension(Integer.MAX_VALUE, 230));
+
         scrollHorizontal.setBorder(null);
         scrollHorizontal.setOpaque(false);
         scrollHorizontal.getViewport().setOpaque(false);
@@ -235,13 +261,13 @@ public class TelaVisualizacao extends JFrame {
         JScrollPane scrollHorizontal2 = new JScrollPane(passeioRow);
         scrollHorizontal2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollHorizontal2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        // Ajustado a altura para permitir a visualização e rolagem
         scrollHorizontal2.setPreferredSize(new Dimension(370, 210));
+        scrollHorizontal2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 230));
+
         scrollHorizontal2.setBorder(null);
         scrollHorizontal2.setOpaque(false);
         scrollHorizontal2.getViewport().setOpaque(false);
 
-        // Personaliza a barra de rolagem horizontal
         JScrollBar horizontalScrollBar2 = scrollHorizontal2.getHorizontalScrollBar();
         horizontalScrollBar2.setUI(new BasicScrollBarUI() {
             @Override
@@ -360,12 +386,11 @@ public class TelaVisualizacao extends JFrame {
             container.setAlignmentX(0.0f);
             container.setAlignmentY(0.0f);
 
-            container.add(Box.createVerticalGlue()); // empurra pra baixo
+            container.add(Box.createVerticalGlue());
             container.add(titlePanel);
 
-            // Adiciona primeiro a imagem, depois o container com o título
-            cardPanel.add(container);    // título por cima
-            cardPanel.add(imageLabel);   // imagem no fundo
+            cardPanel.add(container);
+            cardPanel.add(imageLabel);
 
         } catch (Exception e) {
             System.out.println("Erro ao carregar imagem: " + e.getMessage());
@@ -380,6 +405,8 @@ public class TelaVisualizacao extends JFrame {
                 TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, passeio, roteiroController);
                 tela.iniciarTela();
+                dispose();
+
             }
         });
 
@@ -401,45 +428,67 @@ public class TelaVisualizacao extends JFrame {
         cardPanel.setPreferredSize(new Dimension(300, 200));
         cardPanel.setLayout(new OverlayLayout(cardPanel));
 
+        // Lista com as imagens a exibir
+        List<ImageIcon> imagensPasseios = new ArrayList<>();
+
         try {
-            String caminhoImagem = pacoteTuristico.getPasseios().get(0).getListaFotos().get(0).getUrl();
-            URL url = new URL(caminhoImagem);
-            ImageIcon imgIcon = new ImageIcon(url);
-            Image imagem = imgIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
-            JLabel imageLabel = new JLabel(new ImageIcon(imagem));
-            imageLabel.setPreferredSize(new Dimension(300, 200));
-            imageLabel.setAlignmentX(0.0f);
-            imageLabel.setAlignmentY(0.0f);
-
-            JPanel titlePanel = new JPanel();
-            titlePanel.setOpaque(true);
-            titlePanel.setBackground(new Color(0, 0, 0, 150));
-            titlePanel.setPreferredSize(new Dimension(300, 50));
-            titlePanel.setMaximumSize(new Dimension(300, 50));
-            titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
-
-            JLabel titleLabel = new JLabel(pacoteTuristico.getTitulo());
-            titleLabel.setForeground(Color.WHITE);
-            titleLabel.setFont(interFont.deriveFont(16f));
-            titlePanel.add(titleLabel);
-
-            JPanel container = new JPanel();
-            container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-            container.setOpaque(false);
-            container.setPreferredSize(new Dimension(300, 200));
-            container.setMaximumSize(new Dimension(300, 200));
-            container.setAlignmentX(0.0f);
-            container.setAlignmentY(0.0f);
-
-            container.add(Box.createVerticalGlue());
-            container.add(titlePanel);
-
-            cardPanel.add(container);
-            cardPanel.add(imageLabel);
-
+            for (PasseioEntity passeio : pacoteTuristico.getPasseios()) {
+                if (!passeio.getListaFotos().isEmpty()) {
+                    String caminhoImagem = passeio.getListaFotos().get(0).getUrl();
+                    URL url = new URL(caminhoImagem);
+                    ImageIcon imgIcon = new ImageIcon(url);
+                    Image imagem = imgIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+                    imagensPasseios.add(new ImageIcon(imagem));
+                }
+            }
         } catch (Exception e) {
-            System.out.println("Erro ao carregar imagem do pacote: " + e.getMessage());
-            cardPanel.add(new JLabel("Imagem indisponível"));
+            System.out.println("Erro ao carregar imagens: " + e.getMessage());
+        }
+
+        JLabel imageLabel = new JLabel();
+        if (!imagensPasseios.isEmpty()) {
+            imageLabel.setIcon(imagensPasseios.get(0));
+        } else {
+            imageLabel.setText("Imagem indisponível");
+        }
+        imageLabel.setPreferredSize(new Dimension(300, 200));
+        imageLabel.setAlignmentX(0.0f);
+        imageLabel.setAlignmentY(0.0f);
+
+        // Painel com título
+        JPanel titlePanel = new JPanel();
+        titlePanel.setOpaque(true);
+        titlePanel.setBackground(new Color(0, 0, 0, 150));
+        titlePanel.setPreferredSize(new Dimension(300, 50));
+        titlePanel.setMaximumSize(new Dimension(300, 50));
+        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
+
+        JLabel titleLabel = new JLabel(pacoteTuristico.getTitulo());
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(interFont.deriveFont(16f));
+        titlePanel.add(titleLabel);
+
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.setOpaque(false);
+        container.setPreferredSize(new Dimension(300, 200));
+        container.setMaximumSize(new Dimension(300, 200));
+        container.setAlignmentX(0.0f);
+        container.setAlignmentY(0.0f);
+        container.add(Box.createVerticalGlue());
+        container.add(titlePanel);
+
+        cardPanel.add(container);
+        cardPanel.add(imageLabel);
+
+        // Timer para alternar imagens a cada 2,5 segundos
+        if (imagensPasseios.size() > 1) {
+            final int[] index = {0};
+            Timer timer = new Timer(2500, e -> {
+                index[0] = (index[0] + 1) % imagensPasseios.size();
+                imageLabel.setIcon(imagensPasseios.get(index[0]));
+            });
+            timer.start();
         }
 
         cardPanel.addMouseListener(new MouseAdapter() {
@@ -449,19 +498,34 @@ public class TelaVisualizacao extends JFrame {
                 TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, pacoteTuristico, roteiroController);
                 telaConteudoSelecionado.iniciarTela();
+                dispose();
             }
         });
 
         cardPanel.setBorder(
                 BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(Color.GRAY, 1, true), // true = arredondado
-                        BorderFactory.createEmptyBorder(5, 5, 5, 5) // espaço interno
+                        BorderFactory.createLineBorder(coresProjeto.corPrincipalAzul, 1, true),
+                        BorderFactory.createEmptyBorder(5, 5, 5, 5)
                 )
         );
 
-
         return cardPanel;
     }
+
+    public void buscarPasseios(String termo) {
+        List<PasseioEntity> resultados = passeioController.passeioService().buscarPorTitulo(termo);
+
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nenhum passeio encontrado com esse nome.");
+            return;
+        }
+
+        // Pega o primeiro resultado e abre a tela de conteúdo
+        PasseioEntity passeioEncontrado = resultados.get(0);
+        TelaConteudoSelecionado telaConteudo = new TelaConteudoSelecionado(usuarioController,passeioController,pacoteController,passeioEncontrado, roteiroController); // ou passe o que sua tela precisa
+        telaConteudo.iniciarTela();
+    }
+
 
 
 }

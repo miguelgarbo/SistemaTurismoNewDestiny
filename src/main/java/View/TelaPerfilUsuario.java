@@ -77,10 +77,13 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        UsuarioEntity usuarioLogado = usuarioController.getUserLogged();//retorna o nome do usuário Logado
-        String nomeUsuário = usuarioLogado.getNome();
-        String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
+
+
+        String nomeUsuário = usuarioController.getUserLogged().getNome();
+        String primeiroNome = nomeUsuário.split(" ")[0];
+        String nomeFormatado = primeiroNome.substring(0, 1).toUpperCase() + primeiroNome.substring(1).toLowerCase();
         JLabel saudacao = new JLabel("Olá, " + nomeFormatado);
+
         saudacao.setFont(interFontBold.deriveFont(22f));
         saudacao.setForeground(Color.WHITE);
         saudacao.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -91,7 +94,7 @@ public class TelaPerfilUsuario extends JFrame {
 
         String[] opcoes = {
                 "Editar Perfil",
-                "Minhas Compras",
+                "Meu Carrinho",
                 "Meus Roteiros",
                 "Métodos de Pagamento",
                 "Ajuda / Suporte",
@@ -122,18 +125,17 @@ public class TelaPerfilUsuario extends JFrame {
 //                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController, pacoteController, passeioController);
 //                        editarPerfilUsuário.editarPerfil();
                         break;
-                    case "Minhas Compras":
-                        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController);
-                        telaVisualizacao.iniciarTela();
-                        System.out.println("Meus Pacotes");
+                    case "Meu Carrinho":
+                        TelaCarrinhoUsuario telaCarrinhoUsuario = new TelaCarrinhoUsuario(usuarioController,pacoteController,passeioController, roteiroController, usuarioController.carrinhoService());
+                        telaCarrinhoUsuario.iniciarTela();
                         break;
                     case "Meus Roteiros":
                         TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController, roteiroController);
-                        telaRoteiros.inicarTela();
+                        telaRoteiros.inicarTela(usuarioController.getUserLogged());
                         break;
                     case "Métodos de Pagamento":
                         CadastrarMetodoPagamento cadastrarMetodoPagamento = new CadastrarMetodoPagamento(usuarioController,pacoteController,passeioController, roteiroController);
-                        cadastrarMetodoPagamento.gerenciadorCartão(usuarioLogado);
+                        cadastrarMetodoPagamento.gerenciadorCartão(usuarioController.getUserLogged());
                         System.out.println("Métodos pagamento");
                         break;
                     case "Ajuda / Suporte":
@@ -165,6 +167,7 @@ public class TelaPerfilUsuario extends JFrame {
                 TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
                 TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
+                dispose();
             }
         });
 

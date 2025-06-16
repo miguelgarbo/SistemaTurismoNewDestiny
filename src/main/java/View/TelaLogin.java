@@ -129,6 +129,7 @@ public class TelaLogin extends JFrame {
                     System.out.println("Chamando tela de perfil...");
                     TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController, roteiroController);
                     telaVisualizacao.iniciarTela();
+
                 } else {
                     mensagemStatus.setText("Email ou Senha Inválidos");
                     mensagemStatus.setForeground(Color.RED);
@@ -154,6 +155,8 @@ public class TelaLogin extends JFrame {
                 TelaLogin.this.setVisible(false);
                 TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController, roteiroController);
                 telaCadastro.iniciarTela();
+                dispose();
+
             }
         });
 

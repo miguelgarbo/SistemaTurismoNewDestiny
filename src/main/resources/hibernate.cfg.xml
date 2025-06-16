@@ -26,6 +26,10 @@
         <mapping class="Model.Entidades.DiaEntity"/>
         <mapping class="Model.Entidades.CategoriaEntity"></mapping>
         <mapping class="Model.Entidades.CartaoEntity"></mapping>
+        <mapping class="Model.Entidades.CarrinhoEntity"></mapping>
+        <mapping class="Model.Entidades.ItemCarrinhoEntity"></mapping>
+
+
 
     </session-factory>
 </hibernate-configuration>

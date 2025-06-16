@@ -200,6 +200,18 @@ public class TelaCriarRoteiro2Etapa extends JFrame {
 
         JButton addButton = new JButton("Add Passeio");
 
+        addButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                TelaCriarRoteiro3Etapa telaCriarRoteiro3Etapa = new TelaCriarRoteiro3Etapa(usuarioController, pacoteController, passeioController, roteiroController,dia);
+                telaCriarRoteiro3Etapa.iniciarTela();
+                dispose();
+
+            }
+        });
+
         addButton.setPreferredSize(new Dimension(120, 30));
         addButton.setForeground(new Color(0x208482));
         addButton.setBackground(Color.WHITE);

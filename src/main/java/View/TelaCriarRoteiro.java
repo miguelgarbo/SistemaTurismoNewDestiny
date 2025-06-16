@@ -105,7 +105,7 @@ public class TelaCriarRoteiro extends JFrame {
         tituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Garante a centralização
 
         JPanel campoTituloPanel = criarCampoTexto("Título do Roteiro");
-        JPanel campoDataPanel = criarCampoTexto("Data De Início");
+        JPanel campoDataPanel = criarCampoTexto("Data De Início(dia/mes/ano)");
         JPanel campoDiasPanel = criarCampoTexto("Quantidade de Dias");
 
         JButton botaoProximo = new JButton("Próximo");
@@ -142,9 +142,12 @@ public class TelaCriarRoteiro extends JFrame {
                     // Pode mostrar mensagem de sucesso ou ir para próxima etapa
                     JOptionPane.showMessageDialog(null, "Roteiro criado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-                    // Exemplo: abrir próxima tela e fechar esta
-                    TelaCriarRoteiro2Etapa telaCriarRoteiro2Etapa = new TelaCriarRoteiro2Etapa(usuarioController, pacoteController, passeioController, roteiroController);
-                    telaCriarRoteiro2Etapa.iniciarTela(roteiroCriado);
+//                    // Exemplo: abrir próxima tela e fechar esta
+//                    TelaCriarRoteiro2Etapa telaCriarRoteiro2Etapa = new TelaCriarRoteiro2Etapa(usuarioController, pacoteController, passeioController, roteiroController);
+//                    telaCriarRoteiro2Etapa.iniciarTela(roteiroCriado);
+
+                    TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado(usuarioController, pacoteController, passeioController, roteiroController);
+                    telaRoteiroSelecionado.iniciarTela(roteiroCriado);
                     dispose();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Erro ao criar roteiro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

@@ -3,6 +3,9 @@ import Controller.PacoteController;
 import Controller.PasseioController;
 import Controller.RoteiroController;
 import Controller.UsuarioController;
+import Model.Entidades.RoteiroPersonalizadoEntity;
+import Model.Entidades.UsuarioEntity;
+import Model.Servicos.RoteiroPersonalizadoService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,16 +19,20 @@ public class TelaRoteiros extends JFrame {
     private UsuarioController usuarioController;
     private PacoteController pacoteController;
     private PasseioController passeioController;
-    private  RoteiroController roteiroController;
+    private RoteiroController roteiroController;
+    private Font interFont;
 
     public TelaRoteiros(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController){
         this.usuarioController =usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
         this.roteiroController = roteiroController;
+
     }
 
-    public void inicarTela(){
+    public void inicarTela(UsuarioEntity usuario){
+
+        interFont = FontLoader.loadFont("/fontsNewDestiny/Inter.ttc", 14f);
 
         // Configurações padrão da tela de login
         setTitle("Roteiros Criados");
@@ -101,7 +108,7 @@ public class TelaRoteiros extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController,passeioController,roteiroController);
+                TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController,passeioController, roteiroController);
                 telaPerfilUsuario.iniciarPerfilUsuário();
             }
         });
@@ -122,16 +129,15 @@ public class TelaRoteiros extends JFrame {
 
         JLabel titleRoteiro = new JLabel();
 
-        titleRoteiro.setText("<html><b>Roteiros de ‘Usuario Nome’</b></html>");
+        String nomeUsuário = usuarioController.getUserLogged().getNome();
+        String primeiroNome = nomeUsuário.split(" ")[0];
+        String nomeFormatado = primeiroNome.substring(0, 1).toUpperCase() + primeiroNome.substring(1).toLowerCase();
+        titleRoteiro.setText("<html><b>Roteiros de "+nomeFormatado+"</b></html>");
         titleRoteiro.setFont(interFontBold.deriveFont(18f));
         titleRoteiro.setForeground(Color.WHITE);
 
-        // bloco roteiro
 
-        JButton buttonRoteiro = new JButton("<html><b>'Roteiro Nome'</b><br><i>Data Inicio: 'xx/xx/xx'</i></html>");
-        buttonRoteiro.setBackground(new Color(19, 168, 173, 112));
-        buttonRoteiro.setMaximumSize(new Dimension(400, 50));
-        buttonRoteiro.setFont(interFont.deriveFont(16f));
+
 
         //botao criar roteiro
 
@@ -144,7 +150,14 @@ public class TelaRoteiros extends JFrame {
         center.add(Box.createVerticalStrut(30));
         center.add(titleRoteiro);
         center.add(Box.createVerticalStrut(20));
-        center.add(buttonRoteiro);
+        for(RoteiroPersonalizadoEntity roteiro : usuario.getRoteirosCriados()){
+
+            JButton blocoRoteiro = criarBlocoRoteiro(roteiro);
+            center.add(blocoRoteiro);
+            center.add(Box.createVerticalStrut(5));
+
+
+        }
         center.add(Box.createVerticalStrut(20));
         center.add(buttonCriarRoteiro);
 
@@ -159,11 +172,33 @@ public class TelaRoteiros extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 dispose();
-                TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController,roteiroController);
+                TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController, roteiroController);
                 telaCriarRoteiro.iniciarTela();
+                dispose();
             }
         });
 
+    }
+
+    public JButton criarBlocoRoteiro(RoteiroPersonalizadoEntity roteiro){
+
+
+        JButton buttonRoteiro = new JButton("<html><b>"+roteiro.getTitulo()+"</b><br><i>Data Inicio:"+ roteiro.getDataInicio()+"</i></html>");
+        buttonRoteiro.setBackground(new Color(19, 168, 173, 112));
+        buttonRoteiro.setMaximumSize(new Dimension(400, 50));
+        buttonRoteiro.setFont(interFont.deriveFont(16f));
+
+        buttonRoteiro.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado(usuarioController, pacoteController,passeioController, roteiroController);
+                telaRoteiroSelecionado.iniciarTela(roteiro);
+
+            }
+        });
+
+        return buttonRoteiro;
     }
 
 

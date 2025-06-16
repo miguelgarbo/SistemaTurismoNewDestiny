@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Entidades.UsuarioEntity;
+import Model.Servicos.CarrinhoService;
 import Model.Servicos.UsuarioService;
 import View.Main;
 
@@ -14,6 +15,8 @@ public class UsuarioController {
     private final PacoteController pacoteController;
     private final CartaoController cartaoController;
     private final PagamentoController pagamentoController;
+    private final CarrinhoService carrinhoService;
+
     private UsuarioEntity getUserLogged; // usuário logado
     private UsuarioEntity userLogged;
 
@@ -21,13 +24,14 @@ public class UsuarioController {
     private final Scanner sc = new Scanner(System.in);
 
 
-    public UsuarioController(UsuarioService service, RoteiroController roteiroController, PasseioController passeioController, PacoteController pacoteController, CartaoController cartaoController, PagamentoController pagamentoController) {
+    public UsuarioController(UsuarioService service, RoteiroController roteiroController, PasseioController passeioController, PacoteController pacoteController, CartaoController cartaoController, PagamentoController pagamentoController, CarrinhoService carrinhoService) {
         this.service = service;
         this.roteiroController = roteiroController;
         this.passeioController = passeioController;
         this.pacoteController = pacoteController;
         this.cartaoController = cartaoController;
         this.pagamentoController = pagamentoController;
+        this.carrinhoService = carrinhoService;
   }
 
     public UsuarioEntity getUserLogged() {
@@ -356,4 +360,8 @@ public class UsuarioController {
 //            roteiroController.exibirMeusRoteiros(usuario);
         }
     }
+    public CarrinhoService carrinhoService(){
+        return carrinhoService;
+    }
+
 }
