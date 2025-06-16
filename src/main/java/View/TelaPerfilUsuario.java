@@ -129,7 +129,7 @@ public class TelaPerfilUsuario extends JFrame {
                         break;
                     case "Meus Roteiros":
                         TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController, roteiroController);
-                        telaRoteiros.inicarTela(usuarioLogado);
+                        telaRoteiros.inicarTela();
                         break;
                     case "Métodos de Pagamento":
                         CadastrarMetodoPagamento cadastrarMetodoPagamento = new CadastrarMetodoPagamento(usuarioController,pacoteController,passeioController, roteiroController);

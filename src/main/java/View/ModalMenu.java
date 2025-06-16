@@ -43,6 +43,7 @@ public class ModalMenu {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 modal.dispose();
+                frame.dispose();
                 TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
                 telaPerfilUsuario.iniciarPerfilUsuário();
             }
@@ -87,6 +88,7 @@ public class ModalMenu {
                 super.mouseClicked(e);
                 System.out.println(e);
                 modal.dispose();
+                frame.dispose();
                 TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController,roteiroController);
                 telaLogin.iniciarTela();
             }
