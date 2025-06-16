@@ -151,7 +151,15 @@ public class TelaConteudoSelecionado extends JFrame{
         buttonComprar.setFont(interFont.deriveFont(15f));
         buttonComprar.setFocusPainted(false);
         buttonComprar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        buttonComprar.addActionListener(e -> JOptionPane.showMessageDialog(null, "Compra realizada!"));
+        if(usuarioController.getUserLogged()!= null){
+
+            buttonComprar.addActionListener(e -> JOptionPane.showMessageDialog(null, "Compra realizada!"));
+
+        }else{
+                ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController, roteiroController);
+                modalMenu.iniciarModal(TelaConteudoSelecionado.this);
+                dispose();
+        }
 
 // Botão Adicionar ao Carrinho
         JButton buttonAddCarrinho = new JButton("Add Carrinho");

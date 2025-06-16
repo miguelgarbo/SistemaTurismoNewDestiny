@@ -50,7 +50,7 @@ public class TelaVisualizacao extends JFrame {
 
         BackgroundPanel containerMain = new BackgroundPanel("/photos/backgroundMain.png");
         containerMain.setLayout(new BorderLayout());
-        containerMain.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
+        containerMain.setBorder(BorderFactory.createEmptyBorder(15, 0, 30, 0));
 
         JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
         header.setOpaque(false);
@@ -205,6 +205,8 @@ public class TelaVisualizacao extends JFrame {
         scrollHorizontal.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         // Ajustado a altura para permitir a visualização e rolagem
         scrollHorizontal.setPreferredSize(new Dimension(370, 210));
+        scrollHorizontal.setMaximumSize(new Dimension(Integer.MAX_VALUE, 230));
+
         scrollHorizontal.setBorder(null);
         scrollHorizontal.setOpaque(false);
         scrollHorizontal.getViewport().setOpaque(false);
@@ -260,6 +262,8 @@ public class TelaVisualizacao extends JFrame {
         scrollHorizontal2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollHorizontal2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollHorizontal2.setPreferredSize(new Dimension(370, 210));
+        scrollHorizontal2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 230));
+
         scrollHorizontal2.setBorder(null);
         scrollHorizontal2.setOpaque(false);
         scrollHorizontal2.getViewport().setOpaque(false);
