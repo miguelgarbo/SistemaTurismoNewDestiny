@@ -28,6 +28,9 @@ public class UsuarioEntity {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PagamentoEntity> pagamentos = new ArrayList<>();
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private CarrinhoEntity carrinho;
+
 
     public UsuarioEntity( String nome, String senha, String email, String numeroTelefone, List<PedidoEntity> pedidos, List<RoteiroPersonalizadoEntity> roteirosCriados, List<CartaoEntity> cartoes, List<PagamentoEntity> pagamentos) {
         this.nome = nome;
@@ -126,5 +129,13 @@ public class UsuarioEntity {
 
     public void setPagamentos(List<PagamentoEntity> pagamentos) {
         this.pagamentos = pagamentos;
+    }
+
+    public CarrinhoEntity getCarrinho() {
+        return carrinho;
+    }
+
+    public void setCarrinho(CarrinhoEntity carrinho) {
+        this.carrinho = carrinho;
     }
 }

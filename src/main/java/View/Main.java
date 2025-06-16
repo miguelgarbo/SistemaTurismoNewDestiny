@@ -25,6 +25,7 @@ public class Main {
         PedidoRepository pedidoRepository = new PedidoRepository(em);
         CategoriaRepository categoriaRepository = new CategoriaRepository(em);
         DiaRepository diaRepository = new DiaRepository(em);
+        CarrinhoRepository carrinhoRepository = new CarrinhoRepository(em);
         //servicos das entidades
 
 
@@ -35,6 +36,7 @@ public class Main {
         PacoteTuristicoService pacoteTuristicoService = new PacoteTuristicoService(pacoteTuristicoRepository, pagamentoService, passeioRepository, passeioService, categoriaService);
         UsuarioService usuarioService = new UsuarioService(usuarioRepository, roteiroPersonalizadoService);
         AdministradorService administradorService = new AdministradorService(administradorRepository);
+        CarrinhoService carrinhoService =new CarrinhoService(carrinhoRepository);
 
         /// MVC COISAS NOVAS ABAIXO
         CartaoController cartaoController = new CartaoController(cartaoService);
@@ -44,7 +46,7 @@ public class Main {
         PacoteController pacoteController = new PacoteController(pacoteTuristicoService, pagamentoController, categoriaController, categoriaService, passeioController, passeioService);
         RoteiroController roteiroController = new RoteiroController(roteiroPersonalizadoService, passeioService, passeioController);
 
-        UsuarioController usuarioController = new UsuarioController(usuarioService, roteiroController, passeioController, pacoteController, cartaoController, pagamentoController);
+        UsuarioController usuarioController = new UsuarioController(usuarioService, roteiroController, passeioController, pacoteController, cartaoController, pagamentoController, carrinhoService);
         AdmnistradorController admController = new AdmnistradorController(administradorService, pacoteController, passeioController, usuarioController, categoriaController);
 
         //MenuPrincipal menuPrincipal = new MenuPrincipal(usuarioController, admController);

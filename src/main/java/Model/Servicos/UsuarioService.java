@@ -92,7 +92,6 @@ public class UsuarioService {
         return usuarioRepository.buscarTodos();
     }
 
-
     public UsuarioEntity findById(Long id) {
         return usuarioRepository.findById(id);
     }

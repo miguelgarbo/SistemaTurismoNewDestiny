@@ -94,7 +94,7 @@ public class TelaPerfilUsuario extends JFrame {
 
         String[] opcoes = {
                 "Editar Perfil",
-                "Minhas Compras",
+                "Meu Carrinho",
                 "Meus Roteiros",
                 "Métodos de Pagamento",
                 "Ajuda / Suporte",
@@ -125,10 +125,9 @@ public class TelaPerfilUsuario extends JFrame {
 //                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController, pacoteController, passeioController);
 //                        editarPerfilUsuário.editarPerfil();
                         break;
-                    case "Minhas Compras":
-                        TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController);
-                        telaVisualizacao.iniciarTela();
-                        System.out.println("Meus Pacotes");
+                    case "Meu Carrinho":
+                        TelaCarrinhoUsuario telaCarrinhoUsuario = new TelaCarrinhoUsuario(usuarioController,pacoteController,passeioController, roteiroController, usuarioController.carrinhoService());
+                        telaCarrinhoUsuario.iniciarTela();
                         break;
                     case "Meus Roteiros":
                         TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController, roteiroController);

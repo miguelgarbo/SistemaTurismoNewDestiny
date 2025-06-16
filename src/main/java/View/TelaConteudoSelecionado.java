@@ -102,6 +102,7 @@ public class TelaConteudoSelecionado extends JFrame{
         titleContent.setForeground(Color.WHITE);
         titleContent.setFont(interFont.deriveFont(18f));
         titleContent.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleContent.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 2));
 
         //detalhes conteudo
         JLabel detailsContentPasseio = new JLabel();
@@ -110,7 +111,7 @@ public class TelaConteudoSelecionado extends JFrame{
         detailsContentPasseio.setVerticalAlignment(SwingConstants.TOP);
         detailsContentPasseio.setHorizontalAlignment(SwingConstants.LEFT);
         detailsContentPasseio.setAlignmentX(Component.CENTER_ALIGNMENT);
-        detailsContentPasseio.setMaximumSize(new Dimension(370, 250));
+        detailsContentPasseio.setMaximumSize(new Dimension(370, 180));
         detailsContentPasseio.setOpaque(false);
         detailsContentPasseio.setVerticalTextPosition(JLabel.TOP);
 
@@ -122,6 +123,8 @@ public class TelaConteudoSelecionado extends JFrame{
         detailsContentPacote.setAlignmentX(Component.CENTER_ALIGNMENT);
         detailsContentPacote.setOpaque(false);
         detailsContentPacote.setVerticalTextPosition(JLabel.TOP);
+        detailsContentPacote.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 2));
+
 
         JScrollPane scrollHorizontal = new JScrollPane();
         scrollHorizontal.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -130,6 +133,40 @@ public class TelaConteudoSelecionado extends JFrame{
         scrollHorizontal.setBorder(null);
         scrollHorizontal.setOpaque(false);
         scrollHorizontal.getViewport().setOpaque(false);
+
+        //painel botoes
+
+        // Painel de botões
+        JPanel botoesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        botoesPanel.setOpaque(false);
+        botoesPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE,45));
+        botoesPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+
+
+// Botão Comprar
+        JButton buttonComprar = new JButton("Comprar");
+        buttonComprar.setPreferredSize(new Dimension(150, 35));
+        buttonComprar.setForeground(Color.WHITE);
+        buttonComprar.setBackground(new Color(0x13A8AD));
+        buttonComprar.setFont(interFont.deriveFont(15f));
+        buttonComprar.setFocusPainted(false);
+        buttonComprar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        buttonComprar.addActionListener(e -> JOptionPane.showMessageDialog(null, "Compra realizada!"));
+
+// Botão Adicionar ao Carrinho
+        JButton buttonAddCarrinho = new JButton("Add Carrinho");
+        buttonAddCarrinho.setPreferredSize(new Dimension(180, 35));
+        buttonAddCarrinho.setForeground(Color.WHITE);
+        buttonAddCarrinho.setBackground(new Color(0xFFA500));
+        buttonAddCarrinho.setFont(interFont.deriveFont(15f));
+        buttonAddCarrinho.setFocusPainted(false);
+        buttonAddCarrinho.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        botoesPanel.add(buttonAddCarrinho);
+        botoesPanel.add(buttonComprar);
+
+        //fim painel botoes
+
 
         JPanel passeioRow = new JPanel(new FlowLayout());
         passeioRow.setOpaque(false);
@@ -167,6 +204,24 @@ public class TelaConteudoSelecionado extends JFrame{
             pacoteDetails.append("</html>");
             detailsContentPacote.setText(pacoteDetails.toString());
 
+            //logica add carrinho pacote
+            buttonAddCarrinho.addActionListener(e -> {
+
+
+            if(usuarioController.getUserLogged()!=null){
+
+                JOptionPane.showMessageDialog(null, "Adicionado ao carrinho!");
+
+                usuarioController.carrinhoService().adicionarItemAoCarrinho(usuarioController.getUserLogged(), "Pacote", pacote.getId(), pacote.getTitulo(), pacote.getPrecoTotal());
+            }else{
+                ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController,passeioController,roteiroController);
+                modalMenu.iniciarModal(TelaConteudoSelecionado.this);
+                dispose();
+                }
+            });
+
+            //fim logica
+
         } else if (conteudo instanceof PasseioEntity passeio) {
             titleContent.setText("<html><b>Passeio: " + passeio.getTitulo() + "</b></html>");
             StringBuilder passeioDetails = new StringBuilder("<html>");
@@ -198,6 +253,25 @@ public class TelaConteudoSelecionado extends JFrame{
 
             passeioDetails.append("</html>");
             detailsContentPasseio.setText(passeioDetails.toString());
+            //logica do botao add carrinho
+
+            buttonAddCarrinho.addActionListener(e -> {
+
+                JOptionPane.showMessageDialog(null, "Adicionado ao carrinho!");
+
+                if(usuarioController.getUserLogged()!=null){
+
+                    usuarioController.carrinhoService().adicionarItemAoCarrinho(usuarioController.getUserLogged(), "Passeio", passeio.getId(), passeio.getTitulo(), passeio.getPreco());
+
+                }else{
+                    ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController,passeioController,roteiroController);
+                    modalMenu.iniciarModal(TelaConteudoSelecionado.this);
+                    dispose();
+                }
+
+            });
+
+
         } else {
             titleContent.setText("<html><b>Conteúdo Não Encontrado</b></html>");
             detailsContentPasseio.setText("Não foi possível carregar os detalhes do conteúdo selecionado.");
@@ -205,24 +279,7 @@ public class TelaConteudoSelecionado extends JFrame{
 
         //botao
 
-        JButton buttonComprar = new JButton("Comprar");
-        buttonComprar.setPreferredSize(new Dimension(150, 35));
-        buttonComprar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonComprar.setForeground(Color.WHITE);
-        buttonComprar.setBackground(new Color(0x13A8AD));
-        buttonComprar.setFont(interFont.deriveFont(15f));
-        buttonComprar.setFocusPainted(false);
-        buttonComprar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        buttonComprar.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "Compra");
-        });
-
-
-        //fim botao
-
-
-
+        //fim botoes
 
         center.add(Box.createVerticalStrut(10));
         center.add(titleContent);
@@ -235,6 +292,9 @@ public class TelaConteudoSelecionado extends JFrame{
         }else{
             center.add(detailsContentPacote);
         }
+
+        center.add(Box.createVerticalStrut(20));
+        center.add(botoesPanel);
 
 
         center.add(Box.createVerticalStrut(10));
