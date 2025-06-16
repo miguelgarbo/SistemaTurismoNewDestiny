@@ -77,10 +77,13 @@ public class TelaPerfilUsuario extends JFrame {
 
 
         //Conteúdo Central----------------------------------------------------------------------
-        UsuarioEntity usuarioLogado = usuarioController.getUserLogged();//retorna o nome do usuário Logado
-        String nomeUsuário = usuarioLogado.getNome();
-        String nomeFormatado = nomeUsuário.substring(0, 1).toUpperCase() + nomeUsuário.substring(1).toLowerCase(); //formata o nome para que sempre a primeira letra seja maiúscula, e o restante minúscula
+
+
+        String nomeUsuário = usuarioController.getUserLogged().getNome();
+        String primeiroNome = nomeUsuário.split(" ")[0];
+        String nomeFormatado = primeiroNome.substring(0, 1).toUpperCase() + primeiroNome.substring(1).toLowerCase();
         JLabel saudacao = new JLabel("Olá, " + nomeFormatado);
+
         saudacao.setFont(interFontBold.deriveFont(22f));
         saudacao.setForeground(Color.WHITE);
         saudacao.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -129,11 +132,11 @@ public class TelaPerfilUsuario extends JFrame {
                         break;
                     case "Meus Roteiros":
                         TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController, roteiroController);
-                        telaRoteiros.inicarTela(usuarioLogado);
+                        telaRoteiros.inicarTela(usuarioController.getUserLogged());
                         break;
                     case "Métodos de Pagamento":
                         CadastrarMetodoPagamento cadastrarMetodoPagamento = new CadastrarMetodoPagamento(usuarioController,pacoteController,passeioController, roteiroController);
-                        cadastrarMetodoPagamento.gerenciadorCartão(usuarioLogado);
+                        cadastrarMetodoPagamento.gerenciadorCartão(usuarioController.getUserLogged());
                         System.out.println("Métodos pagamento");
                         break;
                     case "Ajuda / Suporte":

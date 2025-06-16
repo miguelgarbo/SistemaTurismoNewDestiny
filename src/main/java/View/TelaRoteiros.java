@@ -129,16 +129,13 @@ public class TelaRoteiros extends JFrame {
 
         JLabel titleRoteiro = new JLabel();
 
-        titleRoteiro.setText("<html><b>Roteiros de "+usuario.getNome()+"</b></html>");
+        String nomeUsuário = usuarioController.getUserLogged().getNome();
+        String primeiroNome = nomeUsuário.split(" ")[0];
+        String nomeFormatado = primeiroNome.substring(0, 1).toUpperCase() + primeiroNome.substring(1).toLowerCase();
+        titleRoteiro.setText("<html><b>Roteiros de "+nomeFormatado+"</b></html>");
         titleRoteiro.setFont(interFontBold.deriveFont(18f));
         titleRoteiro.setForeground(Color.WHITE);
 
-        // bloco roteiro
-
-//        JButton buttonRoteiro = new JButton("<html><b>'Roteiro Nome'</b><br><i>Data Inicio: 'xx/xx/xx'</i></html>");
-//        buttonRoteiro.setBackground(new Color(19, 168, 173, 112));
-//        buttonRoteiro.setMaximumSize(new Dimension(400, 50));
-//        buttonRoteiro.setFont(interFont.deriveFont(16f));
 
 
 

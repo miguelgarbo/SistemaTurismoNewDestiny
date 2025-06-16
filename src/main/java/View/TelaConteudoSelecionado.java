@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class TelaConteudoSelecionado extends JFrame{
 
@@ -109,8 +110,7 @@ public class TelaConteudoSelecionado extends JFrame{
         detailsContentPasseio.setVerticalAlignment(SwingConstants.TOP);
         detailsContentPasseio.setHorizontalAlignment(SwingConstants.LEFT);
         detailsContentPasseio.setAlignmentX(Component.CENTER_ALIGNMENT);
-        detailsContentPasseio.setMaximumSize(new Dimension(370, 180));
-        detailsContentPasseio.setPreferredSize(new Dimension(370, 180));
+        detailsContentPasseio.setMaximumSize(new Dimension(370, 250));
         detailsContentPasseio.setOpaque(false);
         detailsContentPasseio.setVerticalTextPosition(JLabel.TOP);
 
@@ -137,14 +137,23 @@ public class TelaConteudoSelecionado extends JFrame{
         if (conteudo instanceof PacoteTuristicoEntity pacote) {
             titleContent.setText("<html><b>Pacote: " + pacote.getTitulo() + "</b>");
             StringBuilder pacoteDetails = new StringBuilder("<html>");
-            pacoteDetails.append(String.format("Preço Total: R$ %.2f<br>", pacote.getPrecoTotal()));
 
             if (pacote.getCategorias() != null && !pacote.getCategorias().isEmpty()) {
                 pacoteDetails.append("<b>Categoria:</b><br>");
                 for (CategoriaEntity categoria : pacote.getCategorias()) {
-                    pacoteDetails.append("- ").append(categoria.getNome()).append("<br>");
+                    System.out.println("Categoria encontrada: " + categoria.getNome());
+
+                    pacoteDetails.append(categoria.getNome()).append(", ");
                 }
+                pacoteDetails.append("<br><br>");
+            }else{
+
+                System.out.println("Categoria nao encontrada");
             }
+
+            pacoteDetails.append(String.format("<b>Preço Total:</b> R$ %.2f<br>", pacote.getPrecoTotal()));
+
+
             if (pacote.getPasseios() != null && !pacote.getPasseios().isEmpty()) {
                 pacoteDetails.append("<b>Passeios Inclusos:</b>");
                 for (PasseioEntity passeio : pacote.getPasseios()) {
@@ -161,20 +170,24 @@ public class TelaConteudoSelecionado extends JFrame{
         } else if (conteudo instanceof PasseioEntity passeio) {
             titleContent.setText("<html><b>Passeio: " + passeio.getTitulo() + "</b></html>");
             StringBuilder passeioDetails = new StringBuilder("<html>");
+
+            if (passeio.getCategorias() != null && !passeio.getCategorias().isEmpty()) {
+                passeioDetails.append("<b>Categoria:</b><br>");
+                for (CategoriaEntity categoria : passeio.getCategorias()) {
+                    System.out.println("Categoria encontrada: " + categoria.getNome());
+
+                    passeioDetails.append(categoria.getNome()).append(", ");
+                }
+                passeioDetails.append("<br><br>");
+            }else{
+                System.out.println("Sem categorias");
+            }
             passeioDetails.append("<b>Descrição:</b> ").append(passeio.getDescricao()).append("<br><br>");
             passeioDetails.append("<b>Duração:</b> ").append(passeio.getDuracao()).append("<br><br>");
             passeioDetails.append("<b>Preço Ingresso:</b> R$ ").append(passeio.getPreco()).append("<br><br>");
             passeioDetails.append("<b>Localização:</b> ").append(passeio.getLocalizacao()).append("<br><br>");
             passeioDetails.append("<b>Horários:</b> ").append(passeio.getHorarios()).append("<br><br>");
 
-            if (passeio.getCategorias() != null && !passeio.getCategorias().isEmpty()) {
-                passeioDetails.append("<b>Categorias:</b><br>");
-                for (CategoriaEntity categoria : passeio.getCategorias()) {
-                    passeioDetails.append("- ").append(categoria.getNome()).append("<br>");
-                }
-            }else{
-                System.out.println("Sem categorias");
-            }
 
             JScrollPane fotosScroll;
             if(passeio.getListaFotos() != null && !passeio.getListaFotos().isEmpty()){
@@ -190,6 +203,26 @@ public class TelaConteudoSelecionado extends JFrame{
             detailsContentPasseio.setText("Não foi possível carregar os detalhes do conteúdo selecionado.");
         }
 
+        //botao
+
+        JButton buttonComprar = new JButton("Comprar");
+        buttonComprar.setPreferredSize(new Dimension(150, 35));
+        buttonComprar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonComprar.setForeground(Color.WHITE);
+        buttonComprar.setBackground(new Color(0x13A8AD));
+        buttonComprar.setFont(interFont.deriveFont(15f));
+        buttonComprar.setFocusPainted(false);
+        buttonComprar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        buttonComprar.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Compra");
+        });
+
+
+        //fim botao
+
+
+
 
         center.add(Box.createVerticalStrut(10));
         center.add(titleContent);
@@ -202,6 +235,8 @@ public class TelaConteudoSelecionado extends JFrame{
         }else{
             center.add(detailsContentPacote);
         }
+
+
         center.add(Box.createVerticalStrut(10));
         center.add(scrollHorizontal);
 
@@ -315,5 +350,6 @@ public class TelaConteudoSelecionado extends JFrame{
 
         return cardPanel;
     }
+
 
 }

@@ -96,4 +96,7 @@ public class UsuarioService {
     public UsuarioEntity findById(Long id) {
         return usuarioRepository.findById(id);
     }
+
+
+
 }

@@ -4,7 +4,9 @@ import Model.Entidades.*;
 import Model.Repositorio.DiaRepository;
 import Model.Servicos.CategoriaService;
 import Model.Servicos.PasseioService;
+import View.TelaConteudoSelecionado;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,6 +44,12 @@ public class PasseioController {
         return passeioService.buscarTodos();
 
     }
+
+   public PasseioService passeioService(){
+
+        return passeioService;
+   }
+
 
     public void exibirTodosPasseios() {
 

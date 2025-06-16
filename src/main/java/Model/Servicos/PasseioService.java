@@ -47,6 +47,14 @@ public class PasseioService {
         }
     }
 
+    public List<PasseioEntity> buscarPorTitulo(String titulo) {
+        if (titulo == null || titulo.isEmpty()) {
+            throw new IllegalArgumentException("Título não pode ser vazio");
+        }
+        return passeioRepository.buscarPorTituloInicial(titulo);
+    }
+
+
     public PasseioEntity buscarPorId(Long id) {
         return passeioRepository.findById(id);
     }
