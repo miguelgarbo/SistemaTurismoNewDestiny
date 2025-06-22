@@ -213,7 +213,7 @@ public class TelaRoteiroSelecionado extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                TelaCriarRoteiro3Etapa telaCriarRoteiro3Etapa = new TelaCriarRoteiro3Etapa(usuarioController, pacoteController, passeioController, roteiroController,dia);
+                TelaAddPasseioDia telaCriarRoteiro3Etapa = new TelaAddPasseioDia(usuarioController, pacoteController, passeioController, roteiroController,dia);
                 telaCriarRoteiro3Etapa.iniciarTela();
                 dispose();
             }

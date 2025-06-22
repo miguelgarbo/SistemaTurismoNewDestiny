@@ -71,9 +71,10 @@ public class TelaCriarRoteiro extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                dispose(); // Fecha a tela atual
                 TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController, passeioController, roteiroController);
                 telaPerfilUsuario.iniciarPerfilUsuário();
-                dispose(); // Fecha a tela atual
+
             }
         });
 

@@ -4,15 +4,12 @@ import Controller.PacoteController;
 import Controller.PasseioController;
 import Controller.RoteiroController;
 import Controller.UsuarioController;
-import Model.Entidades.UsuarioEntity;
 import Model.Repositorio.CartaoRepositorio;
-import Model.Servicos.CartaoService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class TelaPerfilUsuario extends JFrame {
 
@@ -122,8 +119,8 @@ public class TelaPerfilUsuario extends JFrame {
                     case "Editar Perfil":
                         dispose();
 
-                        EditarPerfilUsuario editarPerfilUsuário = new EditarPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
-                        editarPerfilUsuário.editarPerfil();
+                        EditarPerfilUsuario editarPerfilUsuario = new EditarPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
+                        editarPerfilUsuario.editarPerfil();
                         break;
                     case "Meu Carrinho":
                         TelaCarrinhoUsuario telaCarrinhoUsuario = new TelaCarrinhoUsuario(usuarioController,pacoteController,passeioController, roteiroController, usuarioController.carrinhoService());

@@ -21,7 +21,7 @@ public class CadastrarMetodoPagamento extends JFrame {
     private RoteiroController roteiroController;
     private UsuarioEntity usuarioEntity;
 
-    public CadastrarMetodoPagamento(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController) {
+    public CadastrarMetodoPagamento(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController,RoteiroController roteiroController) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
@@ -56,7 +56,7 @@ public class CadastrarMetodoPagamento extends JFrame {
         buttonBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         buttonBack.addActionListener(e -> {
-            TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
+            TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController,roteiroController);
             telaPerfilUsuario.iniciarPerfilUsuário();
         });
 
@@ -117,7 +117,7 @@ public class CadastrarMetodoPagamento extends JFrame {
             // Aqui você pode validar os dados e salvar no banco
             JOptionPane.showMessageDialog(null, "Cartão cadastrado com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
             dispose();
-            TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
+            TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController,roteiroController);
             telaPerfilUsuario.iniciarPerfilUsuário();
         });
 

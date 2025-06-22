@@ -13,9 +13,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
-import java.awt.image.BufferedImage; // Importar para BufferedImage
 
-public class TelaCriarRoteiro3Etapa extends JFrame {
+public class TelaAddPasseioDia extends JFrame {
 
     private UsuarioController usuarioController;
     private PasseioController passeioController;
@@ -27,7 +26,7 @@ public class TelaCriarRoteiro3Etapa extends JFrame {
     private Font interFontBold;
     private CoresProjeto coresProjeto = new CoresProjeto(); // Correção: CoresProjeto
 
-    public TelaCriarRoteiro3Etapa(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController, DiaEntity dia) {
+    public TelaAddPasseioDia(UsuarioController usuarioController, PacoteController pacoteController, PasseioController passeioController, RoteiroController roteiroController, DiaEntity dia) {
         this.usuarioController = usuarioController;
         this.pacoteController = pacoteController;
         this.passeioController = passeioController;
