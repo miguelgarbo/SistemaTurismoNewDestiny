@@ -110,6 +110,7 @@ public class TelaLogin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+
                 System.out.println(e);
 
                 String emailInformado = fieldEmail.getText();
@@ -125,7 +126,7 @@ public class TelaLogin extends JFrame {
                     containerMain.revalidate();
                     containerMain.repaint();
                     containerMain.setVisible(false);
-                    dispose();
+                    TelaLogin.this.dispose();
                     System.out.println("Chamando tela de perfil...");
                     TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController, roteiroController);
                     telaVisualizacao.iniciarTela();
@@ -152,10 +153,9 @@ public class TelaLogin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                TelaLogin.this.setVisible(false);
+                TelaLogin.this.dispose();
                 TelaCadastro telaCadastro = new TelaCadastro(usuarioController, passeioController, pacoteController, roteiroController);
                 telaCadastro.iniciarTela();
-                dispose();
 
             }
         });

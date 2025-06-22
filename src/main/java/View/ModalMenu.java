@@ -45,7 +45,7 @@ public class ModalMenu {
                 modal.dispose();
                 frame.dispose();
                 TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
-                telaPerfilUsuario.iniciarPerfilUsuário();
+                telaPerfilUsuario.iniciarPerfilUsuario();
             }
         });
 

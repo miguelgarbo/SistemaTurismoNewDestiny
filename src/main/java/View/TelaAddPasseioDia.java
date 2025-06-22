@@ -71,9 +71,10 @@ public class TelaAddPasseioDia extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                TelaAddPasseioDia.this.dispose();
+
                 TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController, pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
-                dispose();
             }
         });
 
@@ -120,10 +121,9 @@ public class TelaAddPasseioDia extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
+                TelaAddPasseioDia.this.dispose();
                 TelaRoteiroSelecionado telaAnterior = new TelaRoteiroSelecionado(usuarioController, pacoteController, passeioController, roteiroController);
                 telaAnterior.iniciarTela(dia.getRoteiro());
-                dispose();
             }
         });
 

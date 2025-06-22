@@ -110,7 +110,6 @@ public class TelaVisualizacao extends JFrame {
             miniMenuButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
                     ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController, roteiroController);
                     modalMenu.iniciarModal(TelaVisualizacao.this);
                 }
@@ -120,7 +119,6 @@ public class TelaVisualizacao extends JFrame {
             miniMenuButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
                     ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController, roteiroController);
                     modalMenu.iniciarModal(TelaVisualizacao.this, usuarioController.getUserLogged());
                 }
@@ -402,10 +400,11 @@ public class TelaVisualizacao extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                TelaVisualizacao.this.dispose();
+
                 TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, passeio, roteiroController);
                 tela.iniciarTela();
-                dispose();
 
             }
         });
@@ -455,7 +454,6 @@ public class TelaVisualizacao extends JFrame {
         imageLabel.setAlignmentX(0.0f);
         imageLabel.setAlignmentY(0.0f);
 
-        // Painel com título
         JPanel titlePanel = new JPanel();
         titlePanel.setOpaque(true);
         titlePanel.setBackground(new Color(0, 0, 0, 150));
@@ -495,10 +493,11 @@ public class TelaVisualizacao extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                TelaVisualizacao.this.dispose();
+
                 TelaConteudoSelecionado telaConteudoSelecionado = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, pacoteTuristico, roteiroController);
                 telaConteudoSelecionado.iniciarTela();
-                dispose();
             }
         });
 

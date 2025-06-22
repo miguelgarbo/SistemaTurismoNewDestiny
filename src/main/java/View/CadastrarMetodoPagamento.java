@@ -57,7 +57,7 @@ public class CadastrarMetodoPagamento extends JFrame {
 
         buttonBack.addActionListener(e -> {
             TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController,roteiroController);
-            telaPerfilUsuario.iniciarPerfilUsuário();
+            telaPerfilUsuario.iniciarPerfilUsuario();
         });
 
 
@@ -116,9 +116,9 @@ public class CadastrarMetodoPagamento extends JFrame {
 
             // Aqui você pode validar os dados e salvar no banco
             JOptionPane.showMessageDialog(null, "Cartão cadastrado com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
+            CadastrarMetodoPagamento.this.dispose();
             TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController,roteiroController);
-            telaPerfilUsuario.iniciarPerfilUsuário();
+            telaPerfilUsuario.iniciarPerfilUsuario();
         });
 
         center.add(title);

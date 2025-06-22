@@ -70,6 +70,8 @@ public class TelaConteudoSelecionado extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                TelaConteudoSelecionado.this.dispose();
+
                 TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController, passeioController,pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
             }
@@ -158,7 +160,6 @@ public class TelaConteudoSelecionado extends JFrame{
         }else{
                 ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController, passeioController, roteiroController);
                 modalMenu.iniciarModal(TelaConteudoSelecionado.this);
-                dispose();
         }
 
 // Botão Adicionar ao Carrinho
@@ -224,7 +225,6 @@ public class TelaConteudoSelecionado extends JFrame{
             }else{
                 ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController,passeioController,roteiroController);
                 modalMenu.iniciarModal(TelaConteudoSelecionado.this);
-                dispose();
                 }
             });
 
@@ -274,7 +274,6 @@ public class TelaConteudoSelecionado extends JFrame{
                 }else{
                     ModalMenu modalMenu = new ModalMenu(usuarioController, pacoteController,passeioController,roteiroController);
                     modalMenu.iniciarModal(TelaConteudoSelecionado.this);
-                    dispose();
                 }
 
             });
@@ -400,10 +399,12 @@ public class TelaConteudoSelecionado extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+
+                TelaConteudoSelecionado.this.dispose();
+
                 TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
                         usuarioController, passeioController, pacoteController, passeio, roteiroController);
                 tela.iniciarTela();
-                dispose();
 
             }
         });

@@ -72,7 +72,7 @@ public class TelaRoteiroSelecionado extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-//
+                TelaRoteiroSelecionado.this.dispose();
                 TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController, roteiroController);
                 telaRoteiros.inicarTela(usuarioController.getUserLogged());
                 dispose();
@@ -212,7 +212,7 @@ public class TelaRoteiroSelecionado extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
+                TelaRoteiroSelecionado.this.dispose();
                 TelaAddPasseioDia telaCriarRoteiro3Etapa = new TelaAddPasseioDia(usuarioController, pacoteController, passeioController, roteiroController,dia);
                 telaCriarRoteiro3Etapa.iniciarTela();
                 dispose();

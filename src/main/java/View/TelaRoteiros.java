@@ -108,8 +108,10 @@ public class TelaRoteiros extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                TelaRoteiros.this.dispose();
+
                 TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController,passeioController, roteiroController);
-                telaPerfilUsuario.iniciarPerfilUsuário();
+                telaPerfilUsuario.iniciarPerfilUsuario();
             }
         });
 
@@ -171,10 +173,9 @@ public class TelaRoteiros extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                dispose();
+                TelaRoteiros.this.dispose();
                 TelaCriarRoteiro telaCriarRoteiro = new TelaCriarRoteiro(usuarioController, pacoteController, passeioController, roteiroController);
                 telaCriarRoteiro.iniciarTela();
-                dispose();
             }
         });
 
@@ -192,6 +193,7 @@ public class TelaRoteiros extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                TelaRoteiros.this.dispose();
                 TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado(usuarioController, pacoteController,passeioController, roteiroController);
                 telaRoteiroSelecionado.iniciarTela(roteiro);
 

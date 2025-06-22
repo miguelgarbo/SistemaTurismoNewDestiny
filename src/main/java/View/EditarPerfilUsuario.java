@@ -96,7 +96,7 @@ public class EditarPerfilUsuario extends JFrame {
 
             JOptionPane.showMessageDialog(this, "Perfil atualizado com sucesso!");
             this.dispose();
-            new TelaPerfilUsuario(usuarioController,pacoteController,passeioController,roteiroController).iniciarPerfilUsuário();
+            new TelaPerfilUsuario(usuarioController,pacoteController,passeioController,roteiroController).iniciarPerfilUsuario();
         });
 
         painelCentral.add(botaoSalvar);
@@ -106,7 +106,7 @@ public class EditarPerfilUsuario extends JFrame {
 
         buttonBack.addActionListener(e -> {
             this.dispose();
-            new TelaPerfilUsuario(usuarioController,pacoteController,passeioController,roteiroController).iniciarPerfilUsuário();
+            new TelaPerfilUsuario(usuarioController,pacoteController,passeioController,roteiroController).iniciarPerfilUsuario();
         });
 
         setTitle("Perfil do Usuário");

@@ -75,12 +75,15 @@ public class TelaCarrinhoUsuario extends JFrame {
         buttonBack.setFocusPainted(false);
         buttonBack.setOpaque(false);
         buttonBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         buttonBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                TelaCarrinhoUsuario.this.dispose();
+
                 TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
-                telaPerfilUsuario.iniciarPerfilUsuário();
-                dispose();
+                telaPerfilUsuario.iniciarPerfilUsuario();
+
             }
         });
 
@@ -290,22 +293,24 @@ public class TelaCarrinhoUsuario extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                // dependendo do tipo, abrir a tela de conteúdo correspondente
+
                 if ("passeio".equalsIgnoreCase(item.getTipo())) {
                     PasseioEntity passeio = passeioController.findById(item.getItemId());
                     if (passeio != null) {
+                        TelaCarrinhoUsuario.this.dispose();
+
                         TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
                                 usuarioController, passeioController, pacoteController, passeio, roteiroController);
                         tela.iniciarTela();
-                        dispose();
                     }
                 } else if ("pacote".equalsIgnoreCase(item.getTipo())) {
                     PacoteTuristicoEntity pacote = pacoteController.findById(item.getItemId());
                     if (pacote != null) {
+                        TelaCarrinhoUsuario.this.dispose();
+
                         TelaConteudoSelecionado tela = new TelaConteudoSelecionado(
                                 usuarioController, passeioController, pacoteController, pacote, roteiroController);
                         tela.iniciarTela();
-                        dispose();
                     }
                 }
             }

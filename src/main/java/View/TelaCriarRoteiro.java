@@ -71,9 +71,9 @@ public class TelaCriarRoteiro extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                dispose(); // Fecha a tela atual
+                TelaCriarRoteiro.this.dispose();
                 TelaPerfilUsuario telaPerfilUsuario = new TelaPerfilUsuario(usuarioController,pacoteController, passeioController, roteiroController);
-                telaPerfilUsuario.iniciarPerfilUsuário();
+                telaPerfilUsuario.iniciarPerfilUsuario();
 
             }
         });
@@ -139,16 +139,12 @@ public class TelaCriarRoteiro extends JFrame {
 
                 try {
                     RoteiroPersonalizadoEntity roteiroCriado = roteiroController.criarRoteiro(usuarioController.getUserLogged(), titulo, data, qtdDias);
-                    // Pode mostrar mensagem de sucesso ou ir para próxima etapa
                     JOptionPane.showMessageDialog(null, "Roteiro criado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-//                    // Exemplo: abrir próxima tela e fechar esta
-//                    TelaCriarRoteiro2Etapa telaCriarRoteiro2Etapa = new TelaCriarRoteiro2Etapa(usuarioController, pacoteController, passeioController, roteiroController);
-//                    telaCriarRoteiro2Etapa.iniciarTela(roteiroCriado);
+                    TelaCriarRoteiro.this.dispose();
 
                     TelaRoteiroSelecionado telaRoteiroSelecionado = new TelaRoteiroSelecionado(usuarioController, pacoteController, passeioController, roteiroController);
                     telaRoteiroSelecionado.iniciarTela(roteiroCriado);
-                    dispose();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Erro ao criar roteiro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     System.out.println("Erro ao criar roteiro: " + ex.getMessage());

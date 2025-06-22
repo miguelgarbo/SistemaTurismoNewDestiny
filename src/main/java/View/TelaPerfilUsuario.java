@@ -28,7 +28,7 @@ public class TelaPerfilUsuario extends JFrame {
         this.roteiroController = roteiroController;
     }
 
-    public void iniciarPerfilUsuário() {
+    public void iniciarPerfilUsuario() {
         interFont = FontLoader.loadFont("/fontsNewDestiny/Inter.ttc", 14f);
         interFontBold = FontLoader.loadFont("/fontsNewDestiny/InterVariable.ttf", 18f);
 
@@ -76,8 +76,8 @@ public class TelaPerfilUsuario extends JFrame {
         //Conteúdo Central----------------------------------------------------------------------
 
 
-        String nomeUsuário = usuarioController.getUserLogged().getNome();
-        String primeiroNome = nomeUsuário.split(" ")[0];
+        String nomeUsuario = usuarioController.getUserLogged().getNome();
+        String primeiroNome = nomeUsuario.split(" ")[0];
         String nomeFormatado = primeiroNome.substring(0, 1).toUpperCase() + primeiroNome.substring(1).toLowerCase();
         JLabel saudacao = new JLabel("Olá, " + nomeFormatado);
 
@@ -117,28 +117,36 @@ public class TelaPerfilUsuario extends JFrame {
                 TelaPerfilUsuario.this.setVisible(false);
                 switch (opcaoFinal) {
                     case "Editar Perfil":
-                        dispose();
+                        TelaPerfilUsuario.this.dispose();
 
                         EditarPerfilUsuario editarPerfilUsuario = new EditarPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
                         editarPerfilUsuario.editarPerfil();
                         break;
                     case "Meu Carrinho":
+                        TelaPerfilUsuario.this.dispose();
+
                         TelaCarrinhoUsuario telaCarrinhoUsuario = new TelaCarrinhoUsuario(usuarioController,pacoteController,passeioController, roteiroController, usuarioController.carrinhoService());
                         telaCarrinhoUsuario.iniciarTela();
                         break;
                     case "Meus Roteiros":
+                        TelaPerfilUsuario.this.dispose();
+
                         TelaRoteiros telaRoteiros = new TelaRoteiros(usuarioController, pacoteController, passeioController, roteiroController);
                         telaRoteiros.inicarTela(usuarioController.getUserLogged());
                         break;
                     case "Métodos de Pagamento":
+                        TelaPerfilUsuario.this.dispose();
+
                         CadastrarMetodoPagamento cadastrarMetodoPagamento = new CadastrarMetodoPagamento(usuarioController,pacoteController,passeioController, roteiroController);
                         cadastrarMetodoPagamento.gerenciadorCartão(usuarioController.getUserLogged());
                         System.out.println("Métodos pagamento");
                         break;
                     case "Ajuda / Suporte":
+
                         System.out.println("Help!");
                         break;
                     case "Sair da Conta":
+                        TelaPerfilUsuario.this.dispose();
                         usuarioController.setgetUserLogged(null);
                         new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController).iniciarTela();
                         break;
@@ -160,8 +168,8 @@ public class TelaPerfilUsuario extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                System.out.println(e);// mostra no terminal que o botão foi acionado
-                TelaPerfilUsuario.this.dispose(); //fecha a tela do perfil do usuário
+                System.out.println(e);
+                TelaPerfilUsuario.this.dispose();
                 TelaVisualizacao telaVisualizacao = new TelaVisualizacao(usuarioController,passeioController,pacoteController, roteiroController);
                 telaVisualizacao.iniciarTela();
                 dispose();

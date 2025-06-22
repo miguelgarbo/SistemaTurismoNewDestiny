@@ -15,7 +15,7 @@ public class MenuPrincipal {
         this.usuarioController = usuarioController;
         this.admController = admController;
     }
-
+//TERMINAL CODIGO
     
     public void mostrarMenuPrincipal(){
 

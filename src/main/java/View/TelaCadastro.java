@@ -160,6 +160,10 @@ public class TelaCadastro extends JFrame {
                     mensagemStatus.setVisible(true);
                     containerMain.revalidate();
                     containerMain.repaint();
+                    TelaCadastro.this.dispose();
+                    TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController,passeioController,roteiroController);
+                    telaLogin.iniciarTela();
+
                 } else {
                     mensagemStatus.setText("Dados Inválidos");
                     mensagemStatus.setForeground(Color.RED);
@@ -182,11 +186,9 @@ public class TelaCadastro extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
-                TelaCadastro.this.setVisible(false);
+                TelaCadastro.this.dispose();
                 TelaLogin telaLogin = new TelaLogin(usuarioController, pacoteController, passeioController, roteiroController );
                 telaLogin.iniciarTela();
-                dispose();
 
             }
         });
