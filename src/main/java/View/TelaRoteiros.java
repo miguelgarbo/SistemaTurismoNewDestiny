@@ -184,7 +184,7 @@ public class TelaRoteiros extends JFrame {
 
 
         JButton buttonRoteiro = new JButton("<html><b>"+roteiro.getTitulo()+"</b><br><i>Data Inicio:"+ roteiro.getDataInicio()+"</i></html>");
-        buttonRoteiro.setBackground(new Color(19, 168, 173, 112));
+        buttonRoteiro.setBackground(new Color(19, 168, 173));
         buttonRoteiro.setMaximumSize(new Dimension(400, 50));
         buttonRoteiro.setFont(interFont.deriveFont(16f));
 

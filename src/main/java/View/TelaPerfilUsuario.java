@@ -121,9 +121,9 @@ public class TelaPerfilUsuario extends JFrame {
                 switch (opcaoFinal) {
                     case "Editar Perfil":
                         dispose();
-//
-//                        EditarPerfilUsuário editarPerfilUsuário = new EditarPerfilUsuário(usuarioController, pacoteController, passeioController);
-//                        editarPerfilUsuário.editarPerfil();
+
+                        EditarPerfilUsuario editarPerfilUsuário = new EditarPerfilUsuario(usuarioController, pacoteController, passeioController, roteiroController);
+                        editarPerfilUsuário.editarPerfil();
                         break;
                     case "Meu Carrinho":
                         TelaCarrinhoUsuario telaCarrinhoUsuario = new TelaCarrinhoUsuario(usuarioController,pacoteController,passeioController, roteiroController, usuarioController.carrinhoService());

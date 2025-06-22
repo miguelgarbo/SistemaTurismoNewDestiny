@@ -19,8 +19,6 @@ public class TelaCadastro extends JFrame {
     private PacoteController pacoteController;
     private RoteiroController roteiroController;
 
-
-
     private Font interFont = null;
     private Font interFontBold = null;
 
@@ -153,6 +151,7 @@ public class TelaCadastro extends JFrame {
                 String emailInformado = fieldEmail.getText();
                 String senhaInformada = fieldSenha.getText();
                 String numeroInformado = fieldNumero.getText();
+
                 boolean cadastroOk = usuarioController.swingCadastro(nomeInformado, emailInformado,senhaInformada, numeroInformado);
 
                 if(cadastroOk){

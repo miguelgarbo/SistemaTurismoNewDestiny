@@ -104,7 +104,7 @@ public class TelaCriarRoteiro extends JFrame {
         tituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Garante a centralização
 
         JPanel campoTituloPanel = criarCampoTexto("Título do Roteiro");
-        JPanel campoDataPanel = criarCampoTexto("Data De Início(dia/mes/ano)");
+        JPanel campoDataPanel = criarCampoTexto("Data De Início");
         JPanel campoDiasPanel = criarCampoTexto("Quantidade de Dias");
 
         JButton botaoProximo = new JButton("Próximo");
@@ -193,7 +193,7 @@ public class TelaCriarRoteiro extends JFrame {
         textAboveCampo.setPreferredSize(new Dimension(250, 35));
 
         JTextField campo = new JTextField();
-        campo.setBackground(coresProjeto.corOpacaField);
+        campo.setBackground(coresProjeto.corPrincipalAzul);
         campo.setForeground(Color.BLACK);
         campo.setFont(interFontBold.deriveFont(16f));
         campo.setMaximumSize(new Dimension(250, 35)); // Largura máxima para centralizar

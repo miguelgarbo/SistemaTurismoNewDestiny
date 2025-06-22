@@ -11,7 +11,7 @@ public class CartaoEntity {
     private String nomeCartao;
     private String numeroCartao;
     private String digitoVerificador;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private EBandeirasCartao bandeira;
     private String metodo;
 

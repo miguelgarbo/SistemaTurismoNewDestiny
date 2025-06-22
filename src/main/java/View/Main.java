@@ -2,9 +2,7 @@ package View;
 import Controller.*;
 import Model.Repositorio.*;
 import Model.Servicos.*;
-
 import javax.persistence.EntityManager;
-import java.awt.font.TextLayout;
 
 public class Main {
 
